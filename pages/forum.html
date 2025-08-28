@@ -3,80 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forum - TechTinker</title>
+    <title>Forum | TechTinker</title>
     <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/main.js" defer></script>
 </head>
 <body>
     <header>
-        <h1>TechTinker Forum</h1>
-        <nav>
-            <ul>
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="showcase.html">Showcase</a></li>
-                <li><a href="forum.html">Forum</a></li>
-                <li><a href="tutorials.html">Tutorials</a></li>
-                <li><a href="incubator.html">Incubator</a></li>
-            </ul>
-        </nav>
+        <h1>TechTinker</h1>
+        <div id="navbar-placeholder"></div>
     </header>
     <main>
-        <section>
-            <h2>Discussion Topics</h2>
-            <ul id="discussion-topics">
-                <li>
-                    <a href="#">Getting Started</a>
-                    <div class="solutions">
-                        <p><strong>Best Solution:</strong> Check the documentation and start with the tutorials section.</p>
-                        <button class="upvote-btn">▲ Upvote</button> <span class="upvote-count">5</span>
-                    </div>
-                </li>
-                <li>
-                    <a href="#">Feature Requests</a>
-                    <div class="solutions">
-                        <p><strong>Best Solution:</strong> Submit your ideas in the incubator page for community voting.</p>
-                        <button class="upvote-btn">▲ Upvote</button> <span class="upvote-count">3</span>
-                    </div>
-                </li>
-                <li>
-                    <a href="#">Bug Reports</a>
-                    <div class="solutions">
-                        <p><strong>Best Solution:</strong> Provide detailed steps to reproduce the bug and screenshots if possible.</p>
-                        <button class="upvote-btn">▲ Upvote</button> <span class="upvote-count">7</span>
-                    </div>
-                </li>
-                <li>
-                    <a href="#">General Questions</a>
-                    <div class="solutions">
-                        <p><strong>Best Solution:</strong> Search the forum before posting to see if your question has already been answered.</p>
-                        <button class="upvote-btn">▲ Upvote</button> <span class="upvote-count">2</span>
-                    </div>
-                </li>
-            </ul>
-        </section>
-        <section>
-            <h2>Post a New Topic</h2>
-            <form id="new-topic-form">
-                <label for="topic-title">Title:</label>
-                <input type="text" id="topic-title" name="topic-title" required>
-                <label for="topic-content">Content:</label>
-                <textarea id="topic-content" name="topic-content" required></textarea>
-                <button type="submit">Post Topic</button>
-            </form>
-        </section>
+        <h2>Forum</h2>
+        <p>Coming soon...</p>
     </main>
     <footer>
-        <p>&copy; 2023 TechTinker. All rights reserved.</p>
+        <p>&copy; 2025 TechTinker. All rights reserved.</p>
     </footer>
-    <script src="../js/main.js"></script>
-    <script>
-        // Simple upvote functionality (demo only, not persistent)
-        document.querySelectorAll('.upvote-btn').forEach((btn) => {
-            btn.addEventListener('click', function() {
-                const countSpan = this.nextElementSibling;
-                let count = parseInt(countSpan.textContent, 10);
-                countSpan.textContent = count + 1;
-            });
-        });
-    </script>
 </body>
 </html>

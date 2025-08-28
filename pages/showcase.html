@@ -1,77 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Showcase</title>
-    <link rel="stylesheet" href="../css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Showcase | TechTinker</title>
+
+  <!-- Main CSS (includes header, navbar, footer styling) -->
+  <link rel="stylesheet" href="../css/style.css"> 
+
+  <script src="../js/main.js" defer></script>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================
+       Project-specific & Card Styles Only
+       (Header, Navbar, Footer handled by main CSS)
+    ========================= */
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f6f9;
+      color: #333;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: auto;
+      padding: 2rem;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      color: #222;
+      font-weight: 600;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #007bff;
+      text-align: center;
+    }
+
+    .project-category {
+      margin-bottom: 3rem;
+    }
+
+    /* Grid Layout for Cards */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      justify-content: center;
+      align-items: start;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+
+    .card h4 {
+      margin: 1rem 0 0.5rem;
+      font-size: 1.2rem;
+      color: #333;
+    }
+
+    .card p {
+      padding: 0 1rem 1rem;
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.6rem 1.2rem;
+      background: #007bff;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      margin: 1rem auto;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #0056b3;
+      box-shadow: 0 4px 10px rgba(0, 91, 187, 0.3);
+      transform: scale(1.05);
+    }
+
+    .back-btn {
+      text-align: center;
+      margin-top: 2rem;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Showcase</h1>
-        <nav>
-            <ul>
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="showcase.html">Showcase</a></li>
-                <li><a href="forum.html">Forum</a></li>
-                <li><a href="tutorials.html">Tutorials</a></li>
-                <li><a href="incubator.html">Incubator</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section>
-            <h2>Featured Projects</h2>
-            <p>Explore the latest features and projects developed in our community.</p>
-        </section>
-        <section class="project-showcase">
-            <article class="project-card">
-                <h3>Smart Home Automation</h3>
-                <img src="https://via.placeholder.com/400x200?text=Project+Image" alt="Smart Home Automation" style="width:100%;border-radius:10px;">
-                <p>
-                    <strong>Step-by-step Guide:</strong>
-                    <ol>
-                        <li>Set up Raspberry Pi with sensors.</li>
-                        <li>Connect devices using MQTT protocol.</li>
-                        <li>Write automation scripts in Python.</li>
-                        <li>Test and deploy your smart home system.</li>
-                    </ol>
-                </p>
-                <pre><code class="language-python">
-# Example Python automation script
-import paho.mqtt.client as mqtt
-def on_message(client, userdata, msg):
-    print(msg.topic, msg.payload)
-client = mqtt.Client()
-client.connect("localhost", 1883, 60)
-client.subscribe("home/automation")
-client.on_message = on_message
-client.loop_forever()
-                </code></pre>
-                <div class="project-media">
-                    <video width="100%" controls>
-                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-                <div class="comments">
-                    <h4>Comments</h4>
-                    <ul>
-                        <li><strong>Alice:</strong> Great guide! Can you share your sensor wiring diagram?</li>
-                        <li><strong>Bob:</strong> I improved the script to support multiple devices. Thanks!</li>
-                    </ul>
-                    <form class="comment-form">
-                        <input type="text" placeholder="Add a comment..." required>
-                        <button type="submit">Post</button>
-                    </form>
-                </div>
-            </article>
-            <!-- More project cards can be added here -->
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2023 TechTinker. All rights reserved.</p>
-    </footer>
-    <script src="../js/main.js"></script>
+  <!-- =========================
+       Header & Navbar (Styled by main CSS)
+  ========================= -->
+  <header>
+    <h1>TechTinker</h1>
+    <nav id="navbar-placeholder">
+      <a href="../index.html">Home</a>
+      <a href="showcase.html">Projects</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>✨ Project Showcase</h2>
+
+    <!-- Arduino Projects -->
+    <section class="project-category">
+      <h3>🔌 Arduino Projects</h3>
+      <div class="project-grid">
+        <div class="card">
+          <img src="https://content.instructables.com/FBF/YEBU/L8FXA4KT/FBFYEBUL8FXA4KT.jpg?auto=webp&frame=1&width=1024&height=1024&fit=bounds" alt="Blinking LED">
+          <h4>Simple Blinking LED Circuit</h4>
+          <p>A beginner-friendly circuit using transistors, resistors, capacitors, and LEDs to create a blinking effect.</p>
+          <a href="https://www.instructables.com/Simple-Blinking-LED-Circuit/" target="_blank" class="btn">View Project</a>
+        </div>
+        <div class="card">
+          <img src="https://www.electronicsforu.com/wp-contents/uploads/2020/11/6-500x328.jpg" alt="Arduino Clock">
+          <h4>Arduino Digital Clock with Temp</h4>
+          <p>Build a real-time clock using Arduino, DS3231 RTC, and OLED display. Shows accurate time & temperature.</p>
+          <a href="https://www.electronicsforu.com/arduino-projects-ideas#3-arduino-based-real-time-digital-clock-with-temperature-display" target="_blank" class="btn">View Project</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ESP32 Projects -->
+    <section class="project-category">
+      <h3>📡 ESP32 Projects</h3>
+      <div class="project-grid">
+        <div class="card">
+          <img src="https://content.instructables.com/F83/HG60/I6H7I3O3/F83HG60I6H7I3O3.jpg?auto=webp&frame=1&crop=3:2&width=600&height=1024&fit=bounds" alt="ESP32 Weather Station">
+          <h4>DIY Weather Station</h4>
+          <p>Smart ESP32 weather station with sensors for temp, humidity, wind, and rain. Sends data to your app.</p>
+          <a href="https://www.instructables.com/DIY-Weather-Station-With-ESP32/" target="_blank" class="btn">View Project</a>
+        </div>
+        <div class="card">
+          <img src="https://i0.wp.com/randomnerdtutorials.com/wp-content/uploads/2024/11/ESP32-RFID-Reader-Writer-Tutorial.jpg?resize=1536%2C864&quality=100&strip=all&ssl=1" alt="ESP32 RFID">
+          <h4>ESP32 RFID Reader/Writer</h4>
+          <p>Learn how to interface ESP32 with the MFRC522 RFID module using Arduino IDE. Read and write RFID tags.</p>
+          <a href="https://randomnerdtutorials.com/esp32-mfrc522-rfid-reader-arduino/" target="_blank" class="btn">View Project</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="back-btn">
+      <a href="../index.html" class="btn">⬅ Back to Home</a>
+    </div>
+  </main>
+
+  <!-- =========================
+       Footer (Styled by main CSS)
+  ========================= -->
+  <footer>
+    <p>&copy; 2025 TechTinker. All rights reserved.</p>
+  </footer>
 </body>
 </html>

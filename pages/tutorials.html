@@ -2,88 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tutorials</title>
+    <title>Tutorials | TechTinker</title>
     <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/main.js" defer></script>
 </head>
 <body>
     <header>
-        <h1>Tutorials</h1>
-        <nav>
-            <ul>
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="showcase.html">Showcase</a></li>
-                <li><a href="forum.html">Forum</a></li>
-                <li><a href="tutorials.html">Tutorials</a></li>
-                <li><a href="incubator.html">Incubator</a></li>
-            </ul>
-        </nav>
+        <h1>TechTinker</h1>
+        <div id="navbar-placeholder"></div>
     </header>
     <main>
-        <section>
-            <h2>Getting Started</h2>
-            <p>Welcome to the tutorials section! Here you will find guides and interactive lessons to help you learn engineering concepts.</p>
-        </section>
-        <section>
-            <h2>Bite-sized Lessons</h2>
-            <article class="tutorial-card">
-                <h3>Circuit Design Basics</h3>
-                <p>Learn how to read schematics and design simple circuits.</p>
-                <ul>
-                    <li>Understand symbols and connections</li>
-                    <li>Practice with sample circuit diagrams</li>
-                </ul>
-            </article>
-            <article class="tutorial-card">
-                <h3>Soldering Tips</h3>
-                <p>Discover best practices for soldering components onto a PCB.</p>
-                <ul>
-                    <li>Choose the right soldering iron</li>
-                    <li>Safety and technique tips</li>
-                </ul>
-            </article>
-            <article class="tutorial-card">
-                <h3>Microcontroller Programming</h3>
-                <p>Get started with Arduino and other microcontrollers.</p>
-                <ul>
-                    <li>Write your first program</li>
-                    <li>Connect sensors and actuators</li>
-                </ul>
-            </article>
-        </section>
-        <section>
-            <h2>Quick Quiz: Circuit Symbols</h2>
-            <form id="quiz-form">
-                <p><strong>1. What does this symbol represent?</strong></p>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Resistor_symbol.svg/120px-Resistor_symbol.svg.png" alt="Resistor Symbol" style="height:40px;">
-                <div>
-                    <label><input type="radio" name="q1" value="resistor"> Resistor</label>
-                    <label><input type="radio" name="q1" value="capacitor"> Capacitor</label>
-                    <label><input type="radio" name="q1" value="inductor"> Inductor</label>
-                </div>
-                <button type="submit">Submit Answers</button>
-                <div id="quiz-result"></div>
-            </form>
-        </section>
+        <h2>Tutorials</h2>
+        <p>Coming soon...</p>
+        <a href="../index.html" class="btn">Back to Home</a>
     </main>
     <footer>
-        <p>&copy; 2023 TechTinker. All rights reserved.</p>
+        <p>&copy; 2025 TechTinker. All rights reserved.</p>
     </footer>
-    <script src="../js/main.js"></script>
-    <script>
-        // Simple quiz logic
-        document.getElementById('quiz-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const answer = document.querySelector('input[name="q1"]:checked');
-            const result = document.getElementById('quiz-result');
-            if (answer && answer.value === 'resistor') {
-                result.textContent = "Correct! That's a resistor symbol.";
-                result.style.color = "green";
-            } else {
-                result.textContent = "Try again! Hint: It's a common passive component.";
-                result.style.color = "red";
-            }
-        });
-    </script>
 </body>
 </html>
