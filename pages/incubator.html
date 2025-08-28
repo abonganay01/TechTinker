@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incubator</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Idea Incubator</h1>
+        <nav>
+            <ul>
+                <li><a href="showcase.html">Showcase</a></li>
+                <li><a href="forum.html">Forum</a></li>
+                <li><a href="tutorials.html">Tutorials</a></li>
+                <li><a href="incubator.html">Incubator</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Pitch Your Project Ideas</h2>
+            <p>Share your innovative concepts and find collaborators to help bring your ideas to life!</p>
+        </section>
+        <section class="incubator-ideas">
+            <article class="idea-card">
+                <h3>Wearable Health Monitor</h3>
+                <p>
+                    A compact device that tracks vital signs and syncs data to your phone. Looking for help with hardware design and mobile app development.
+                </p>
+                <div class="collaborators">
+                    <strong>Interested Collaborators:</strong>
+                    <ul>
+                        <li>Jane (Hardware)</li>
+                        <li>Mike (App Dev)</li>
+                    </ul>
+                </div>
+                <button class="join-btn">Join Project</button>
+            </article>
+            <article class="idea-card">
+                <h3>Solar-Powered IoT Sensor</h3>
+                <p>
+                    An outdoor sensor node powered by solar energy for environmental monitoring. Seeking collaborators for PCB design and firmware.
+                </p>
+                <div class="collaborators">
+                    <strong>Interested Collaborators:</strong>
+                    <ul>
+                        <li>Sam (PCB Design)</li>
+                    </ul>
+                </div>
+                <button class="join-btn">Join Project</button>
+            </article>
+            <!-- More idea cards can be added here -->
+        </section>
+        <section>
+            <h2>Submit Your Idea</h2>
+            <form id="idea-form">
+                <label for="idea-title">Project Title:</label>
+                <input type="text" id="idea-title" name="idea-title" required>
+                <label for="idea-description">Description:</label>
+                <textarea id="idea-description" name="idea-description" required></textarea>
+                <label for="skills-needed">Skills Needed:</label>
+                <input type="text" id="skills-needed" name="skills-needed" placeholder="e.g. PCB, Python, Mobile App" required>
+                <button type="submit">Pitch Idea</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 TechTinker. All rights reserved.</p>
+    </footer>
+    <script src="../js/main.js"></script>
+    <script>
+        // Simple join button feedback (demo only)
+        document.querySelectorAll('.join-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.textContent = "Request Sent!";
+                this.disabled = true;
+            });
+        });
+
+        // Simple idea submission (demo only, not persistent)
+        document.getElementById('idea-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Your idea has been submitted for review!');
+            this.reset();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Showcase</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Showcase</h1>
+        <nav>
+            <ul>
+                <li><a href="showcase.html">Showcase</a></li>
+                <li><a href="forum.html">Forum</a></li>
+                <li><a href="tutorials.html">Tutorials</a></li>
+                <li><a href="incubator.html">Incubator</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Featured Projects</h2>
+            <p>Explore the latest features and projects developed in our community.</p>
+        </section>
+        <section class="project-showcase">
+            <article class="project-card">
+                <h3>Smart Home Automation</h3>
+                <img src="https://via.placeholder.com/400x200?text=Project+Image" alt="Smart Home Automation" style="width:100%;border-radius:10px;">
+                <p>
+                    <strong>Step-by-step Guide:</strong>
+                    <ol>
+                        <li>Set up Raspberry Pi with sensors.</li>
+                        <li>Connect devices using MQTT protocol.</li>
+                        <li>Write automation scripts in Python.</li>
+                        <li>Test and deploy your smart home system.</li>
+                    </ol>
+                </p>
+                <pre><code class="language-python">
+# Example Python automation script
+import paho.mqtt.client as mqtt
+def on_message(client, userdata, msg):
+    print(msg.topic, msg.payload)
+client = mqtt.Client()
+client.connect("localhost", 1883, 60)
+client.subscribe("home/automation")
+client.on_message = on_message
+client.loop_forever()
+                </code></pre>
+                <div class="project-media">
+                    <video width="100%" controls>
+                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="comments">
+                    <h4>Comments</h4>
+                    <ul>
+                        <li><strong>Alice:</strong> Great guide! Can you share your sensor wiring diagram?</li>
+                        <li><strong>Bob:</strong> I improved the script to support multiple devices. Thanks!</li>
+                    </ul>
+                    <form class="comment-form">
+                        <input type="text" placeholder="Add a comment..." required>
+                        <button type="submit">Post</button>
+                    </form>
+                </div>
+            </article>
+            <!-- More project cards can be added here -->
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 TechTinker. All rights reserved.</p>
+    </footer>
+    <script src="../js/main.js"></script>
+</body>
+</html>
