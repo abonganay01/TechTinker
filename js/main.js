@@ -1,18 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
     // =========================
-    // Get base path dynamically
-    // =========================
-    const isInPagesFolder = window.location.pathname.includes('/pages/');
-    const basePath = isInPagesFolder ? '../' : '';
-
-    // =========================
     // Make header title clickable to go to home
     // =========================
     const headerTitle = document.querySelector('header h1');
     if (headerTitle) {
         headerTitle.style.cursor = 'pointer';
         headerTitle.addEventListener('click', () => {
-            window.location.href = `${basePath}index.html`;
+            const homePath = window.location.pathname.includes('/pages/')
+                ? '../index.html'
+                : 'index.html';
+            window.location.href = homePath;
         });
     }
 
@@ -21,7 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // =========================
     const navbarPlaceholder = document.getElementById('navbar-placeholder');
     if (navbarPlaceholder) {
-        const navbarPath = `${basePath}navbar.html`;
+        let navbarPath = 'navbar.html';
+        if (window.location.pathname.includes('/pages/')) {
+            navbarPath = '../navbar.html';
+        }
 
         fetch(navbarPath)
             .then(response => {
@@ -42,10 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Make cards clickable
     // =========================
     const cardLinks = {
-        'Showcase': `${basePath}pages/showcase.html`,
-        'Forum': `${basePath}pages/forum.html`,
-        'Tutorials': `${basePath}pages/tutorials.html`,
-        'Incubator': `${basePath}pages/incubator.html`
+        'Showcase': 'pages/showcase.html',
+        'Forum': 'pages/forum.html',
+        'Tutorials': 'pages/tutorials.html',
+        'Incubator': 'pages/incubator.html'
     };
 
     document.querySelectorAll('main .card').forEach(card => {
@@ -97,10 +97,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (!dropdown.contains(e.target)) {
                         dropdownContent.classList.remove('show');
                     }
-                });
+                    });
             }
         }
     }
+
+ 
 
     // =========================
     // Highlight active link in navbar
