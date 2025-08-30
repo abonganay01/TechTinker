@@ -1,15 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
     // =========================
+    // Detect base URL dynamically for GitHub Pages or local
+    // =========================
+    const basePath = window.location.hostname.includes('github.io')
+        ? '/TechTinker/' // Change this to your repo name
+        : '/';
+
+    // =========================
     // Make header title clickable to go to home
     // =========================
     const headerTitle = document.querySelector('header h1');
     if (headerTitle) {
         headerTitle.style.cursor = 'pointer';
         headerTitle.addEventListener('click', () => {
-            const homePath = window.location.pathname.includes('/pages/')
-                ? '../index.html'
-                : 'index.html';
-            window.location.href = homePath;
+            window.location.href = basePath + 'index.html';
         });
     }
 
@@ -31,7 +35,13 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
                 navbarPlaceholder.innerHTML = data;
 
-                // After navbar loads, activate dropdown functionality
+                // After navbar loads, fix Home link dynamically
+                const homeLink = document.querySelector('.nav-menu li a[href="/index.html"]');
+                if (homeLink) {
+                    homeLink.setAttribute('href', basePath + 'index.html');
+                }
+
+                // Activate dropdown + highlight
                 initNavbarDropdown();
                 highlightActiveLink();
             })
@@ -39,46 +49,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // =========================
-    // Make cards clickable
+    // Highlight active link in navbar
     // =========================
-    const cardLinks = {
-        'Showcase': 'pages/showcase.html',
-        'Forum': 'pages/forum.html',
-        'Tutorials': 'pages/tutorials.html',
-        'Incubator': 'pages/incubator.html'
-    };
+    function highlightActiveLink() {
+        const currentPath = window.location.pathname.replace(basePath, '');
+        const navLinks = document.querySelectorAll('nav a');
 
-    document.querySelectorAll('main .card').forEach(card => {
-        const heading = card.querySelector('h3');
-        if (heading) {
-            const destination = cardLinks[heading.textContent.trim()];
-            if (destination) {
-                card.style.cursor = 'pointer';
-                card.addEventListener('click', () => {
-                    window.location.href = destination;
-                });
-            }
-        }
-    });
-
-    // =========================
-    // Form validation for project submission
-    // =========================
-    const projectForm = document.getElementById('project-form');
-    if (projectForm) {
-        projectForm.addEventListener('submit', event => {
-            const fileInput = document.getElementById('project-file');
-            const linkInput = document.getElementById('project-link');
-
-            if (!fileInput.value && !linkInput.value) {
-                event.preventDefault();
-                alert('Please provide either a project link or upload a file.');
+        navLinks.forEach(link => {
+            const linkPath = link.getAttribute('href').replace(basePath, '');
+            if (linkPath === currentPath || (linkPath === 'index.html' && currentPath === '')) {
+                link.style.backgroundColor = '#63b3ed';
+                link.style.color = '#2d3748';
+                link.style.borderRadius = '6px';
             }
         });
     }
 
     // =========================
-    // Initialize Dropdown (Projects menu)
+    // Dropdown logic remains same
     // =========================
     function initNavbarDropdown() {
         const dropdown = document.querySelector('.dropdown');
@@ -88,35 +76,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (toggleLink && dropdownContent) {
                 toggleLink.addEventListener('click', (e) => {
-                    e.preventDefault(); // Prevent navigation on the main button
+                    e.preventDefault();
                     dropdownContent.classList.toggle('show');
                 });
 
-                // Close dropdown on outside click
                 document.addEventListener('click', (e) => {
                     if (!dropdown.contains(e.target)) {
                         dropdownContent.classList.remove('show');
                     }
-                    });
+                });
             }
         }
-    }
-
- 
-
-    // =========================
-    // Highlight active link in navbar
-    // =========================
-    function highlightActiveLink() {
-        const currentPath = window.location.pathname.split('/').pop();
-        const navLinks = document.querySelectorAll('nav a');
-
-        navLinks.forEach(link => {
-            if (link.getAttribute('href') === currentPath) {
-                link.style.backgroundColor = '#63b3ed';
-                link.style.color = '#2d3748';
-                link.style.borderRadius = '6px';
-            }
-        });
     }
 });
