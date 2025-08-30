@@ -1,15 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
     // =========================
+    // Get base path dynamically
+    // =========================
+    const isInPagesFolder = window.location.pathname.includes('/pages/');
+    const basePath = isInPagesFolder ? '../' : '';
+
+    // =========================
     // Make header title clickable to go to home
     // =========================
     const headerTitle = document.querySelector('header h1');
     if (headerTitle) {
         headerTitle.style.cursor = 'pointer';
         headerTitle.addEventListener('click', () => {
-            const homePath = window.location.pathname.includes('/pages/')
-                ? '../index.html'
-                : 'index.html';
-            window.location.href = homePath;
+            window.location.href = `${basePath}index.html`;
         });
     }
 
@@ -18,9 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // =========================
     const navbarPlaceholder = document.getElementById('navbar-placeholder');
     if (navbarPlaceholder) {
-        const navbarPath = window.location.pathname.includes('/pages/')
-            ? '../navbar.html'
-            : 'navbar.html';
+        const navbarPath = `${basePath}navbar.html`;
 
         fetch(navbarPath)
             .then(response => {
@@ -41,10 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Make cards clickable
     // =========================
     const cardLinks = {
-        'Showcase': window.location.pathname.includes('/pages/') ? 'showcase.html' : 'pages/showcase.html',
-        'Forum': window.location.pathname.includes('/pages/') ? 'forum.html' : 'pages/forum.html',
-        'Tutorials': window.location.pathname.includes('/pages/') ? 'tutorials.html' : 'pages/tutorials.html',
-        'Incubator': window.location.pathname.includes('/pages/') ? 'incubator.html' : 'pages/incubator.html'
+        'Showcase': `${basePath}pages/showcase.html`,
+        'Forum': `${basePath}pages/forum.html`,
+        'Tutorials': `${basePath}pages/tutorials.html`,
+        'Incubator': `${basePath}pages/incubator.html`
     };
 
     document.querySelectorAll('main .card').forEach(card => {
@@ -61,13 +62,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // =========================
-    // Form validation
+    // Form validation for project submission
     // =========================
     const projectForm = document.getElementById('project-form');
     if (projectForm) {
         projectForm.addEventListener('submit', event => {
             const fileInput = document.getElementById('project-file');
             const linkInput = document.getElementById('project-link');
+
             if (!fileInput.value && !linkInput.value) {
                 event.preventDefault();
                 alert('Please provide either a project link or upload a file.');
@@ -79,37 +81,36 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize Dropdown (Projects menu)
     // =========================
     function initNavbarDropdown() {
-        document.querySelectorAll('.dropdown').forEach(dropdown => {
+        const dropdown = document.querySelector('.dropdown');
+        if (dropdown) {
             const toggleLink = dropdown.querySelector('.dropbtn');
             const dropdownContent = dropdown.querySelector('.dropdown-content');
 
             if (toggleLink && dropdownContent) {
-                // Remove previous listeners to avoid duplication
-                toggleLink.replaceWith(toggleLink.cloneNode(true));
-                const newToggle = dropdown.querySelector('.dropbtn');
-
-                newToggle.addEventListener('click', e => {
-                    e.preventDefault();
+                toggleLink.addEventListener('click', (e) => {
+                    e.preventDefault(); // Prevent navigation on the main button
                     dropdownContent.classList.toggle('show');
                 });
 
                 // Close dropdown on outside click
-                document.addEventListener('click', e => {
+                document.addEventListener('click', (e) => {
                     if (!dropdown.contains(e.target)) {
                         dropdownContent.classList.remove('show');
                     }
                 });
             }
-        });
+        }
     }
 
     // =========================
-    // Highlight active link
+    // Highlight active link in navbar
     // =========================
     function highlightActiveLink() {
         const currentPath = window.location.pathname.split('/').pop();
-        document.querySelectorAll('nav a').forEach(link => {
-            if (link.getAttribute('href').split('/').pop() === currentPath) {
+        const navLinks = document.querySelectorAll('nav a');
+
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
                 link.style.backgroundColor = '#63b3ed';
                 link.style.color = '#2d3748';
                 link.style.borderRadius = '6px';
