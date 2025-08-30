@@ -18,10 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // =========================
     const navbarPlaceholder = document.getElementById('navbar-placeholder');
     if (navbarPlaceholder) {
-        let navbarPath = 'navbar.html';
-        if (window.location.pathname.includes('/pages/')) {
-            navbarPath = '../navbar.html';
-        }
+        // Adjusted: always use root-relative path to avoid pages/pages/
+        const navbarPath = window.location.pathname.includes('/pages/')
+            ? '../navbar.html'
+            : 'navbar.html';
 
         fetch(navbarPath)
             .then(response => {
@@ -42,10 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Make cards clickable
     // =========================
     const cardLinks = {
-        'Showcase': 'pages/showcase.html',
-        'Forum': 'pages/forum.html',
-        'Tutorials': 'pages/tutorials.html',
-        'Incubator': 'pages/incubator.html'
+        'Showcase': window.location.pathname.includes('/pages/') ? 'showcase.html' : 'pages/showcase.html',
+        'Forum': window.location.pathname.includes('/pages/') ? 'forum.html' : 'pages/forum.html',
+        'Tutorials': window.location.pathname.includes('/pages/') ? 'tutorials.html' : 'pages/tutorials.html',
+        'Incubator': window.location.pathname.includes('/pages/') ? 'incubator.html' : 'pages/incubator.html'
     };
 
     document.querySelectorAll('main .card').forEach(card => {
@@ -97,12 +97,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (!dropdown.contains(e.target)) {
                         dropdownContent.classList.remove('show');
                     }
-                    });
+                });
             }
         }
     }
-
- 
 
     // =========================
     // Highlight active link in navbar
@@ -112,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const navLinks = document.querySelectorAll('nav a');
 
         navLinks.forEach(link => {
-            if (link.getAttribute('href') === currentPath) {
+            if (link.getAttribute('href').split('/').pop() === currentPath) {
                 link.style.backgroundColor = '#63b3ed';
                 link.style.color = '#2d3748';
                 link.style.borderRadius = '6px';
