@@ -4,13 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TechTinker</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="css/style.css">
     <script src="js/main.js" defer></script>
 </head>
 <body>
     <header>
         <h1>TechTinker</h1>
-        <div id="navbar-placeholder"></div>
+        <!-- Inserted Navbar -->
+        <nav class="navbar">
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Projects ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="pages/showcase.html">Showcase</a></li>
+                        <li><a href="pages/tutorials.html">Tutorials</a></li>
+                        <li><a href="pages/incubator.html">Incubator</a></li>
+                        <li><a href="pages/forum.html">Forum</a></li>
+                    </ul>
+                </li>
+                
+                <li><a href="pages/about.html">About Us</a></li>
+                <li><a href="pages/contact.html">Contact</a></li>
+            </ul>
+        </nav>
     </header>
     <main>
         <section class="card">
