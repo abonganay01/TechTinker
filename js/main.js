@@ -17,26 +17,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // Load navbar if placeholder exists
     // =========================
     const navbarPlaceholder = document.getElementById('navbar-placeholder');
-    if (navbarPlaceholder) {
-        let navbarPath = 'navbar.html';
-        if (window.location.pathname.includes('/pages/')) {
-            navbarPath = '../navbar.html';
-        }
+if (navbarPlaceholder) {
+    // Determine path to navbar.html itself
+    const navbarPath = window.location.pathname.includes('/pages/')
+        ? '../navbar.html'  // from pages/about.html, etc.
+        : 'navbar.html';    // from index.html at root
 
-        fetch(navbarPath)
-            .then(response => {
-                if (!response.ok) throw new Error('Navbar file not found');
-                return response.text();
-            })
-            .then(data => {
-                navbarPlaceholder.innerHTML = data;
+    fetch(navbarPath)
+        .then(response => {
+            if (!response.ok) throw new Error('Navbar file not found');
+            return response.text();
+        })
+        .then(data => {
+            navbarPlaceholder.innerHTML = data;
 
-                // After navbar loads, activate dropdown functionality
-                initNavbarDropdown();
-                highlightActiveLink();
-            })
-            .catch(error => console.error('Error loading navbar:', error));
-    }
+            // After navbar loads, activate dropdown functionality
+            initNavbarDropdown();
+            highlightActiveLink();
+        })
+        .catch(error => console.error('Error loading navbar:', error));
+}
 
     // =========================
     // Make cards clickable
