@@ -13,108 +13,23 @@
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <style>
-    /* =========================
-       Project-specific & Card Styles Only
-       (Header, Navbar, Footer handled by main CSS)
-    ========================= */
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f4f6f9;
-      color: #333;
-    }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Showcase | TechTinker</title>
 
-    main {
-      max-width: 1200px;
-      margin: auto;
-      padding: 2rem;
-    }
+  <!-- Main CSS (Header, Navbar, Footer) -->
+  <link rel="stylesheet" href="../css/style.css">
 
-    h2 {
-      text-align: center;
-      margin-bottom: 2rem;
-      font-size: 2rem;
-      color: #222;
-      font-weight: 600;
-    }
+  <!-- Showcase-specific CSS -->
+  <link rel="stylesheet" href="../css/showcase.css">
 
-    h3 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      color: #007bff;
-      text-align: center;
-    }
+  <script src="../js/main.js" defer></script>
 
-    .project-category {
-      margin-bottom: 3rem;
-    }
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
-    /* Grid Layout for Cards */
-    .project-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 2rem;
-      justify-content: center;
-      align-items: start;
-    }
 
-    .card {
-      background: #fff;
-      border-radius: 15px;
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
-      overflow: hidden;
-      text-align: center;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-    }
-
-    .card img {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-    }
-
-    .card h4 {
-      margin: 1rem 0 0.5rem;
-      font-size: 1.2rem;
-      color: #333;
-    }
-
-    .card p {
-      padding: 0 1rem 1rem;
-      font-size: 0.95rem;
-      color: #555;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 0.6rem 1.2rem;
-      background: #007bff;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 6px;
-      margin: 1rem auto;
-      font-weight: 500;
-      transition: all 0.3s ease;
-    }
-
-    .btn:hover {
-      background: #0056b3;
-      box-shadow: 0 4px 10px rgba(0, 91, 187, 0.3);
-      transform: scale(1.05);
-    }
-
-    .back-btn {
-      text-align: center;
-      margin-top: 2rem;
-    }
-  </style>
+ 
 </head>
 <body>
   <!-- =========================
@@ -122,12 +37,7 @@
   ========================= -->
   <header>
     <h1>TechTinker</h1>
-    <nav id="navbar-placeholder">
-      <a href="../index.html">Home</a>
-      <a href="showcase.html">Projects</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-    </nav>
+    <div id="navbar-placeholder"></div>
   </header>
 
   <main>
@@ -176,6 +86,28 @@
     </div>
   </main>
 
+  <!-- Submission Section -->
+    <section class="submit-section">
+      <h3>📤 Share Your Project</h3>
+      <p>Want to showcase your work? Submit your project details below. <strong>All submissions will be reviewed before appearing in the showcase.</strong></p>
+      <form>
+        <div class="form-group">
+          <label for="project-title">Project Title</label>
+          <input type="text" id="project-title" name="project-title" placeholder="Enter your project title" required>
+        </div>
+        <div class="form-group">
+          <label for="project-description">Project Description</label>
+          <textarea id="project-description" name="project-description" rows="4" placeholder="Write a short description..." required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="project-file">Upload Image or File</label>
+          <input type="file" id="project-file" name="project-file" accept=".jpg,.jpeg,.png,.pdf,.zip" required>
+        </div>
+        <div class="form-submit">
+          <button type="submit" class="btn">Submit Project</button>
+        </div>
+      </form>
+    </section>
   <!-- =========================
        Footer (Styled by main CSS)
   ========================= -->

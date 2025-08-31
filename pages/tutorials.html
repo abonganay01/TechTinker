@@ -1,23 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Tutorials | TechTinker</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <script src="../js/main.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tutorials | TechTinker</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <!-- main.js handles universal navbar -->
+  <script src="../js/main.js" defer></script>
 </head>
 <body>
-    <header>
-        <h1>TechTinker</h1>
-        <div id="navbar-placeholder"></div>
-    </header>
-    <main>
-        <h2>Tutorials</h2>
-        <p>Coming soon...</p>
-        <a href="../index.html" class="btn">Back to Home</a>
-    </main>
-    <footer>
-        <p>&copy; 2025 TechTinker. All rights reserved.</p>
-    </footer>
+  <header class="site-header">
+    <h1 class="logo"><a href="../index.html" aria-label="Go to TechTinker Home">TechTinker</a></h1>
+    <div id="navbar-placeholder"></div>
+  </header>
+
+  <main class="container">
+    <!-- Hero / Intro -->
+    <section class="hero hero--sub">
+      <h2>Interactive Tutorials</h2>
+      <p class="lead">
+        Bite-sized lessons covering basic to advanced engineering concepts— 
+        from circuit design and soldering tips to microcontroller programming.
+      </p>
+      <a href="../index.html" class="btn">Back to Home</a>
+    </section>
+
+    <!-- Search & Filters -->
+    <section class="filters" aria-label="Tutorial filters">
+      <form id="tutorialFilters" class="filters__form" onsubmit="return false;">
+        <label for="search" class="sr-only">Search tutorials</label>
+        <input id="search" type="search" placeholder="Search tutorials…" class="input" />
+
+        <label for="level" class="sr-only">Difficulty</label>
+        <select id="level" class="select">
+          <option value="">All levels</option>
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+        </select>
+
+        <label for="topic" class="sr-only">Topic</label>
+        <select id="topic" class="select">
+          <option value="">All topics</option>
+          <option value="circuits">Circuit Design</option>
+          <option value="soldering">Soldering</option>
+          <option value="arduino">Arduino / uC</option>
+          <option value="rfid">RFID</option>
+          <option value="sensors">Sensors</option>
+        </select>
+
+        <button id="clearFilters" class="btn btn--ghost" type="button">Clear</button>
+      </form>
+    </section>
+
+    <!-- Tutorials Grid -->
+    <section aria-label="Tutorial list" class="cards-grid" id="tutorialList">
+      
+      <!-- Tutorial 1: Ohm's Law -->
+      <article class="card" data-level="beginner" data-topic="circuits">
+        <div class="card__body">
+          <h3 class="card__title">
+            <a href="./tutorials/ohms.html">Ohm's Law in 5 Minutes</a>
+          </h3>
+          <p class="card__text">Understand V=IR with quick, interactive examples and practice questions.</p>
+        </div>
+        <div class="card__footer">
+          <span class="tag">Beginner</span>
+          <span class="tag">Circuits</span>
+        </div>
+      </article>
+
+      <!-- Tutorial 2: Soldering -->
+      <article class="card" data-level="beginner" data-topic="soldering">
+        <div class="card__body">
+          <h3 class="card__title">
+            <a href="./tutorials/soldering.html">Soldering 101: Clean Joints</a>
+          </h3>
+          <p class="card__text">Tools, temps, and technique to get shiny, reliable joints every time.</p>
+        </div>
+        <div class="card__footer">
+          <span class="tag">Beginner</span>
+          <span class="tag">Soldering</span>
+        </div>
+      </article>
+
+      <!-- Tutorial 3: Arduino Debouncing -->
+      <article class="card" data-level="intermediate" data-topic="arduino">
+        <div class="card__body">
+          <h3 class="card__title">
+            <a href="./tutorials/arduino.html">Arduino: Debounce Like a Pro</a>
+          </h3>
+          <p class="card__text">Explore hardware and software debouncing with step-by-step demos.</p>
+        </div>
+        <div class="card__footer">
+          <span class="tag">Intermediate</span>
+          <span class="tag">Arduino</span>
+        </div>
+      </article>
+
+      <!-- Tutorial 4: RFID Basics -->
+      <article class="card" data-level="intermediate" data-topic="rfid">
+        <div class="card__body">
+          <h3 class="card__title">
+            <a href="./tutorials/rfid.html">RFID Basics with RC522</a>
+          </h3>
+          <p class="card__text">Wire the RC522, read UIDs, and handle multiple tags reliably.</p>
+        </div>
+        <div class="card__footer">
+          <span class="tag">Intermediate</span>
+          <span class="tag">RFID</span>
+        </div>
+      </article>
+    </section>
+
+    <!-- Empty State -->
+    <p id="emptyState" class="muted" hidden>
+      No tutorials match your filters. Try clearing filters or searching a different term.
+    </p>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2025 TechTinker. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Lightweight client-side filters
+    (function () {
+      const q = (sel) => document.querySelector(sel);
+      const qa = (sel) => Array.from(document.querySelectorAll(sel));
+
+      const search = q('#search');
+      const level = q('#level');
+      const topic = q('#topic');
+      const clearBtn = q('#clearFilters');
+      const empty = q('#emptyState');
+
+      function matches(card) {
+        const term = (search.value || '').trim().toLowerCase();
+        const byTerm = !term || card.textContent.toLowerCase().includes(term);
+        const byLevel = !level.value || card.dataset.level === level.value;
+        const byTopic = !topic.value || card.dataset.topic === topic.value;
+        return byTerm && byLevel && byTopic;
+      }
+
+      function applyFilters() {
+        let shown = 0;
+        qa('#tutorialList .card').forEach((card) => {
+          const ok = matches(card);
+          card.style.display = ok ? '' : 'none';
+          if (ok) shown++;
+        });
+        empty.hidden = shown !== 0;
+      }
+
+      [search, level, topic].forEach((el) => el.addEventListener('input', applyFilters));
+      clearBtn.addEventListener('click', () => {
+        search.value = '';
+        level.value = '';
+        topic.value = '';
+        applyFilters();
+        search.focus();
+      });
+
+      applyFilters();
+    })();
+  </script>
 </body>
 </html>

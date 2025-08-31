@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arduino Basics | TechTinker Tutorials</title>
+    <meta name="description" content="Learn the basics of Arduino: what it is, its components, how to code using the Arduino IDE, and test your knowledge with a quick quiz.">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/arduino.css">
+</head>
+<body>
+    <!-- Navbar Include -->
+    <div id="navbar"></div>
+
+    <header>
+        <h1>Arduino Basics: Everything You Need to Know</h1>
+        <p class="intro-text">
+            Arduino is the perfect starting point for anyone interested in electronics, programming, and hardware projects.
+            This guide covers what Arduino is, its main components, and how to write your first code.
+        </p>
+    </header>
+
+    <main>
+        <!-- Section 1: Introduction -->
+        <section>
+            <h2>What is Arduino?</h2>
+            <p>
+                Arduino is an open-source electronics platform based on easy-to-use hardware and software.
+                It consists of microcontroller boards that can read inputs (such as sensors, switches) and control outputs
+                (such as LEDs, motors).
+            </p>
+            <img src="../../images/arduino-board.jpg" alt="Arduino Uno Board" class="article-img">
+        </section>
+
+        <!-- Section 2: Board Overview -->
+        <section>
+            <h2>Arduino Board Overview</h2>
+            <p>
+                An Arduino board typically includes the following components:
+            </p>
+            <ul>
+                <li><strong>Microcontroller:</strong> The main chip that runs the program (e.g., ATmega328P).</li>
+                <li><strong>Digital I/O Pins:</strong> Used for reading digital inputs and outputs.</li>
+                <li><strong>Analog Input Pins:</strong> Used for sensors that output variable voltage.</li>
+                <li><strong>Power Pins:</strong> 3.3V, 5V, and GND pins for powering circuits.</li>
+                <li><strong>USB Connector:</strong> For uploading code from the computer.</li>
+            </ul>
+            <img src="../../images/arduino-pinout.png" alt="Arduino Uno Pinout" class="article-img">
+        </section>
+
+        <!-- Section 3: Arduino IDE -->
+        <section>
+            <h2>How to Code using Arduino IDE</h2>
+            <p>
+                The Arduino IDE is the official software used to write and upload programs (called sketches) to your board.
+                A simple program to blink an LED looks like this:
+            </p>
+            <pre><code>
+void setup() {
+    pinMode(13, OUTPUT); // Set pin 13 as OUTPUT
+}
+
+void loop() {
+    digitalWrite(13, HIGH); // Turn LED on
+    delay(1000);            // Wait for 1 second
+    digitalWrite(13, LOW);  // Turn LED off
+    delay(1000);            // Wait for 1 second
+}
+            </code></pre>
+            <img src="../../images/arduino-ide.png" alt="Arduino IDE Example" class="article-img">
+        </section>
+
+        <!-- Section 4: Video -->
+        <section>
+            <h2>Watch the Video Tutorial</h2>
+            <div class="video-container">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/0Kjo4N56Yk4" 
+                    title="Arduino Basics Tutorial" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </section>
+
+        <!-- Section 5: Quick Quiz -->
+        <section>
+            <h2>Quick Quiz</h2>
+            <p>Test your knowledge by answering these questions:</p>
+            <form id="quizForm">
+                <p>1. What microcontroller does Arduino Uno use?</p>
+                <label><input type="radio" name="q1" value="a"> ATmega328P</label><br>
+                <label><input type="radio" name="q1" value="b"> ESP32</label><br>
+                <label><input type="radio" name="q1" value="c"> STM32</label><br>
+
+                <p>2. Which function runs repeatedly in an Arduino sketch?</p>
+                <label><input type="radio" name="q2" value="a"> setup()</label><br>
+                <label><input type="radio" name="q2" value="b"> loop()</label><br>
+                <label><input type="radio" name="q2" value="c"> main()</label><br>
+
+                <p>3. How many analog input pins does Arduino Uno have?</p>
+                <label><input type="radio" name="q3" value="a"> 4</label><br>
+                <label><input type="radio" name="q3" value="b"> 6</label><br>
+                <label><input type="radio" name="q3" value="c"> 8</label><br>
+
+                <button type="button" onclick="checkQuiz()">Submit</button>
+            </form>
+            <p id="quizResult"></p>
+        </section>
+
+        <!-- Section 6: Additional Resources -->
+        <section>
+            <h2>Additional Resources</h2>
+            <ul>
+                <li><a href="https://www.arduino.cc/en/Guide/Introduction" target="_blank">Official Arduino Guide</a></li>
+                <li><a href="https://www.arduino.cc/en/software" target="_blank">Download Arduino IDE</a></li>
+                <li><a href="https://www.tinkercad.com/" target="_blank">Tinkercad for Virtual Arduino Simulation</a></li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 TechTinker. All rights reserved.</p>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+    <script src="../../js/arduino.js"></script>
+</body>
+</html>

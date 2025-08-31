@@ -5,17 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forum | TechTinker</title>
     <link rel="stylesheet" href="../css/style.css">
+    <!-- main.js handles universal navbar -->
     <script src="../js/main.js" defer></script>
+    <script src="../js/forum.js" defer></script>
 </head>
 <body>
     <header>
-        <h1>TechTinker</h1>
+        <h1>TechTinker Forum</h1>
+        <!-- Navbar will be dynamically injected here -->
         <div id="navbar-placeholder"></div>
     </header>
-    <main>
-        <h2>Forum</h2>
-        <p>Coming soon...</p>
+
+    <main class="forum-container">
+        <h2>Discussion</h2>
+
+        <!-- New Comment Box -->
+        <div class="comment-box new-comment">
+            <input type="text" id="usernameInput" placeholder="Enter your name">
+            <textarea id="commentInput" rows="3" placeholder="Write a comment..."></textarea>
+            <button id="postCommentBtn">Post Comment</button>
+            <select id="sortSelect">
+                <option value="newest">Sort by Newest</option>
+                <option value="votes">Sort by Votes</option>
+            </select>
+        </div>
+
+        <!-- Comments List -->
+        <div id="commentsList"></div>
     </main>
+
     <footer>
         <p>&copy; 2025 TechTinker. All rights reserved.</p>
     </footer>

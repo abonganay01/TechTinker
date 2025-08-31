@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ohm's Law Basics</title>
+    
+    <!-- Main Global Styles -->
+    <link rel="stylesheet" href="../../css/style.css">
+    
+    <!-- Page-specific Styles -->
+    <link rel="stylesheet" href="../../css/ohms.css">
+
+    <!-- Main Global Script -->
+    <script src="../../js/main.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Understanding Ohm's Law</h1>
+        <div id="navbar-placeholder"></div>
+    </header>
+
+    <main>
+        <section class="article">
+            <h2>What is Ohm's Law?</h2>
+            <p>
+                Ohm's Law is a fundamental principle in electronics and electrical engineering. 
+                It states that the current (<strong>I</strong>) passing through a conductor between 
+                two points is directly proportional to the voltage (<strong>V</strong>) across the two points 
+                and inversely proportional to the resistance (<strong>R</strong>) of the conductor.
+            </p>
+            <p>
+                The formula is:
+                <strong>V = I × R</strong>
+            </p>
+            <p>
+                Where: <br>
+                <strong>V</strong> = Voltage (Volts) <br>
+                <strong>I</strong> = Current (Amperes) <br>
+                <strong>R</strong> = Resistance (Ohms)
+            </p>
+        </section>
+
+        <section class="video">
+            <h2>Watch this quick explanation</h2>
+            <iframe width="560" height="315" 
+                src="https://www.youtube.com/embed/uZ-m91IEkjQ" 
+                title="Ohm's Law Explained" frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </section>
+
+        <section class="quiz">
+            <h2>Quick Quiz</h2>
+            <form id="quizForm">
+                <p>1. What does Ohm's Law state?</p>
+                <label><input type="radio" name="q1" value="a"> Current is proportional to voltage</label><br>
+                <label><input type="radio" name="q1" value="b"> Voltage is inversely proportional to resistance</label><br>
+                <label><input type="radio" name="q1" value="c"> Power equals voltage times resistance</label><br>
+
+                <p>2. What is the formula for Ohm's Law?</p>
+                <label><input type="radio" name="q2" value="a"> P = V × I</label><br>
+                <label><input type="radio" name="q2" value="b"> V = I × R</label><br>
+                <label><input type="radio" name="q2" value="c"> R = V + I</label><br>
+
+                <button type="button" onclick="checkAnswers()">Submit</button>
+            </form>
+            <p id="result"></p>
+        </section>
+    </main>
+
+    
+    
+    <!-- Page-specific Script -->
+    <script src="../../js/ohms.js"></script>
+</body>
+</html>

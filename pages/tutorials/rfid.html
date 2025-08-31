@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFID Basics with RC522 | TechTinker Tutorials</title>
+    <meta name="description" content="Learn the basics of RFID technology using the RC522 module with Arduino. Includes wiring, code, and a quick quiz.">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/rfid.css">
+</head>
+<body>
+    <header>
+        <h1>RFID Basics with RC522</h1>
+        <p>Learn how to wire the RC522 RFID module, read tag UIDs, and handle multiple tags with Arduino.</p>
+    </header>
+
+    <main>
+        <section>
+            <h2>What is RFID?</h2>
+            <p>
+                RFID (Radio Frequency Identification) is a wireless communication technology used to identify and track objects using radio waves. 
+                It consists of a reader and RFID tags. The RC522 module is one of the most commonly used RFID readers in DIY and IoT projects.
+            </p>
+            <img src="../../assets/images/rfid-module.jpg" alt="RFID RC522 Module" class="tutorial-img">
+        </section>
+
+        <section>
+            <h2>How RFID Works</h2>
+            <p>
+                The RFID reader (RC522) generates a magnetic field that powers the RFID tag when it comes close. The tag then sends its unique ID back to the reader.
+                This data can be used for access control, attendance systems, inventory tracking, and more.
+            </p>
+        </section>
+
+        <section>
+            <h2>RC522 Pinout</h2>
+            <p>The RC522 communicates using the SPI protocol. Here’s the pin mapping:</p>
+            <img src="../../assets/images/rfid-pinout.jpg" alt="RFID RC522 Pinout" class="tutorial-img">
+            <ul>
+                <li><strong>SDA</strong> → Arduino Pin 10</li>
+                <li><strong>SCK</strong> → Arduino Pin 13</li>
+                <li><strong>MOSI</strong> → Arduino Pin 11</li>
+                <li><strong>MISO</strong> → Arduino Pin 12</li>
+                <li><strong>IRQ</strong> → Not connected</li>
+                <li><strong>GND</strong> → GND</li>
+                <li><strong>RST</strong> → Arduino Pin 9</li>
+                <li><strong>3.3V</strong> → 3.3V Power</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Wiring Diagram</h2>
+            <img src="../../assets/images/rfid-arduino-connection.jpg" alt="RFID Arduino Wiring" class="tutorial-img">
+        </section>
+
+        <section>
+            <h2>Arduino Code for RFID Reading</h2>
+            <p>Upload the following code to your Arduino board to read RFID tag UIDs:</p>
+<pre><code>
+#include &lt;SPI.h&gt;
+#include &lt;MFRC522.h&gt;
+
+#define SS_PIN 10
+#define RST_PIN 9
+MFRC522 rfid(SS_PIN, RST_PIN);
+
+void setup() {
+  Serial.begin(9600);
+  SPI.begin();
+  rfid.PCD_Init();
+  Serial.println("Scan an RFID tag...");
+}
+
+void loop() {
+  if (!rfid.PICC_IsNewCardPresent() || !rfid.PICC_ReadCardSerial()) return;
+  
+  Serial.print("UID Tag: ");
+  for (byte i = 0; i &lt; rfid.uid.size; i++) {
+    Serial.print(rfid.uid.uidByte[i], HEX);
+    Serial.print(" ");
+  }
+  Serial.println();
+  delay(1000);
+}
+</code></pre>
+        </section>
+
+        <section>
+            <h2>Video Tutorial</h2>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/VuYz9k66hPg" title="RFID Tutorial" frameborder="0" allowfullscreen></iframe>
+        </section>
+
+        <section>
+            <h2>Applications of RFID</h2>
+            <ul>
+                <li>Access Control Systems</li>
+                <li>Attendance Monitoring</li>
+                <li>Asset Tracking</li>
+                <li>Contactless Payments</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Quick Quiz</h2>
+            <form id="quiz-form">
+                <p>1. What voltage does the RC522 use?</p>
+                <input type="radio" name="q1" value="3.3V"> 3.3V<br>
+                <input type="radio" name="q1" value="5V"> 5V<br>
+
+                <p>2. Which communication protocol does RC522 use?</p>
+                <input type="radio" name="q2" value="I2C"> I2C<br>
+                <input type="radio" name="q2" value="SPI"> SPI<br>
+
+                <p>3. Which Arduino pin is commonly used for SDA?</p>
+                <input type="radio" name="q3" value="Pin 10"> Pin 10<br>
+                <input type="radio" name="q3" value="Pin 8"> Pin 8<br><br>
+
+                <button type="button" onclick="checkQuiz()">Submit</button>
+            </form>
+            <p id="quiz-result"></p>
+        </section>
+    </main>
+
+    <!-- JS -->
+    <script src="../../js/main.js"></script>
+    <script src="../../js/rfid.js"></script>
+</body>
+</html>

@@ -4,19 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TechTinker</title>
+    
+    <!-- ✅ Use relative paths for CSS and JS -->
     <link rel="stylesheet" href="css/style.css">
     <script src="js/main.js" defer></script>
 </head>
 <body>
     <header>
         <h1>TechTinker</h1>
-        <nav>
-            <a href="pages/showcase.html">Showcase</a>
-            <a href="pages/forum.html">Forum</a>
-            <a href="pages/tutorials.html">Tutorials</a>
-            <a href="pages/incubator.html">Incubator</a>
+        <!-- ✅ Navbar -->
+        <nav class="navbar">
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active">Home</a></li>
+                
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Projects ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="pages/showcase.html">Showcase</a></li>
+                        <li><a href="pages/tutorials.html">Tutorials</a></li>
+                        <li><a href="pages/incubator.html">Incubator</a></li>
+                        <li><a href="pages/forum.html">Forum</a></li>
+                    </ul>
+                </li>
+                
+                <li><a href="pages/about.html">About Us</a></li>
+                <li><a href="pages/contact.html">Contact</a></li>
+            </ul>
         </nav>
     </header>
+
     <main>
         <section class="card">
             <h2>Welcome to TechTinker!</h2>
@@ -25,6 +41,7 @@
             </p>
             <a href="pages/showcase.html" class="btn">Explore Projects</a>
         </section>
+
         <section>
             <div class="card">
                 <h3>Showcase</h3>
@@ -44,6 +61,7 @@
             </div>
         </section>
     </main>
+
     <footer>
         <p>&copy; 2025 TechTinker. All rights reserved.</p>
     </footer>

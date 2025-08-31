@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soldering 101: Clean Joints</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/ohms.css"> <!-- Reuse same style for consistency -->
+</head>
+<body>
+    <header>
+        <h1>Soldering 101: Clean Joints</h1>
+    </header>
+
+    <main>
+        <!-- Article Section -->
+        <section class="article">
+            <h2>Introduction to Soldering</h2>
+            <p>
+                Soldering is the process of joining two or more metal components together by melting solder around the connection. 
+                It is commonly used in electronics to create electrical connections between wires, components, and circuit boards.
+            </p>
+
+            <h3>Essential Tools for Soldering</h3>
+            <ul>
+                <li>Soldering Iron</li>
+                <li>Solder Wire (usually a tin-lead or lead-free alloy)</li>
+                <li>Soldering Stand</li>
+                <li>Flux</li>
+                <li>Desoldering Pump or Wick</li>
+            </ul>
+            <img src="https://www.circuitbasics.com/wp-content/uploads/2016/07/Tools-for-Soldering.jpg" alt="Soldering Tools" width="500" />
+
+            <h3>Ideal Temperature</h3>
+            <p>
+                The ideal soldering temperature ranges between <strong>350°C and 400°C</strong> for most electronics. Too low, and solder won’t flow properly; 
+                too high, and you risk damaging components or lifting PCB pads.
+            </p>
+            <img src="https://maker.pro/storage/app/uploads/public/5ef/7dc/d6c/5ef7dcd6c79b8167377530.png" alt="Soldering Temperature" width="500" />
+
+            <h3>Technique for Clean Joints</h3>
+            <p>
+                To achieve clean and reliable joints:
+            </p>
+            <ol>
+                <li>Clean the tip of your soldering iron.</li>
+                <li>Apply a small amount of solder to the tip (tinning).</li>
+                <li>Heat both the pad and the lead simultaneously.</li>
+                <li>Apply solder to the joint, not directly on the iron tip.</li>
+                <li>Remove the iron and let the joint cool naturally.</li>
+            </ol>
+            <img src="https://www.electronics-notes.com/images/soldering-pcb-joint.jpg" alt="Clean Solder Joint" width="500" />
+        </section>
+
+        <!-- Video Section -->
+        <section class="video">
+            <h2>Watch: Soldering 101 - Clean Joints</h2>
+            <iframe width="560" height="315"
+                src="https://www.youtube.com/embed/Qps9woUGkvI"
+                title="Soldering 101 Video" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+        </section>
+
+        <!-- Quiz Section -->
+        <section class="quiz">
+            <h2>Quick Quiz</h2>
+            <form id="quizForm">
+                <p>1. What is the ideal temperature range for soldering?</p>
+                <label><input type="radio" name="q1" value="a"> 100°C - 200°C</label><br>
+                <label><input type="radio" name="q1" value="b"> 350°C - 400°C</label><br>
+                <label><input type="radio" name="q1" value="c"> 500°C - 600°C</label><br>
+
+                <p>2. Which step is NOT part of good soldering technique?</p>
+                <label><input type="radio" name="q2" value="a"> Heat the pad and lead together</label><br>
+                <label><input type="radio" name="q2" value="b"> Apply solder directly on the iron tip</label><br>
+                <label><input type="radio" name="q2" value="c"> Let the joint cool naturally</label><br>
+
+                <button type="button" onclick="checkAnswers()">Submit</button>
+            </form>
+            <p id="result"></p>
+        </section>
+    </main>
+
+    <script src="../../js/main.js"></script>
+    <script src="../../js/ohms.js"></script> <!-- Reuse checkAnswers function -->
+</body>
+</html>

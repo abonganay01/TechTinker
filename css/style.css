@@ -36,20 +36,30 @@ header h1 {
 }
 
 /* =========================
-   Navigation
+   Navigation with Dropdown
 ========================= */
-nav {
+nav.navbar {
     background: #4a5568;
     display: flex;
     justify-content: center;
-    gap: 32px;
     padding: 14px 0;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(44,62,80,0.07);
     margin-top: 18px;
 }
 
-nav a {
+.nav-menu {
+    list-style: none;
+    display: flex;
+    gap: 32px;
+    align-items: center;
+}
+
+.nav-menu li {
+    position: relative;
+}
+
+.nav-menu a {
     color: #fff;
     text-decoration: none;
     font-weight: 600;
@@ -59,9 +69,41 @@ nav a {
     transition: background 0.2s, color 0.2s;
 }
 
-nav a:hover {
+.nav-menu a:hover {
     background: #63b3ed;
     color: #2d3748;
+}
+
+/* Dropdown Styles */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #2d3748;
+    list-style: none;
+    min-width: 180px;
+    padding: 8px 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    z-index: 999;
+}
+
+.dropdown-content li a {
+    display: block;
+    padding: 10px 18px;
+    color: #fff;
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+.dropdown-content li a:hover {
+    background: #63b3ed;
+    color: #2d3748;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
 }
 
 /* =========================
@@ -154,14 +196,242 @@ footer {
     main {
         padding: 18px 8px;
     }
-    nav {
+    .nav-menu {
+        flex-direction: column;
         gap: 10px;
-        font-size: 0.95rem;
     }
-    .card {
-        padding: 18px 10px;
+    .dropdown-content {
+        position: static;
+        box-shadow: none;
     }
     header h1 {
         font-size: 2rem;
     }
 }
+
+
+/* =========================
+   Forum Styles (Improved & Fixed)
+========================= */
+.forum-container {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.forum-container h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* New Comment Box */
+.new-comment {
+    margin-bottom: 24px;
+    padding: 20px;
+    background: #f9fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+}
+
+.new-comment input,
+.new-comment textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    font-size: 15px;
+    border: 1px solid #cbd5e0;
+    border-radius: 8px;
+    background: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.new-comment input:focus,
+.new-comment textarea:focus {
+    border-color: #63b3ed;
+    box-shadow: 0 0 6px rgba(99,179,237,0.4);
+    outline: none;
+}
+
+.new-comment textarea {
+    height: 90px;
+    resize: none;
+}
+
+.new-comment button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(90deg, #63b3ed, #4299e1);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.new-comment button:hover {
+    background: linear-gradient(90deg, #4299e1, #3182ce);
+    transform: scale(1.02);
+}
+
+/* Comment Card */
+.comment {
+    border: 1px solid #e2e8f0;
+    padding: 16px;
+    margin-bottom: 16px;
+    border-radius: 12px;
+    background: #fefefe;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.04);
+    transition: transform 0.2s;
+}
+
+.comment:hover {
+    transform: translateY(-2px);
+}
+
+.comment strong {
+    font-size: 1rem;
+    color: #2b6cb0;
+}
+
+.comment p {
+    margin-bottom: 8px;
+    font-size: 15px;
+    color: #4a5568;
+}
+
+/* Vote and Reply Section */
+.vote-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+.vote-btn {
+    cursor: pointer;
+    color: #2b6cb0;
+    font-weight: bold;
+    padding: 6px 10px;
+    background: #edf2f7;
+    border-radius: 6px;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.vote-btn:hover {
+    background: #e2e8f0;
+    transform: scale(1.05);
+}
+
+.vote-count {
+    font-weight: bold;
+    color: #2d3748;
+    margin-right: 8px;
+}
+
+.reply-btn,
+.reply-btn-reply {
+    color: #2b6cb0;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 12px;
+    font-weight: 500;
+}
+
+.reply-btn:hover,
+.reply-btn-reply:hover {
+    text-decoration: underline;
+}
+
+/* Replies Container */
+.reply-section {
+    margin-top: 14px;
+    padding-left: 18px;
+    border-left: 3px solid #e2e8f0;
+}
+
+/* Inline Reply Box */
+.inline-reply {
+    margin-top: 10px;
+    padding: 12px;
+    border: 1px solid #cbd5e0;
+    border-radius: 10px;
+    background: #f7fafc;
+}
+
+.inline-reply input,
+.inline-reply textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 6px;
+    font-size: 14px;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    resize: none;
+}
+
+.inline-reply textarea {
+    height: 60px;
+}
+
+.inline-reply button {
+    padding: 8px;
+    background: linear-gradient(90deg, #63b3ed, #4299e1);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    width: 100%;
+}
+
+.inline-reply button:hover {
+    background: linear-gradient(90deg, #4299e1, #3182ce);
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .forum-container {
+        padding: 20px 12px;
+    }
+
+    .new-comment button,
+    .inline-reply button {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .comment p,
+    .vote-section {
+        font-size: 14px;
+    }
+
+    .reply-btn,
+    .reply-btn-reply {
+        font-size: 13px;
+    }
+
+    .inline-reply input,
+    .inline-reply textarea {
+        font-size: 13px;
+    }
+}
+
+
+
