@@ -1,23 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Incubator | TechTinker</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <script src="../js/main.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Idea Incubator | TechTinker</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/incubator.css">
+  <!-- main.js handles navbar, incubator.js handles interactions -->
+  <script src="../js/main.js" defer></script>
+  <script src="../js/incubator.js" defer></script>
 </head>
 <body>
-    <header>
-        <h1>TechTinker</h1>
-        <div id="navbar-placeholder"></div>
-    </header>
-    <main>
-        <h2>Incubator</h2>
-        <p>Coming soon...</p>
-        <a href="../index.html" class="btn">Back to Home</a>
-    </main>
-    <footer>
-        <p>&copy; 2025 TechTinker. All rights reserved.</p>
-    </footer>
+  <header class="site-header">
+    <h1 class="logo"><a href="../index.html" aria-label="Go to TechTinker Home">TechTinker</a></h1>
+    <div id="navbar-placeholder"></div>
+  </header>
+
+  <main class="container">
+    <!-- Hero / Intro -->
+    <section class="hero hero--sub">
+      <h2>Idea Incubator</h2>
+      <p class="lead">
+        A brainstorming hub where users pitch ideas and look for collaborators.
+      </p>
+      <p class="subtext">
+        Encourages teamwork and sparks innovation.
+      </p>
+      <a href="../index.html" class="btn">Back to Home</a>
+    </section>
+
+    <!-- Submit Idea Form -->
+    <section class="incubator-form" aria-label="Submit your idea">
+      <h3>Pitch Your Idea</h3>
+      <form id="ideaForm">
+        <label for="ideaTitle" class="sr-only">Idea Title</label>
+        <input id="ideaTitle" type="text" placeholder="Enter idea title" required class="input" />
+
+        <label for="ideaDesc" class="sr-only">Idea Description</label>
+        <textarea id="ideaDesc" placeholder="Describe your idea in detail..." required class="textarea"></textarea>
+
+        <label for="ideaTags" class="sr-only">Tags</label>
+        <input id="ideaTags" type="text" placeholder="Add tags (e.g., Arduino, IoT, AI)" class="input" />
+
+        <button type="submit" class="btn">Submit Idea</button>
+      </form>
+    </section>
+
+    <!-- Ideas List -->
+    <section aria-label="Idea list" class="cards-grid" id="ideaList">
+      <!-- Dynamic idea cards will appear here -->
+      <p class="muted" id="emptyIdeas">No ideas yet. Be the first to pitch!</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2025 TechTinker. All rights reserved.</p>
+  </footer>
 </body>
 </html>
