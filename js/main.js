@@ -12,10 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log(relativePath); // "../../" for /pages/pages/about.html
     
     // Load components dynamically
-    loadComponent(basePath + relativePath + 'htmldesign/header.html', 'header-placeholder', () => {
+    loadComponent(basePath + 'htmldesign/header.html', 'header-placeholder', () => {
         makeHeaderClickable(basePath);
         initSigninModal();
     });
+
     loadComponent(basePath + relativePath + 'htmldesign/hero.html', 'hero-placeholder');
     loadComponent(basePath + relativePath + 'htmldesign/footer.html', 'footer-placeholder');
 
@@ -296,14 +297,11 @@ function detectBasePath() {
     return hostname.includes('github.io') ? `/${repoName}/` : '/';
 }
 
-function getRelativePath(targetFolder = 'htmldesign') {
-    const pathSegments = window.location.pathname.split('/').filter(seg => seg.length > 0);
-    let depth = pathSegments.length;
-
-    // If page is nested in pages, remove extra levels for correct relative path
-    // Adjust this if your components folder is always at repo root
-    return '../'.repeat(depth - 1); 
+function getRelativePath() {
+    const basePath = detectBasePath();
+    return basePath; // always use /TechTinker/ for GitHub Pages
 }
+
 
 
 
@@ -362,8 +360,7 @@ function fixPaths() {
         if (!href) return;
 
         // Set proper href dynamically
-        link.href = relativePath + href;
-
+        link.href = detectBasePath() + href;
         // Optional: handle dropdown clicks if needed
         link.addEventListener('click', (e) => {
             window.location.href = link.href;
