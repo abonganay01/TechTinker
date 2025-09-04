@@ -1,10 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Detect base path and load components
     const basePath = detectBasePath();
-    makeHeaderClickable(basePath);
-    loadNavbar(basePath);
 
-    // Add mousemove parallax effect
+    // Load components dynamically
+    loadComponent('htmldesign/header.html', 'header-placeholder', () => {
+        makeHeaderClickable(basePath);
+        loadNavbar(basePath);
+        initSigninModal(); // Initialize sign-in only after header loads
+    });
+
+    loadComponent('htmldesign/hero.html', 'hero-placeholder');
+    loadComponent('htmldesign/footer.html', 'footer-placeholder');
+
+    // Add parallax effect
     document.addEventListener("mousemove", (event) => {
         const x = event.clientX / window.innerWidth - 0.5;
         const y = event.clientY / window.innerHeight - 0.5;
@@ -16,21 +23,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-
-const signinButton = document.getElementById("signinButton");
-const signinPage = document.getElementById("signinPage");
-const closeIcon = document.getElementById("closeIcon");
-
-signinButton.addEventListener("click", function(){
-    signinPage.classList.remove("closeSignin")
-    signinPage.classList.add("openSignin")
-});
-
-closeIcon.addEventListener("click", function(){
-    signinPage.classList.remove("openSignin");
-    signinPage.classList.add("closeSignin");
-});
-
+// =========================
+// Load HTML Component
+// =========================
+function loadComponent(file, placeholderId, callback = null) {
+    fetch(file)
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById(placeholderId).innerHTML = data;
+            if (callback) callback();
+        })
+        .catch(err => console.error(`Error loading ${file}:`, err));
+}
 
 // =========================
 // Detect base URL dynamically
@@ -49,7 +53,7 @@ function makeHeaderClickable(basePath) {
     if (headerTitle) {
         headerTitle.style.cursor = 'pointer';
         headerTitle.addEventListener('click', () => {
-            window.location.href = basePath + 'index1.html';
+            window.location.href = basePath + 'index.html';
         });
     }
 }
@@ -67,10 +71,7 @@ function loadNavbar(basePath) {
     }
 
     fetch(navbarPath)
-        .then(response => {
-            if (!response.ok) throw new Error('Navbar file not found');
-            return response.text();
-        })
+        .then(response => response.text())
         .then(data => {
             navbarPlaceholder.innerHTML = data;
             fixHomeLink(basePath);
@@ -127,6 +128,27 @@ function initNavbarDropdown() {
             if (!dropdown.contains(e.target)) {
                 dropdownContent.classList.remove('show');
             }
+        });
+    }
+}
+
+// =========================
+// Initialize Sign-In Modal
+// =========================
+function initSigninModal() {
+    const signinButton = document.getElementById("signinButton");
+    const signinPage = document.getElementById("signinPage");
+    const closeIcon = document.getElementById("closeIcon");
+
+    if (signinButton && signinPage && closeIcon) {
+        signinButton.addEventListener("click", () => {
+            signinPage.classList.remove("closeSignin");
+            signinPage.classList.add("openSignin");
+        });
+
+        closeIcon.addEventListener("click", () => {
+            signinPage.classList.remove("openSignin");
+            signinPage.classList.add("closeSignin");
         });
     }
 }

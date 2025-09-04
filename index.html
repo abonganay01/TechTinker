@@ -3,67 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechTinker</title>
+    <title>TechTinker | Tinker. Learn. Build.</title>
     
-    <!-- ✅ Use relative paths for CSS and JS -->
+    <!-- SEO Meta -->
+    <meta name="description" content="TechTinker - Hands-on tutorials, guides, and resources to help you learn, build, and innovate in technology.">
+    <meta name="keywords" content="TechTinker, tech tutorials, coding, robotics, electronics, guides">
+    <meta name="author" content="TechTinker Team">
+
+    <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Correct Boxicons CDN -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+    <!-- Preload Hero Video -->
+    <link rel="preload" as="video" href="images/hero-video.mp4" type="video/mp4">
+
+    <!-- Scripts -->
     <script src="js/main.js" defer></script>
 </head>
 <body>
-    <header>
-        <h1>TechTinker</h1>
-        <!-- ✅ Navbar -->
-        <nav class="navbar">
-            <ul class="nav-menu">
-                <li><a href="index.html" class="active">Home</a></li>
-                
-                <li class="dropdown">
-                    <a href="#" class="dropbtn">Projects ▾</a>
-                    <ul class="dropdown-content">
-                        <li><a href="pages/showcase.html">Showcase</a></li>
-                        <li><a href="pages/tutorials.html">Tutorials</a></li>
-                        <li><a href="pages/incubator.html">Incubator</a></li>
-                        <li><a href="pages/forum.html">Forum</a></li>
-                    </ul>
-                </li>
-                
-                <li><a href="pages/about.html">About Us</a></li>
-                <li><a href="pages/contact.html">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <main>
-        <section class="card">
-            <h2>Welcome to TechTinker!</h2>
-            <p>
-                A vibrant platform for tech enthusiasts to showcase projects, discuss ideas, and learn together.
-            </p>
-            <a href="pages/showcase.html" class="btn">Explore Projects</a>
+
+    <div class="container">
+        <!-- Header -->
+        <div id="header-placeholder"></div>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div id="hero-placeholder"></div>
+            <h1>Tinker. Learn. Build. The Future Starts Here</h1>
+            <h3>Hands-on tutorials, guides, and resources to help you grow in tech.</h3>
+            <button type="button" onclick="window.location.href='getstarted.html';" aria-label="Get Started">Get Started</button>
+
+
+            <div class="hero-image-box">
+                <div class="robot-box">
+                    <div class="robot-header"></div>
+                    <img src="images/tinker.png" alt="Illustration of a tech robot" loading="lazy">
+                </div>
+                <div class="element1">
+                    <img src="images/element1.png" alt="Decorative tech element" loading="lazy">
+                </div>
+                <div class="element2">
+                    <img src="images/element2.png" alt="Decorative tech element" loading="lazy">
+                </div>
+            </div>
+
+            <h4>Empowering learners through hands-on technology.</h4>
         </section>
 
-        <section>
-            <div class="card">
-                <h3>Showcase</h3>
-                <p>Upload and share step-by-step guides for your projects, including images, videos, and code snippets. Others can comment with questions or improvements.</p>
+        <!-- Companies List -->
+        <section class="companies-list" aria-label="Partner Companies">
+            <div class="company">
+                <img src="images/company1.png" alt="Memric company logo" loading="lazy">
+                <p>Memric</p>
             </div>
-            <div class="card">
-                <h3>Forum</h3>
-                <p>Post problems and get help from the community. Upvote the best solutions to highlight the most helpful answers.</p>
+            <div class="company">
+                <img src="images/company2.png" alt="Ipsum company logo" loading="lazy">
+                <p>Ipsum</p>
             </div>
-            <div class="card">
-                <h3>Tutorials</h3>
-                <p>Bite-sized lessons and challenges on engineering concepts. Simple quizzes help reinforce your learning.</p>
+            <div class="company">
+                <img src="images/company3.png" alt="TechTinker company logo" loading="lazy">
+                <p>TechTinker</p>
             </div>
-            <div class="card">
-                <h3>Incubator</h3>
-                <p>Pitch project ideas and find collaborators who want to team up and innovate together.</p>
+            <div class="company">
+                <img src="images/company4.png" alt="Quanex company logo" loading="lazy">
+                <p>Quanex</p>
+            </div>
+            <div class="company">
+                <img src="images/company5.png" alt="Synthet company logo" loading="lazy">
+                <p>Synthet</p>
             </div>
         </section>
-    </main>
 
-    <footer>
-        <p>&copy; 2025 TechTinker. All rights reserved.</p>
-    </footer>
+        <!-- Footer -->
+        <div id="footer-placeholder"></div>
+    </div>
 </body>
 </html>
