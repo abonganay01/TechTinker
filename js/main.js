@@ -10,17 +10,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const relativePath = getRelativePath();
     fixPaths();
     console.log(relativePath); // "../../" for /pages/pages/about.html
-    
+
     // Load components dynamically
     loadComponent(basePath + 'htmldesign/header.html', 'header-placeholder', () => {
         makeHeaderClickable(basePath);
-        initSigninModal();
+        initSigninModal(); // Initialize sign-in modal after header loads
     });
 
     loadComponent(basePath + relativePath + 'htmldesign/hero.html', 'hero-placeholder');
     loadComponent(basePath + relativePath + 'htmldesign/footer.html', 'footer-placeholder');
 
-    // Parallax effect
+    // =========================
+    // ===== Parallax Effect ===
+    // =========================
     document.addEventListener("mousemove", (event) => {
         const x = event.clientX / window.innerWidth - 0.5;
         const y = event.clientY / window.innerHeight - 0.5;
@@ -31,7 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     highlightActiveLink(basePath);
-
 
     // =========================
     // ======== FORUM.JS =======
@@ -49,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderComments() {
-        if (!commentsList) return; // avoid errors if forum not present
+        if (!commentsList) return;
         commentsList.innerHTML = "";
 
         if (sortSelect?.value === "votes") {
@@ -302,9 +303,6 @@ function getRelativePath() {
     return basePath; // always use /TechTinker/ for GitHub Pages
 }
 
-
-
-
 function makeHeaderClickable(basePath) {
     const headerTitle = document.querySelector('header h1');
     if (headerTitle) {
@@ -329,24 +327,39 @@ function highlightActiveLink(basePath) {
     });
 }
 
+// =========================
+// Initialize Sign-in Modal
+// =========================
 function initSigninModal() {
     const signinButton = document.getElementById("signinButton");
     const signinPage = document.getElementById("signinPage");
     const closeIcon = document.getElementById("closeIcon");
 
-    if (signinButton && signinPage && closeIcon) {
-        signinButton.addEventListener("click", () => {
-            signinPage.classList.remove("closeSignin");
-            signinPage.classList.add("openSignin");
-        });
+    if (!signinButton || !signinPage || !closeIcon) return;
 
-        closeIcon.addEventListener("click", () => {
+    // Open modal
+    signinButton.addEventListener("click", () => {
+        signinPage.classList.remove("closeSignin");
+        signinPage.classList.add("openSignin");
+    });
+
+    // Close modal
+    closeIcon.addEventListener("click", () => {
+        signinPage.classList.remove("openSignin");
+        signinPage.classList.add("closeSignin");
+    });
+
+    // Close modal when clicking outside the modal content
+    signinPage.addEventListener("click", (e) => {
+        if (e.target === signinPage) {
             signinPage.classList.remove("openSignin");
             signinPage.classList.add("closeSignin");
-        });
-    }
+        }
+    });
 }
 
+// =========================
+// ======== PATH FIX ========
 function fixPaths() {
     const relativePath = getRelativePath(); // calculate correct ../
 
@@ -361,11 +374,8 @@ function fixPaths() {
 
         // Set proper href dynamically
         link.href = detectBasePath() + href;
-        // Optional: handle dropdown clicks if needed
         link.addEventListener('click', (e) => {
             window.location.href = link.href;
         });
     });
 }
-
-

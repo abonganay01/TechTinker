@@ -23,63 +23,15 @@
     <script src="js/main.js" defer></script>
 </head>
 <body>
-    <header>
-        <div class="head-left">
-            <img src="images/logo.png" alt="logo">
-            <h1>TechTinker</h1>
-        </div>
 
-        <ul class="nav-menu">
-                <li><a href="index.html">Home</a></li>
-                
-                <li class="dropdown">
-                    <a href="#" class="dropbtn">Projects ▾</a>
-                    <ul class="dropdown-content">
-                        <li><a href="pages/showcase.html">Showcase</a></li>
-                        <li><a href="pages/tutorials.html">Tutorials</a></li>
-                        <li><a href="pages/incubator.html">Incubator</a></li>
-                        <li><a href="pages/forum.html">Forum</a></li>
-                    </ul>
-                </li>
-                
-                <li><a href="pages/about.html">About Us</a></li>
-                <li><a href="pages/contact.html">Contact</a></li>
-        </ul>
-
-        <div class="head-right">
-            <a href="#">NEW ACCOUNT</a>
-            <div class="button-box">
-                <button id="signinButton">SIGN IN</button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Sign-in Modal -->
-    <div id="signinPage" class="signin-page-box">
-        <div class="signin-page">
-            <div id="closeIcon"><i class='bx bx-x'></i></div>
-            <h1>Sign In</h1>
-            <input type="text" placeholder="User Name">
-            <input type="text" placeholder="Email">
-            <input type="password" placeholder="Password">
-            <button>Sign in</button>
-            <p>Login</p>
-        </div>
-    </div>(edit this html or make a js so that the path applies to any folder paths even nested folder paths )
 
     <div class="container">
+        <!-- Header -->
+        <div id="header-placeholder"></div>
+
+        <!-- Hero Section -->
         <section class="hero">
-
-            <!-- Full-Screen Background Video -->
-            <video autoplay muted loop playsinline class="background-video">
-                <source src="images/hero-video.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-
-            <!-- Hero Images -->
-            <img class="hero-blur-image" src="images/hero blur img.png" alt="">
-            <img class="hero-icons-image parallax" data-speed="4" src="images/hero icons img.png" alt="">
-            <img class="hero-rings-image" src="images/hero rings img.png" alt="">
+            <div id="hero-placeholder"></div>
             <h1>Tinker. Learn. Build. The Future Starts Here</h1>
             <h3>Hands-on tutorials, guides, and resources to help you grow in tech.</h3>
             <button type="button" onclick="window.location.href='pages/getstarted.html';" aria-label="Get Started">Get Started</button>
@@ -126,11 +78,7 @@
         </section>
 
         <!-- Footer -->
-        
-        <footer>
-            <p>&copy; 2025 TechTinker. All rights reserved.</p>
-        </footer>
-
+        <div id="footer-placeholder"></div>
     </div>
 </body>
 </html>
