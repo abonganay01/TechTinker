@@ -4,40 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TechTinker</title>
-    
-    <!-- ✅ Use relative paths for CSS and JS -->
-    <link rel="stylesheet" href="css/style.css">
-    <script src="js/main.js" defer></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- main.js handles universal navbar -->
+    <script src="../js/main.js" defer></script>
 </head>
 <body>
-    <header>
-        <h1>TechTinker</h1>
-
-    </header>
-
+    <div id="header-placeholder"></div>           
+  
     <main>
-        <section class="card">
-            <h2>Welcome to TechTinker!</h2>
+
+        
+        <section>
+            <h1>Welcome to TechTinker!</h1>
             <p>
                 A vibrant platform for tech enthusiasts to showcase projects, discuss ideas, and learn together.
             </p>
-            <a href="pages/showcase.html" class="btn">Explore Projects</a>
-        </section>
-
-        <section>
-            <div class="card">
+            <a href="showcase.html" class="btn">Explore Projects</a>
+            <div class="card" onclick="window.location.href='showcase.html';">
                 <h3>Showcase</h3>
                 <p>Upload and share step-by-step guides for your projects, including images, videos, and code snippets. Others can comment with questions or improvements.</p>
             </div>
-            <div class="card">
+            <div class="card" onclick="window.location.href='forum.html';">
                 <h3>Forum</h3>
                 <p>Post problems and get help from the community. Upvote the best solutions to highlight the most helpful answers.</p>
             </div>
-            <div class="card">
+            <div class="card" onclick="window.location.href='tutorials.html';">
                 <h3>Tutorials</h3>
                 <p>Bite-sized lessons and challenges on engineering concepts. Simple quizzes help reinforce your learning.</p>
             </div>
-            <div class="card">
+            <div class="card" onclick="window.location.href='incubator.html';">
                 <h3>Incubator</h3>
                 <p>Pitch project ideas and find collaborators who want to team up and innovate together.</p>
             </div>

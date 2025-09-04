@@ -1,15 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
     const basePath = detectBasePath();
 
-    // Load components dynamically
-    loadComponent('htmldesign/header.html', 'header-placeholder', () => {
+    // Load components dynamically using resolvePath
+    loadComponent(resolvePath('htmldesign/header.html'), 'header-placeholder', () => {
         makeHeaderClickable(basePath);
         loadNavbar(basePath);
         initSigninModal(); // Initialize sign-in only after header loads
     });
 
-    loadComponent('htmldesign/hero.html', 'hero-placeholder');
-    loadComponent('htmldesign/footer.html', 'footer-placeholder');
+    loadComponent(resolvePath('htmldesign/hero.html'), 'hero-placeholder');
+    loadComponent(resolvePath('htmldesign/footer.html'), 'footer-placeholder');
+    
 
     // Add parallax effect
     document.addEventListener("mousemove", (event) => {
@@ -46,6 +47,15 @@ function detectBasePath() {
 }
 
 // =========================
+// Resolve correct path for components
+// =========================
+function resolvePath(file) {
+    const basePath = detectBasePath();
+    const isPagesDir = window.location.pathname.includes('/pages/');
+    return isPagesDir ? '../' + file : file; // Use ../ when inside /pages/
+}
+
+// =========================
 // Make header title clickable to go home
 // =========================
 function makeHeaderClickable(basePath) {
@@ -58,38 +68,6 @@ function makeHeaderClickable(basePath) {
     }
 }
 
-// =========================
-// Load navbar dynamically
-// =========================
-function loadNavbar(basePath) {
-    const navbarPlaceholder = document.getElementById('navbar-placeholder');
-    if (!navbarPlaceholder) return;
-
-    let navbarPath = 'navbar.html';
-    if (window.location.pathname.includes('/pages/')) {
-        navbarPath = '../navbar.html';
-    }
-
-    fetch(navbarPath)
-        .then(response => response.text())
-        .then(data => {
-            navbarPlaceholder.innerHTML = data;
-            fixHomeLink(basePath);
-            initNavbarDropdown();
-            highlightActiveLink(basePath);
-        })
-        .catch(error => console.error('Error loading navbar:', error));
-}
-
-// =========================
-// Fix Home link dynamically
-// =========================
-function fixHomeLink(basePath) {
-    const homeLink = document.querySelector('.nav-menu li a[href="/index.html"]');
-    if (homeLink) {
-        homeLink.setAttribute('href', basePath + 'index.html');
-    }
-}
 
 // =========================
 // Highlight active link
@@ -123,6 +101,8 @@ function initNavbarDropdown() {
             e.preventDefault();
             dropdownContent.classList.toggle('show');
         });
+
+        
 
         document.addEventListener('click', (e) => {
             if (!dropdown.contains(e.target)) {
