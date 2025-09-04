@@ -8,7 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // =========================
     const basePath = detectBasePath();
     const relativePath = getRelativePath();
-
+    fixPaths();
+    console.log(relativePath); // "../../" for /pages/pages/about.html
+    
     // Load components dynamically
     loadComponent(basePath + relativePath + 'htmldesign/header.html', 'header-placeholder', () => {
         makeHeaderClickable(basePath);
@@ -294,10 +296,16 @@ function detectBasePath() {
     return hostname.includes('github.io') ? `/${repoName}/` : '/';
 }
 
-function getRelativePath() {
-    const pathSegments = window.location.pathname.split('/');
-    return pathSegments.includes('pages') ? '../' : '';
+function getRelativePath(targetFolder = 'htmldesign') {
+    const pathSegments = window.location.pathname.split('/').filter(seg => seg.length > 0);
+    let depth = pathSegments.length;
+
+    // If page is nested in pages, remove extra levels for correct relative path
+    // Adjust this if your components folder is always at repo root
+    return '../'.repeat(depth - 1); 
 }
+
+
 
 function makeHeaderClickable(basePath) {
     const headerTitle = document.querySelector('header h1');
@@ -340,3 +348,27 @@ function initSigninModal() {
         });
     }
 }
+
+function fixPaths() {
+    const relativePath = getRelativePath(); // calculate correct ../
+
+    // Fix logo
+    const logo = document.getElementById('logo');
+    if (logo) logo.src = relativePath + 'images/logo.png';
+
+    // Fix nav links
+    document.querySelectorAll('.nav-link').forEach(link => {
+        const href = link.dataset.href;
+        if (!href) return;
+
+        // Set proper href dynamically
+        link.href = relativePath + href;
+
+        // Optional: handle dropdown clicks if needed
+        link.addEventListener('click', (e) => {
+            window.location.href = link.href;
+        });
+    });
+}
+
+

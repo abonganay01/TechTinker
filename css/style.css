@@ -378,3 +378,31 @@ footer { color: var(--text); text-align: center; padding: 18x 0; margin-top: 48p
   font-weight: 700;
   color: #fff;
 }
+
+/* Fix layout when header and footer are included */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  position: fixed; /* Make header always visible */
+  top: 0;
+  width: 100%;
+  height: 70px; /* Adjust to actual header height */
+}
+
+main {
+  flex: 1; /* Push footer to bottom */
+  margin-top: 70px; /* Same as header height */
+  margin-bottom: 80px; /* Same as footer height */
+  box-sizing: border-box;
+}
+
+footer {
+  position: relative; /* Let it flow naturally */
+  bottom: auto;
+  width: 100%;
+  height: 80px; /* Adjust to actual footer height */
+}

@@ -1,12 +1,5 @@
 
-main {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 15px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
+
 
 .article h2, .video h2, .quiz h2 {
     color: #0066cc;
