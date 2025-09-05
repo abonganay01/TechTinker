@@ -22,13 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     loadComponent(basePath + 'htmldesign/footer.html', 'footer-placeholder');
 
-
-
-
-
-
-
-
     // Parallax effect
     document.addEventListener("mousemove", (event) => {
         const x = event.clientX / window.innerWidth - 0.5;
@@ -377,4 +370,26 @@ function fixPaths() {
     });
 }
 
+// =========================
+// ======== Detect Mobile or Desktop View
+// =========================
+function applyDeviceClass() {
+  const isMobile = window.innerWidth <= 768;
+  if (isMobile) {
+    document.body.classList.add("mobile-view");
+    document.body.classList.remove("desktop-view");
+    console.log("Mobile View Active");
+    // Example adjustment for mobile
+    document.documentElement.style.fontSize = "15px"; // smaller base size
+  } else {
+    document.body.classList.add("desktop-view");
+    document.body.classList.remove("mobile-view");
+    console.log("Desktop View Active");
+    // Example adjustment for desktop
+    document.documentElement.style.fontSize = "16px"; // normal size
+  }
+}
 
+// Run on load and resize
+window.addEventListener("load", applyDeviceClass);
+window.addEventListener("resize", applyDeviceClass);
