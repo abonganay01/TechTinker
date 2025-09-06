@@ -2,6 +2,8 @@
 // DOMContentLoaded Main
 // =========================
 document.addEventListener('DOMContentLoaded', () => {
+    let lastScrollTop = 0;
+    const header = document.querySelector('header');
 
     // =========================
     // ======== MAIN.JS =========
@@ -33,6 +35,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     highlightActiveLink(basePath);
+
+
+
+    if (header) {
+        window.addEventListener('scroll', function() {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollTop > lastScrollTop) {
+            // Scrolling down → hide header
+            header.classList.add('header-hidden');
+        } else {
+            // Scrolling up → show header
+            header.classList.remove('header-hidden');
+        }
+
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Prevent negative values
+        });
+    }
 
 
     // =========================
@@ -393,3 +413,4 @@ function applyDeviceClass() {
 // Run on load and resize
 window.addEventListener("load", applyDeviceClass);
 window.addEventListener("resize", applyDeviceClass);
+

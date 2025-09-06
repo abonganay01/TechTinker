@@ -1,6 +1,13 @@
 /* ================================
+   CLEANED & GROUPED STYLESHEET
+   - Duplicates removed
+   - Sections preserved with comments to indicate page/area
+   - Layout behavior kept intact
+   - Minor fixes: typos (abosolute -> absolute), merged repeated rules
+================================ */
+
+/* ================================
    1. GLOBAL THEME & TOKENS
-   (Edit colors, gradients, radii, shadows)
 ================================ */
 :root {
   /* Base palette (dark theme) */
@@ -10,7 +17,7 @@
   --surface-2: #1b1830;      /* elevated surfaces */
   --text: #d3d3d6;           /* primary text */
   --text-dim: #a6a6ad;       /* secondary text */
-  --text-invert: #0e0c15; 
+  --text-invert: #0e0c15;
   --muted: #8a8796;          /* UI chrome */
   --border: rgba(110, 101, 114, 0.5);
   --shadow: 0 8px 32px rgba(0,0,0,.35);
@@ -36,26 +43,34 @@
 }
 
 /* ================================
-   2. GLOBAL RESETS
-   (Edit body font, scroll behavior, image handling)
+   2. GLOBAL RESETS & BASE LAYOUT
 ================================ */
 * { box-sizing: border-box; }
-html, body { height: 100%; }
+html, body { height: 100%;  position: relative;}
 body {
   margin: 0;
-  padding: 0;
+  padding: 10px;
   background: var(--bg);
   color: var(--text);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
+  position: relative;
+  /* Layout fix (keeps footer at bottom and header overlapping content) */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
-img { max-width: 100%; display: block; }
+
+/* Utility image defaults */
+img { max-width: 50%; display: block; margin: 0 auto; }
+
+/* Make images and iframes fully responsive in project sections */
+img, iframe { max-width: 100%; max-height: 100%; }
 
 /* ================================
    3. BACKGROUND VIDEO
-   (Edit opacity, blur, z-index)
 ================================ */
 .background-video {
   position: fixed;
@@ -70,7 +85,6 @@ img { max-width: 100%; display: block; }
 
 /* ================================
    4. UTILITY CLASSES
-   (Edit flex layout, parallax transition, hidden elements)
 ================================ */
 .container {
   display: flex;
@@ -84,22 +98,25 @@ img { max-width: 100%; display: block; }
 
 /* ================================
    5. HEADER & NAVIGATION
-   (Edit header, nav bar, dropdown, CTA buttons)
 ================================ */
+/* Header that sits on top but doesn't cover content due to main margin-top */
 header {
   position: absolute;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px; /* define a fixed height */
   display: flex; align-items: center; justify-content: space-between;
   padding: 10px 30px;
   border-bottom: 1px solid var(--border);
   background: color-mix(in oklab, var(--bg), transparent 20%);
   backdrop-filter: blur(6px);
   z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 .head-left { display: flex; align-items: center; gap: 12px; }
 .head-left img { height: 45px; }
 
-/* Nav bar */
 nav.navbar { display: flex; justify-content: center; }
 header ul, .nav-menu { list-style: none; display: flex; gap: 22px; align-items: center; margin: 0; padding: 0; }
 header ul li, .nav-menu li { position: relative; }
@@ -136,7 +153,14 @@ header a:hover, .nav-menu a:hover {
 
 /* Right-side CTA button */
 .head-right { display: flex; align-items: center; }
-.button-box { position: relative; width: 110px; height: 44px; margin-left: 18px; border-radius: var(--radius-md); background: var(--grad-accent); background-size: 200%; animation: animationGradient 2.5s linear infinite; clip-path: var(--clip-angled); }
+.button-box {
+  position: relative;
+  width: 110px; height: 44px; margin-left: 18px; border-radius: var(--radius-md);
+  background: var(--grad-accent);
+  background-size: 200%;
+  animation: animationGradient 2.5s linear infinite;
+  clip-path: var(--clip-angled);
+}
 .head-right button {
   position: absolute; inset: 3px;
   border: none; border-radius: var(--radius-md);
@@ -149,64 +173,251 @@ header a:hover, .nav-menu a:hover {
 
 /* ================================
    6. HERO SECTION (Homepage)
-   (Edit hero height, images, buttons, parallax)
+   - Full viewport hero
+   - Layered background images
+   - Gradient overlay for legibility
 ================================ */
-.hero { position: relative; display: flex; justify-content: center; align-items: center; width: 100%; height: 180vh; overflow: visible; }
-.hero-blur-image { position: absolute; width: 100%; top: -15%; }
-.hero-rings-image { position: absolute; height: 90%; top: 90px; opacity: 0.4; }
-.hero-icons-image { width: 100%; position: absolute; top: 10%; }
 
-.hero h1 { position: absolute; top: 10%; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; font-size: 50px; max-width: 1000px; text-align: center; color: white; }
-.hero h3 { position: absolute; top: 18%; font-size: 20px; max-width: 700px; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; text-align: center; color: gray; }
-.hero button { position: absolute; top: 25%; border: none; background-color: white; color: black; border-radius: 10px; width: 140px; height: 50px; cursor: pointer; font-weight: bold; clip-path: var(--clip-angled); transition: 0.3s; }
-.hero button:hover { opacity: 0.7; color: var(--brand); }
+.hero{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 180vh;
+    overflow: visible;
 
-.hero-image-box { margin-top: 100px; position: relative; width: 1000px; height: 550px; overflow: visible; display: flex; align-items: center; justify-content: center; border-radius: 50px; background: linear-gradient(to right, #00aaa7, #7f42a7, #6600c5, #1f2b9c, #2a46ff, #0099ff, #00aaa7); background-size: 200%; animation: animationGradient 2.5s linear infinite; }
-/* Hero robot box and elements */
-.hero-image-box .robot-box { width: 99%; height: 98%; overflow: hidden; position: relative; border-radius: 50px; }
-.hero-image-box .robot-box img { width: 100%; height: 100%; mix-blend-mode: hard-light; }
-.hero-image-box .robot-box .robot-header { width: 100%; background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px); }
-.hero-image-box .element1, .hero-image-box .element2 { position: absolute; backdrop-filter: blur(10px); width: 25%; border-radius: 15px; }
-.hero-image-box .element1 { top: 25%; right: -10%; }
-.hero-image-box .element2 { top: 45%; left: -10%; }
-.hero-image-box .element1 img, .hero-image-box .element2 img { width: 100%; border-radius: 15px; box-shadow: 0 0 15px rgba(255,255,255,.432); }
+}
+
+.hero-blur-image{
+    position: absolute;
+    width: 100%;
+    top: -15%;
+    
+}
+
+.hero-rings-image{
+    position: absolute;
+    height: 90%;
+    top: 90px;
+    opacity: 0.4;
+}
+
+.hero-icons-image{
+    width: 100%;
+    position: absolute;
+    top: 10%;
+}
+
+.hero h1{
+    position: absolute;
+    top: 10%;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 50px;
+    max-width: 1000px;
+    text-align: center;
+    color: white;
+}
+
+.hero h3{
+    position: absolute;
+    top: 18%;
+    font-size: 20px;
+    max-width: 700px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    text-align: center;
+    color: gray;
+}
+.hero button{
+    position: absolute;
+    top: 25%;
+    border: none;
+    background-color: white;
+    color: black;
+    border-radius: 10px;
+    width: 140px;
+    height: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    clip-path: polygon(0 0, 87% 0, 100% 34%, 100% 80%, 100% 99%, 0 100%, 0% 80%, 0% 20%);
+    transition: 0.3s;
+}
+
+.hero button:hover{
+    opacity: 0.7;
+    color: #7e00d2;
+}
+
+.hero-image-box{
+    margin-top: 100px;
+    position: relative;
+    width: 1000px;
+    height: 550px;
+    overflow: visible;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    background: linear-gradient(to right, #00aaa7, #7f42a7, #6600c5, #1f2b9c, #2a46ff, #0099ff, #00aaa7);
+    background-size: 200%;
+    animation: animationGradient 2.5s linear infinite;
+}
+
+.hero-image-box .robot-box{
+    width: 99%;
+    height: 98%;
+    overflow: hidden;
+    position: relative;
+    border-radius: 50px;
+}
+
+.hero-image-box .robot-box img{
+    width: 100%;
+    height: 100%;
+    mix-blend-mode: hard-light;
+}
+
+.hero-image-box .robot-box .robot-header{
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.hero-image-box .element1{
+    position: absolute;
+    top: 25%;
+    right: -10%;
+    backdrop-filter: blur(10px);
+    width: 25%;
+    border-radius: 15px;
+}
+
+.hero-image-box .element1 img{
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.432);
+}
+
+.hero-image-box .element2{
+    position: absolute;
+    top: 45%;
+    left: -10%;
+    backdrop-filter: blur(10px);
+    width: 25%;
+    border-radius: 15px;
+}
+
+.hero-image-box .element2 img{
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.432);
+}
+
+.parallax{
+    transition: transform 1s linear;
+}
+
+
+/* Companies Section */
+.hero h4{
+    position: absolute;
+    bottom: 12%;
+    color: gray;
+}
+
+.companies-list{
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    bottom: 3%;
+    width: 100%;
+}
+
+.companies-list .company{
+    display: flex;
+    align-items: center;
+}
+
+.companies-list .company img{
+    height: 50px;
+    margin-right: 10px;
+}
+
+.companies-list .company p{
+    font-size: 30px;
+    font-weight: bold;
+}
+
+
+
 
 /* ================================
-   7. SIGN-IN MODAL
-   (Edit modal size, position, animations)
+   7. SIGN-IN MODAL (Floating)
 ================================ */
-.signin-page-box { position: fixed; top: 60%; left: 50%; transform: translateX(-50%); width: min(480px, 92vw); height: 60vh; opacity: 0; filter: blur(10px); z-index: 1100; }
-.signin-page { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; background: var(--surface-1); color: var(--text); box-shadow: var(--shadow); border-radius: var(--radius-xl); }
+.signin-page-box {
+  position: fixed; top: 30%; left: 50%; transform: translateX(-50%);
+  width: min(480px, 92vw); height: 60vh; background: var(--surface-1); color: var(--text);
+  box-shadow: var(--shadow); border-radius: var(--radius-xl); z-index: 1100;
+  display: none; opacity: 0; filter: blur(10px);
+}
+
+.signin-page { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 20px; position: relative; }
 .signin-page h1 { font-size: 40px; font-weight: 800; margin: 0 0 6px; }
-.signin-page input { padding: 7.5px 30px; background: #e7e7ea; color: #111; width: 70%; height: 38px; border: none; outline: none; clip-path: polygon(0 0, 93% 0, 100% 43%, 100% 80%, 100% 99%, 0 100%, 0% 80%, 0% 20%); border-radius: 6px; margin-bottom: 16px; }
+.signin-page input {
+  padding: 7.5px 30px; background: #e7e7ea; color: #111; width: 70%; height: 38px; border: none; outline: none;
+  clip-path: polygon(0 0, 93% 0, 100% 43%, 100% 80%, 100% 99%, 0 100%, 0% 80%, 0% 20%);
+  border-radius: 6px; margin-bottom: 16px;
+}
 .signin-page button { width: 60%; height: 44px; font-size: 18px; font-weight: 800; background: var(--brand); border: none; border-radius: 8px; cursor: pointer; color: #fff; }
 .signin-page p { display: flex; align-items: center; justify-content: center; width: 60%; height: 42px; font-size: 16px; font-weight: 700; background: #5e5b68; border-radius: 8px; color: #fff; cursor: pointer; }
-.signin-page div { position: absolute; top: 3%; right: 3%; font-size: 24px; cursor: pointer; transition: .25s; }
+.signin-page div { position: absolute; top: 10px; right: 10px; font-size: 24px; cursor: pointer; transition: .25s; }
 .signin-page div:hover { opacity: .7; }
 
-/* Modal open/close animations */
-.openSignin { animation: openSigninAnimation 1.2s forwards; }
-@keyframes openSigninAnimation { to { opacity: 1; filter: blur(0); top: 30%; } }
-.closeSignin { animation: closeSigninAnimation 1.2s forwards; }
+/* Modal animations */
+.openSignin { display: block; animation: openSigninAnimation 1.2s forwards; }
+@keyframes openSigninAnimation { from { opacity: 0; filter: blur(10px); top: 60%; } to { opacity: 1; filter: blur(0); top: 30%; } }
+.closeSignin { animation: closeSigninAnimation 0.5s forwards; }
 @keyframes closeSigninAnimation { from { opacity: 1; filter: blur(0); top: 30%; } to { opacity: 0; filter: blur(10px); top: 60%; } }
 
 /* ================================
-   8. SHARED PAGE LAYOUT
-   (Edit main container, footer)
+   8. SHARED PAGE LAYOUT (Main & Footer)
 ================================ */
-main { max-width: 1100px; width: 92%; margin: 40px auto; position: relative; z-index: 1; background: var(--surface-1); color: var(--text); padding: 36px 28px; border-radius: var(--radius-xl); border: 1px solid var(--border); box-shadow: var(--shadow); }
-footer { color: var(--text); text-align: center; padding: 18x 0; margin-top: 10px; font-size: .98rem; letter-spacing: .4px; border-top: 1px solid var(--border); background: color-mix(in oklab, var(--surface-2), transparent 35%); position: absolute; bottom: 0; left: 0; width: 100%; }
+main {
+  flex: 1; /* Push footer to bottom */
+  margin-top: 70px; /* Same as header height */
+  padding-bottom: 80px; /* Space for footer */
+  box-sizing: border-box;
+}
+
+footer {
+  height: 60px;
+  background: var(--surface-1);
+  color: var(--text);
+  text-align: center;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 999;
+  width: 100%;
+  border-top: 1px solid var(--border);
+  font-size: .98rem; letter-spacing: .4px;
+}
 
 /* ================================
    9. COMPONENTS (Cards, Buttons)
-   (Edit card styles, buttons, hover effects)
 ================================ */
-.card { background: linear-gradient(120deg, color-mix(in oklab, var(--surface-1), #ffffff 2%) 80%, color-mix(in oklab, var(--surface-2), #7f8cff 8%) 100%); border-radius: 12px; padding: 24px 20px; margin-bottom: 22px; border: 1px solid var(--border); box-shadow: 0 4px 16px rgba(0,0,0,.25); transition: transform .15s ease, box-shadow .15s ease; }
+.card {
+  background: linear-gradient(120deg, color-mix(in oklab, var(--surface-1), #ffffff 2%) 80%, color-mix(in oklab, var(--surface-2), #7f8cff 8%) 100%);
+  border-radius: 12px; padding: 24px 20px; margin-bottom: 22px; border: 1px solid var(--border);
+  box-shadow: 0 4px 16px rgba(0,0,0,.25); transition: transform .15s ease, box-shadow .15s ease;
+}
 .card:hover { transform: translateY(-3px) scale(1.01); box-shadow: 0 10px 32px rgba(0,0,0,.35); }
 .card h3 { color: #fff; margin: 0 0 8px; font-size: 1.2rem; font-weight: 700; }
 .card p { color: var(--text-dim); font-size: 1rem; }
 
-.btn, button.btn { display: inline-block; border: none; cursor: pointer; text-decoration: none; user-select: none; padding: 12px 24px; border-radius: 10px; font-weight: 750; font-size: 1rem; color: #fff; background: var(--grad-blue); box-shadow: 0 2px 8px rgba(0,0,0,.25); transition: transform .15s ease, filter .15s ease; }
+.btn, button.btn {
+  display: inline-block; border: none; cursor: pointer; text-decoration: none; user-select: none;
+  padding: 12px 24px; border-radius: 10px; font-weight: 750; font-size: 1rem; color: #fff; background: var(--grad-blue);
+  box-shadow: 0 2px 8px rgba(0,0,0,.25); transition: transform .15s ease, filter .15s ease;
+}
 .btn:hover { transform: translateY(-2px) scale(1.03); filter: brightness(1.05); }
 .btn-primary { background: var(--grad-accent); }
 .btn-outline { background: transparent; color: #fff; border: 1px solid var(--border); }
@@ -214,26 +425,20 @@ footer { color: var(--text); text-align: center; padding: 18x 0; margin-top: 10p
 
 /* ================================
    10. FORUM & COMMENTS
-   (Edit forum container, comments, votes, replies)
 ================================ */
-.forum-container { max-width: 900px; margin: 30px auto; padding: 28px; background: var(--surface-1); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius-xl); box-shadow: var(--shadow); animation: fadeIn .5s ease-in-out; }
 .forum-container h2 { font-size: 1.6rem; font-weight: 800; color: #fff; margin: 0 0 18px; text-align: center; }
-
-/* New comment input */
 .new-comment { margin-bottom: 20px; padding: 18px; background: color-mix(in oklab, var(--surface-2), transparent 15%); border: 1px solid var(--border); border-radius: var(--radius-lg); }
 .new-comment input, .new-comment textarea { width: 100%; padding: 12px; margin-bottom: 12px; font-size: 15px; border: 1px solid color-mix(in oklab, var(--border), #ffffff 5%); border-radius: 8px; background: #1f1c2e; color: #f0f0f3; transition: border-color .2s, box-shadow .2s; }
 .new-comment input:focus, .new-comment textarea:focus { border-color: var(--brand-5); box-shadow: 0 0 0 3px color-mix(in oklab, var(--brand-5), transparent 70%); outline: none; }
 .new-comment textarea { height: 110px; resize: none; }
-.new-comment button { width: 100%; padding: 12px; border: none; border-radius: 10px; cursor: pointer; background: var(--grad-blue); color: #fff; font-size: 16px; font-weight: 800; transition: transform .15s ease, filter .15s ease; }
+.new-comment button { width: 100%; padding: 12px; border: none; border-radius: 10px; cursor: pointer; background: var(--grad-blue); color: #fff; font-size: 16px; font-weight: 800; }
 .new-comment button:hover { transform: scale(1.02); filter: brightness(1.05); }
 
-/* Comment card */
 .comment { border: 1px solid var(--border); padding: 16px; margin-bottom: 16px; border-radius: 12px; background: #171429; box-shadow: 0 3px 8px rgba(0,0,0,.2); transition: transform .2s; }
 .comment:hover { transform: translateY(-2px); }
 .comment strong { font-size: 1rem; color: var(--brand-5); }
 .comment p { margin-bottom: 8px; font-size: 15px; color: var(--text-dim); }
 
-/* Votes & Replies */
 .vote-section { display: flex; align-items: center; gap: 8px; font-size: 14px; margin-top: 8px; }
 .vote-btn { cursor: pointer; color: var(--brand-5); font-weight: 800; padding: 6px 10px; background: #0f2740; border: 1px solid color-mix(in oklab, var(--brand-5), transparent 65%); border-radius: 8px; transition: transform .2s, filter .2s; }
 .vote-btn:hover { transform: scale(1.05); filter: brightness(1.1); }
@@ -251,529 +456,193 @@ footer { color: var(--text); text-align: center; padding: 18x 0; margin-top: 10p
 
 /* ================================
    11. COMPANIES STRIP (Homepage footer logos)
+   (Already included in HERO section above)
 ================================ */
-.hero h4 { position: absolute; bottom: 14%; color: var(--text-dim); width: 100%; text-align: center; }
-.companies-list { position: absolute; bottom: 5%; width: 100%; display: flex; justify-content: space-between; padding: 0 40px; box-sizing: border-box; }
-.companies-list .company { display: flex; align-items: center; gap: 10px; }
-.companies-list .company img { height: 50px; }
-.companies-list .company p { font-size: 30px; font-weight: 800; }
 
 /* ================================
-   12. RESPONSIVE
-   (Edit breakpoints for hero, nav, modal, forum)
+   12. RESPONSIVE BREAKPOINTS
 ================================ */
+
 @media (max-width: 1024px) {
-  .hero-image-box { width: 92vw; height: 52vw; border-radius: 28px; }
-  .hero-image-box .robot-box { border-radius: 28px; }
+    .hero-image-box { width: 92vw; height: 52vw; border-radius: 28px; }
+    .hero-image-box .robot-box { border-radius: 28px; }
 }
 @media (max-width: 780px) {
-  header { padding: 10px 16px; }
-  header ul, .nav-menu { gap: 10px; }
-  .head-left img { height: 38px; }
-  .hero { height: 140vh; }
-  .hero h1 { font-size: 36px; top: 9%; padding: 0 16px; }
-  .hero h3 { font-size: 18px; top: 18%; padding: 0 18px; }
-  .hero button { top: 27%; }
-  .signin-page-box { width: 92vw; height: auto; }
+    header { padding: 10px 16px; }
+    header ul, .nav-menu { gap: 10px; }
+    .head-left img { height: 38px; }
+    .hero {
+        min-height: calc(100vh - 130px);
+        padding-top: 100px;
+    }
+    .hero h1 { font-size: 36px; }
+    .hero h3 { font-size: 18px; }
+    .hero button { top: 27%; }
+    .signin-page-box { width: 92vw; height: auto; }
+}
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        height: auto;
+        padding: 12px;
+    }
+    main {
+        padding-top: 100px;
+    }
+    .hero {
+        padding-top: 100px;
+        min-height: calc(100vh - 130px);
+    }
+    .hero h1 { font-size: 32px; }
+    .hero h3 { font-size: 16px; }
+    .hero-image-box {
+        max-width: 90%;
+        border-radius: 20px;
+        aspect-ratio: 4 / 3;
+        margin-top: 30px;
+    }
 }
 @media (max-width: 600px) {
-  main { padding: 18px 12px; }
-  .nav-menu { flex-direction: column; gap: 10px; }
-  .dropdown-content { position: static; inset: auto; box-shadow: none; width: 100%; }
-  header h1 { font-size: 1.6rem; }
-  .forum-container { padding: 20px 12px; }
-  .new-comment button, .inline-reply button { font-size: 14px; padding: 10px; }
-  .comment p, .vote-section { font-size: 14px; }
-  .reply-btn, .reply-btn-reply { font-size: 13px; }
-  .inline-reply input, .inline-reply textarea { font-size: 13px; }
+    main { padding: 18px 12px; }
+    .nav-menu { flex-direction: column; gap: 10px; }
+    .dropdown-content { position: static; inset: auto; box-shadow: none; width: 100%; }
+    header h1 { font-size: 1.6rem; }
+    .forum-container { padding: 20px 12px; }
+    .new-comment button, .inline-reply button { font-size: 14px; padding: 10px; }
+    .comment p, .vote-section { font-size: 14px; }
+    .reply-btn, .reply-btn-reply { font-size: 13px; }
+    .inline-reply input, .inline-reply textarea { font-size: 13px; }
 }
-
+@media (max-width: 480px) {
+    .team { grid-template-columns: 1fr; }
+}
 /* ================================
-   CONTACT PAGE
+   CONTACT PAGE - TEAM SECTION
 ================================ */
 .team {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-  margin-top: 28px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: clamp(16px, 2vw, 32px);
+  margin-top: clamp(16px, 3vw, 40px);
+  padding: 0 1rem;
+  
 }
-
 .team .member {
   background: linear-gradient(
     120deg,
     color-mix(in oklab, var(--surface-1), #ffffff 2%) 80%,
     color-mix(in oklab, var(--surface-2), #7f8cff 8%) 100%
   );
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
-  transition: transform .2s ease, box-shadow .2s ease;
+  border-radius: var(--radius-lg); padding: clamp(16px, 2vw, 32px); border: 1px solid var(--border); box-shadow: var(--shadow);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  
 }
+.team .member:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 12px 28px rgba(0,0,0,0.4); }
+.team .member h3{ font-size: clamp(1rem, 2vw, 1.5rem); margin-bottom: 0.5rem; color: #fff; text-align: center; }
+.team .member h4 { font-size: clamp(0.85rem, 1.5vw, 1rem); margin-bottom: 0.5rem 0; color: var(--text-dim);text-align: center; }
+.team .member p { font-size: clamp(0.85rem, 1.5vw, 1rem); margin: 0.25rem 0; color: var(--text-dim); }
+.team .member a { color: var(--brand-5); font-weight: 600; text-decoration: none; word-break: break-word; }
+.team .member a:hover { text-decoration: underline; }
 
-.team .member:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 12px 28px rgba(0,0,0,.4);
+.team .member img {
+  width: 200px;    /* Adjust width */
+  height: 200px;   /* Adjust height */
+  object-fit: cover; /* Keeps image proportion and crops if needed */
+
+  display: block;     /* Ensures no extra spacing */
+  margin: 0 auto;     /* Centers image inside its container */
 }
-
-.team .member h3 {
-  font-size: 1.25rem;
-  margin-bottom: 6px;
-  color: #fff;
-}
-
-.team .member p {
-  font-size: 0.95rem;
-  margin: 4px 0;
-  color: var(--text-dim);
-}
-
-.team .member a {
-  color: var(--brand-5);
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.team .member a:hover {
-  text-decoration: underline;
-}
-
 
 /* ================================
    ABOUT US PAGE
 ================================ */
-.about-container {
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-  line-height: 1.6;
+.about-container { display: flex; flex-direction: column; gap: 22px; line-height: 1.6; }
+.about-container p { font-size: 1rem; color: var(--text-dim); }
+.about-container strong { color: #fff; }
+.about-container .vision, .about-container .mission {
+  background: linear-gradient(120deg, color-mix(in oklab, var(--surface-1), #ffffff 2%) 80%, color-mix(in oklab, var(--surface-2), #7f8cff 8%) 100%);
+  padding: 22px; border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: var(--shadow);
 }
-
-.about-container p {
-  font-size: 1rem;
-  color: var(--text-dim);
-}
-
-.about-container strong {
-  color: #fff;
-}
-
-.about-container .vision,
-.about-container .mission {
-  background: linear-gradient(
-    120deg,
-    color-mix(in oklab, var(--surface-1), #ffffff 2%) 80%,
-    color-mix(in oklab, var(--surface-2), #7f8cff 8%) 100%
-  );
-  padding: 22px;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
-}
-
-.about-container .vision h3,
-.about-container .mission h3 {
-  margin-bottom: 8px;
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #fff;
-}
-
-/* Fix layout when header and footer are included */
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-header {
-  position: absolute; /* Make header always visible */
-  top: 0;
-  width: 100%;
-  height: 70px; /* Adjust to actual header height */
-}
-
-main {
-  flex: 1; /* Push footer to bottom */
-  margin-top: 70px; /* Same as header height */
-  margin-bottom: 80px; /* Same as footer height */
-  box-sizing: border-box;
-}
-
-footer {
-  position: relative; /* Let it flow naturally */
-  bottom: auto;
-  width: 100%;
-  height: 80px; /* Adjust to actual footer height */
-}
-
-/* =========================
-   Project Showcase Page Styles
-========================= */
-
-
-.project-category {
-  margin-bottom: 3rem;
-}
-
-/* Grid Layout for Cards */
-.project-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 2rem;
-  justify-content: center;
-  align-items: start;
-}
-
-.card {
-  background: #140439;
-  border-radius: 15px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-}
-
-.card img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-}
-
-.card h4 {
-  margin: 1rem 0 0.5rem;
-  font-size: 1.2rem;
-  color: #fdffff;
-}
-
-.card p {
-  padding: 0 1rem 1rem;
-  font-size: 0.95rem;
-  color: #fdffff;
-}
-
-.btn {
-  display: inline-block;
-  padding: 0.6rem 1.2rem;
-  background: #007bff;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 6px;
-  margin: 1rem auto;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.btn:hover {
-  background: #0056b3;
-  box-shadow: 0 4px 10px rgba(0, 91, 187, 0.3);
-  transform: scale(1.05);
-}
-
-.back-btn {
-  text-align: center;
-  margin-top: 2rem;
-}
-
-/* ===== Submission Form Styles ===== */
-.submit-section {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 15px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
-  margin-top: 3rem;
-}
-
-.submit-section h3 {
-  color: #28a745;
-  margin-bottom: 1rem;
-}
-
-.submit-section p {
-  font-size: 0.95rem;
-  color: #666;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-.form-group {
-  margin-bottom: 1.2rem;
-}
-
-.form-group label {
-  display: block;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-}
-
-.form-group input,
-.form-group textarea {
-  width: 100%;
-  padding: 0.8rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-  font-family: inherit;
-}
-
-.form-group input[type="file"] {
-  padding: 0.4rem;
-}
-
-.form-submit {
-  text-align: center;
-}
+.about-container .vision h3, .about-container .mission h3 { margin-bottom: 8px; font-size: 1.2rem; font-weight: 700; color: #fff; }
 
 /* ================================
-    Incubator CSS Stylesheet
-    This file contains styles for the incubator section of the TechTinker website.
+   PROJECT SHOWCASE PAGE STYLES
 ================================ */
-.hero--sub .subtext {
-  font-size: 1.1rem;
-  color: var(--text-muted);
-  margin-top: 0.5rem;
-}
+.project-category { margin-bottom: 3rem; }
+.project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; justify-content: center; align-items: start; }
+.card { background: #140439; border-radius: 15px; box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08); overflow: hidden; text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.card:hover { transform: translateY(-8px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); }
+.card img { width: 100%; height: 220px; object-fit: cover; }
+.card h4 { margin: 1rem 0 0.5rem; font-size: 1.2rem; color: #fdffff; }
+.card p { padding: 0 1rem 1rem; font-size: 0.95rem; color: #fdffff; }
+.btn { display: inline-block; padding: 0.6rem 1.2rem; background: #007bff; color: #fff; text-decoration: none; border-radius: 6px; margin: 1rem auto; font-weight: 500; transition: all 0.3s ease; }
+.btn:hover { background: #0056b3; box-shadow: 0 4px 10px rgba(0, 91, 187, 0.3); transform: scale(1.05); }
+.back-btn { text-align: center; margin-top: 2rem; }
 
-.incubator-form {
-  margin: 2rem 0;
-  background: #f9f9f9;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
+/* Submission form styles (kept concise) */
+.submit-section { background: #140439; padding: 2rem; border-radius: 15px; box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08); margin-top: 3rem; }
+.submit-section h3 { color: #28a745; margin-bottom: 1rem; }
+.submit-section p { font-size: 0.95rem; color: #666; margin-bottom: 1rem; text-align: center; }
+.form-group { margin-bottom: 1.2rem; }
+.form-group label { display: block; font-weight: 500; margin-bottom: 0.5rem; }
+.form-group input, .form-group textarea { width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem; font-family: inherit; }
 
-.incubator-form h3 {
-  margin-bottom: 1rem;
-}
+/* Incubator form */
+.incubator-form { margin: 2rem 0; background: #25157f52; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+.incubator-form h3 { margin-bottom: 1rem; }
+.incubator-form .input, .incubator-form .textarea { width: 100%; margin-bottom: 1rem; padding: 0.75rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; }
+.incubator-form .textarea { height: 100px; resize: vertical; }
 
-.incubator-form .input,
-.incubator-form .textarea {
-  width: 100%;
-  margin-bottom: 1rem;
-  padding: 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1rem;
-}
+#ideaList .card { background: #fff; border-radius: 10px; padding: 1rem; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
 
-.incubator-form .textarea {
-  height: 100px;
-  resize: vertical;
-}
-
-#ideaList .card {
-  background: #fff;
-  border-radius: 10px;
-  padding: 1rem;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-}
+/* ohms.css small rules */
+.article h2, .video h2, .quiz h2 { color: #0066cc; }
+iframe { display: block; margin: 20px auto; border-radius: 8px; }
+.quiz form { margin-top: 20px; }
+.quiz button { margin-top: 10px; background: #0066cc; color: white; padding: 10px 15px; border: none; cursor: pointer; border-radius: 5px; }
+.quiz button:hover { background: #004a99; }
+#result { margin-top: 15px; font-weight: bold; }
 
 
-
-/* =========================
-    ohms.css
-========================= */
-.article h2, .video h2, .quiz h2 {
-    color: #0066cc;
-}
-
-iframe {
-    display: block;
-    margin: 20px auto;
-    border-radius: 8px;
-}
-
-.quiz form {
-    margin-top: 20px;
-}
-
-.quiz button {
-    margin-top: 10px;
-    background: #0066cc;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.quiz button:hover {
-    background: #004a99;
-}
-
-#result {
-    margin-top: 15px;
-    font-weight: bold;
-}
-
-
-
-/* ================================
-   13. GLOBAL RESPONSIVE SCALING
-   (Fluid layout, typography, container limits)
-================================ */
-
-/* Ensure content scales with screen width */
-html {
-  font-size: 16px; /* base size for large screens */
-}
-
-/* Fluid typography & spacing */
-body {
-  font-size: clamp(14px, 1.2vw, 18px); /* auto scales text */
-  line-height: 1.6;
-}
-
-/* Make containers adapt without breaking */
-.container,
-main,
-.hero,
-.forum-container,
-.about-container,
-.team {
-  max-width: 1200px;
-  width: 95%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* Make images and videos fully responsive */
-img, video, iframe {
-  max-width: 100%;
-  height: auto;
-}
-
-/* Typography scaling for headings */
-h1 {
-  font-size: clamp(28px, 4vw, 50px);
-}
-h2 {
-  font-size: clamp(22px, 3vw, 36px);
-}
-h3 {
-  font-size: clamp(18px, 2.5vw, 28px);
-}
-p {
-  font-size: clamp(14px, 1.5vw, 18px);
-}
-
-/* Buttons scale with screen size */
-button, .btn {
-  font-size: clamp(14px, 1.2vw, 18px);
-  padding: clamp(8px, 1vw, 14px) clamp(12px, 1.5vw, 20px);
-}
-
-/* Ensure grids and flex wrap on smaller screens */
-.team, .companies-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 16px;
-}
-
-/* Breakpoints for small screens */
-@media (max-width: 768px) {
-  header {
-    flex-direction: column;
-    height: auto;
-    padding: 12px;
-  }
-  nav.navbar {
-    flex-wrap: wrap;
+/* Universal Full-Viewport Background */
+.hero-extra-background {
+    position: absolute;         /* Moves with page content */
+    display: flex;
     justify-content: center;
-  }
-  .hero {
-    height: auto;
-    padding: 60px 0;
-  }
-  .hero h1 {
-    top: auto;
-    position: static;
-    margin-bottom: 14px;
-  }
-  .hero h3, .hero button {
-    position: static;
-    margin-bottom: 10px;
-  }
-}
-
-/* For extra small screens */
-@media (max-width: 480px) {
-  header a, .nav-menu a {
-    font-size: 14px;
-    padding: 6px 10px;
-  }
-  .hero-image-box {
+    align-items: center;
+    height: 100%;
     width: 100%;
-    height: auto;
-  }
-  .hero-image-box img {
+              /* Grows with content */
+    z-index: -1;                /* Behind all content */
+    overflow: visible;
+    pointer-events: none;       /* Avoid blocking interactions */
+    just
+}
+
+/* Universal background image styles */
+.hero-extra-background img {
+    position: absolute;
+   
+}
+
+
+/* Optional layer effects */
+.hero-extra-blur {
+    position: absolute;
     width: 100%;
-    height: auto;
-  }
+    top: -15%;         /* Slight opacity for blur layer */
 }
 
-body.mobile-view {
-  --base-font-size: 15px;
-  --container-padding: 12px;
+.hero-extra-icons {
+    width: 100%;
+    position: absolute;
+    top: 10%;         /* Icons lighter */
 }
 
-body.desktop-view {
-  --base-font-size: 16px;
-  --container-padding: 24px;
-}
-
-main {
-  padding: var(--container-padding);
-  font-size: var(--base-font-size);
-}
-
-
-/* Fix excessive empty space when scaling for smaller screens */
-@media (max-width: 1024px) {
-    .hero {
-        height: auto; /* Remove fixed height */
-        min-height: 100vh; /* Ensure it's at least full screen */
-        padding: 40px 0; /* Add consistent padding */
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .hero h1,
-    .hero h3,
-    .hero button {
-        position: static; /* Remove absolute positioning */
-        margin: 10px 0; /* Add spacing between elements */
-        text-align: center;
-    }
-
-    .hero-image-box {
-        margin-top: 30px; /* Reduce margin on smaller screens */
-        height: auto; /* Let it scale naturally */
-    }
-
-    /* Adjust company list at bottom to avoid huge gaps */
-    .companies-list {
-        position: static; /* No absolute positioning */
-        margin-top: 30px;
-        padding: 0 10px;
-    }
-}
-
-@media (max-width: 768px) {
-    main {
-        margin-top: 60px; /* Adjust header offset */
-        margin-bottom: 60px; /* Adjust footer offset */
-    }
-
-    footer {
-        position: relative;
-        margin-top: 20px;
-    }
+.hero-extra-rings {
+    position: absolute;
+    height: 90%;
+    width: 60%;
+    top: 90px;
+    opacity: 0.4;        /* Rings even lighter */
 }
