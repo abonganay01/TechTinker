@@ -28,6 +28,7 @@ import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.c
 const db = getFirestore(app); // Initialize Firestore
 
 
+
 document.addEventListener('DOMContentLoaded', () => {
     let lastScrollTop = 0;
     const header = document.querySelector('header');
@@ -464,6 +465,9 @@ function initIncubator() {
 
     loadIdeas();
 
+
+
+
     ideaForm?.addEventListener('submit', async (e) => {
         e.preventDefault();
         const title = document.getElementById('ideaTitle').value.trim();
@@ -471,17 +475,18 @@ function initIncubator() {
         const tags = document.getElementById('ideaTags').value.trim().split(',').map(t => t.trim()).filter(Boolean);
         if (!title || !desc) return;
 
-        // Add idea to Firestore
+        // Save to Firestore
         try {
             await addDoc(collection(db, "ideas"), { title, desc, tags });
         } catch (err) {
-            console.error("Error adding document: ", err);
+            console.error("Error saving idea:", err);
         }
 
         addIdeaCard(title, desc, tags);
         emptyMessage.style.display = 'none';
         ideaForm.reset();
     });
+
 
     function addIdeaCard(title, desc, tags) {
         const card = document.createElement('article');
