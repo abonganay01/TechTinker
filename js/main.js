@@ -113,6 +113,71 @@ document.addEventListener('DOMContentLoaded', () => {
         if (q3 && q3.value === "Pin 10") score++;
         quizResult.textContent = `You scored ${score}/3`;
     };
+    const form = document.querySelector('.submit-section form');
+  const fileInput = document.getElementById('project-file');
+  const urlInput = document.getElementById('project-url');
+
+  // Check if "User Submissions" section exists; if not, create it
+  let userSection = document.querySelector('.user-submissions');
+  if (!userSection) {
+    userSection = document.createElement('section');
+    userSection.classList.add('project-category', 'user-submissions');
+    userSection.innerHTML = `
+      <h3>🛠 User Submitted Projects</h3>
+      <div class="project-grid"></div>
+    `;
+    const showcaseMain = document.querySelector('.center-container');
+    showcaseMain.insertBefore(userSection, document.querySelector('.submit-section'));
+  }
+
+  const userGrid = userSection.querySelector('.project-grid');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault(); // Stop default form submission
+
+    // Validate: Either file OR URL must be provided
+    if (!fileInput.files.length && !urlInput.value.trim()) {
+      alert('Please upload a file OR provide a project URL.');
+      return;
+    }
+
+    // Get form values
+    const title = document.getElementById('project-title').value.trim();
+    const description = document.getElementById('project-description').value.trim();
+    const file = fileInput.files[0];
+    const projectUrl = urlInput.value.trim();
+
+    // Create new card
+    const card = document.createElement('div');
+    card.classList.add('card');
+
+    let mediaContent = '';
+    if (file) {
+      if (file.type.startsWith('image/')) {
+        mediaContent = `<img src="${URL.createObjectURL(file)}" alt="${title}" style="border-radius:10px;">`;
+      } else {
+        mediaContent = `<a href="${URL.createObjectURL(file)}" download="${file.name}">${file.name}</a>`;
+      }
+    }
+
+    let linkContent = '';
+    if (projectUrl) {
+      linkContent = `<a href="${projectUrl}" target="_blank" class="btn">View Project</a>`;
+    }
+
+    card.innerHTML = `
+      ${mediaContent}
+      <h4>${title}</h4>
+      <p>${description}</p>
+      ${linkContent}
+    `;
+
+    // Append new card to user submissions section
+    userGrid.appendChild(card);
+
+    // Reset form
+    form.reset();
+  });
 });
 
 // =========================

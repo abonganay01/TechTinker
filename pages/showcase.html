@@ -75,19 +75,29 @@
             <label for="project-title">Project Title</label>
             <input type="text" id="project-title" name="project-title" placeholder="Enter your project title" required>
           </div>
+
           <div class="form-group">
             <label for="project-description">Project Description</label>
             <textarea id="project-description" name="project-description" rows="4" placeholder="Write a short description..." required></textarea>
           </div>
+
           <div class="form-group">
             <label for="project-file">Upload Image or File</label>
             <input type="file" id="project-file" name="project-file" accept=".jpg,.jpeg,.png,.pdf,.zip" required>
           </div>
+
+          <!-- Optional URL Field -->
+          <div class="form-group">
+            <label for="project-url">Project URL (Optional)</label>
+            <input type="url" id="project-url" name="project-url" placeholder="Enter project link (e.g., GitHub, live demo)">
+          </div>
+
           <div class="form-submit">
             <button type="submit" class="btn">Submit Project</button>
           </div>
         </form>
       </section>
+
 
     </div> <!-- End of center-container -->
   </main>

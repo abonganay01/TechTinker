@@ -423,8 +423,14 @@ footer {
   box-shadow: 0 4px 16px rgba(0,0,0,.25); transition: transform .15s ease, box-shadow .15s ease;
 }
 .card:hover { transform: translateY(-3px) scale(1.01); box-shadow: 0 10px 32px rgba(0,0,0,.35); }
-.card h3 { color: #fff; margin: 0 0 8px; font-size: 1.2rem; font-weight: 700; }
-.card p { color: var(--text-dim); font-size: 1rem; }
+.card h3 { color: #fff; margin: 0 0 8px; font-size: 1.2rem; font-weight: 700; text-align: left;}
+.card h3 a {
+    color: #fff; /* override link color */
+    text-decoration: none; /* optional: removes underline */
+    font-size: 25px;
+}
+
+.card p { color: var(--text-dim); font-size: 1rem; text-align: left;}
 
 .btn, button.btn {
   display: inline-block; border: none; cursor: pointer; text-decoration: none; user-select: none;
@@ -807,9 +813,9 @@ footer {
 }
 
 .card p {
-  padding: 0 1rem 1rem;
   font-size: 0.95rem;
   color: #fdffff;
+  
 }
 
 .btn {
@@ -896,7 +902,11 @@ footer {
 .incubator-form .input, .incubator-form .textarea { width: 100%; margin-bottom: 1rem; padding: 0.75rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; }
 .incubator-form .textarea { height: 100px; resize: vertical; }
 
-#ideaList .card { background: #fff; border-radius: 10px; padding: 1rem; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+#ideaList .card { background: linear-gradient(
+    120deg,
+    color-mix(in oklab, var(--surface-1), #ffffff 2%) 80%,
+    color-mix(in oklab, var(--surface-2), #7f8cff 8%) 100%
+  ); border-radius: 10px; padding: 1rem; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
 
 /* ohms.css small rules */
 .article h2, .video h2, .quiz h2 { color: #0066cc; }
@@ -1033,7 +1043,7 @@ iframe { display: block; margin: 20px auto; border-radius: 8px; }
     .hero-image-box {
         margin-top: 30px;
         width: 80vw;   /* 80% of the viewport width */
-        height: 50vh;  /* 50% of the viewport height */
+        height: 40vh;  /* 50% of the viewport height */
         display: flex;
         border-radius: 20px;
         background-size: 300%;
