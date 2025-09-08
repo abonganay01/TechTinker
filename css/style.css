@@ -1150,3 +1150,89 @@ iframe { display: block; margin: 20px auto; border-radius: 8px; }
         height: 120px;
     }
 }
+
+/* ================================
+   MOBILE VIEW (Responsive)
+================================ */
+@media (max-width: 768px) {
+  .about-container {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .about-container p {
+    font-size: 0.95rem; /* slightly smaller text */
+  }
+
+  .about-container .vision,
+  .about-container .mission {
+    padding: 16px; /* less padding for smaller screens */
+  }
+
+  .about-container .vision h3,
+  .about-container .mission h3 {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-container {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .about-container p {
+    font-size: 0.9rem; /* even smaller for very small screens */
+  }
+
+  .about-container .vision,
+  .about-container .mission {
+    padding: 14px;
+  }
+
+  .about-container .vision h3,
+  .about-container .mission h3 {
+    font-size: 1rem;
+  }
+}
+
+/* ✅ MOBILE RESPONSIVENESS */
+@media (max-width: 768px) {
+  .team {
+    grid-template-columns: 1fr; /* One column layout */
+  }
+
+  .team .member img {
+    width: 150px;
+    height: 150px; /* Smaller image for mobile */
+  }
+
+  .team .member {
+    padding: 16px; /* Reduce padding on small screens */
+  }
+
+  .team .member h3 {
+    font-size: 1.2rem;
+  }
+
+  .team .member h4,
+  .team .member p {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .team .member img {
+    width: 120px;
+    height: 120px; /* Even smaller on extra small screens */
+  }
+
+  .team .member h3 {
+    font-size: 1.1rem;
+  }
+
+  .team .member h4,
+  .team .member p {
+    font-size: 0.9rem;
+  }
+}
