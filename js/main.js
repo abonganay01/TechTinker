@@ -23,6 +23,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+const db = getFirestore(app); // Initialize Firestore
+
+
 document.addEventListener('DOMContentLoaded', () => {
     let lastScrollTop = 0;
     const header = document.querySelector('header');
@@ -438,21 +443,47 @@ function initForum() {
     renderComments();
 }
 
-// =========================
-// INCUBATOR INIT FUNCTION
-// =========================
 function initIncubator() {
     const ideaForm = document.getElementById('ideaForm');
     const ideaList = document.getElementById('ideaList');
     const emptyMessage = document.getElementById('emptyIdeas');
 
-    ideaForm?.addEventListener('submit', (e) => {
+    // Load existing ideas from Firebase on page load
+    async function loadIdeas() {
+        const querySnapshot = await getDocs(collection(db, "ideas"));
+        if (querySnapshot.empty) {
+            emptyMessage.style.display = 'block';
+            return;
+        }
+        querySnapshot.forEach(doc => {
+            const data = doc.data();
+            addIdeaCard(data.title, data.desc, data.tags);
+        });
+        emptyMessage.style.display = 'none';
+    }
+
+    loadIdeas();
+
+    ideaForm?.addEventListener('submit', async (e) => {
         e.preventDefault();
         const title = document.getElementById('ideaTitle').value.trim();
         const desc = document.getElementById('ideaDesc').value.trim();
         const tags = document.getElementById('ideaTags').value.trim().split(',').map(t => t.trim()).filter(Boolean);
         if (!title || !desc) return;
 
+        // Add idea to Firestore
+        try {
+            await addDoc(collection(db, "ideas"), { title, desc, tags });
+        } catch (err) {
+            console.error("Error adding document: ", err);
+        }
+
+        addIdeaCard(title, desc, tags);
+        emptyMessage.style.display = 'none';
+        ideaForm.reset();
+    });
+
+    function addIdeaCard(title, desc, tags) {
         const card = document.createElement('article');
         card.className = 'card';
         card.innerHTML = `
@@ -465,7 +496,5 @@ function initIncubator() {
           </div>
         `;
         ideaList.appendChild(card);
-        emptyMessage.style.display = 'none';
-        ideaForm.reset();
-    });
+    }
 }
