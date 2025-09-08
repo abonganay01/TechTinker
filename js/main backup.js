@@ -20,6 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     loadComponent(basePath + 'htmldesign/hero.html', 'hero-placeholder');
+
+    
     loadComponent(basePath + 'htmldesign/footer.html', 'footer-placeholder');
 
     // Parallax effect
@@ -34,19 +36,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     highlightActiveLink(basePath);
 
+
+
     if (header) {
         window.addEventListener('scroll', function() {
-            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
 
-            if (scrollTop > lastScrollTop) {
-                header.classList.add('header-hidden');
-            } else {
-                header.classList.remove('header-hidden');
-            }
+        if (scrollTop > lastScrollTop) {
+            // Scrolling down → hide header
+            header.classList.add('header-hidden');
+        } else {
+            // Scrolling up → show header
+            header.classList.remove('header-hidden');
+        }
 
-            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; 
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Prevent negative values
         });
     }
+
 
     // =========================
     // ======== FORUM.JS =======
@@ -57,11 +64,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const commentsList = document.getElementById("commentsList");
     const sortSelect = document.getElementById("sortSelect");
 
-    // No local storage, just in-memory array
-    let comments = [];
+    let comments = JSON.parse(localStorage.getItem("forumComments")) || [];
+
+    function saveComments() {
+        localStorage.setItem("forumComments", JSON.stringify(comments));
+    }
 
     function renderComments() {
-        if (!commentsList) return; 
+        if (!commentsList) return; // avoid errors if forum not present
         commentsList.innerHTML = "";
 
         if (sortSelect?.value === "votes") {
@@ -133,6 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     timestamp: Date.now(),
                     replies: []
                 });
+                saveComments();
                 renderComments();
                 commentInput.value = "";
                 usernameInput.value = "";
@@ -164,6 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else if (type === "reply") {
                     comments[commentIndex].replies[rIndex][action === "upvote" ? "votes" : "downvotes"]++;
                 }
+                saveComments();
                 renderComments();
             }
         });
@@ -204,6 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 downvotes: 0
             });
 
+            saveComments();
             renderComments();
         });
     }
@@ -308,8 +321,11 @@ function detectBasePath() {
 
 function getRelativePath() {
     const basePath = detectBasePath();
-    return basePath;
+    return basePath; // always use /TechTinker/ for GitHub Pages
 }
+
+
+
 
 function makeHeaderClickable(basePath) {
     const headerTitle = document.querySelector('header h1');
@@ -354,36 +370,47 @@ function initSigninModal() {
 }
 
 function fixPaths() {
-    const relativePath = getRelativePath();
+    const relativePath = getRelativePath(); // calculate correct ../
 
+    // Fix logo
     const logo = document.getElementById('logo');
     if (logo) logo.src = relativePath + 'images/logo.png';
 
+    // Fix nav links
     document.querySelectorAll('.nav-link').forEach(link => {
         const href = link.dataset.href;
         if (!href) return;
 
+        // Set proper href dynamically
         link.href = detectBasePath() + href;
+        // Optional: handle dropdown clicks if needed
         link.addEventListener('click', (e) => {
             window.location.href = link.href;
         });
     });
 }
 
+// =========================
+// ======== Detect Mobile or Desktop View
+// =========================
 function applyDeviceClass() {
   const isMobile = window.innerWidth <= 768;
   if (isMobile) {
     document.body.classList.add("mobile-view");
     document.body.classList.remove("desktop-view");
     console.log("Mobile View Active");
-    document.documentElement.style.fontSize = "15px";
+    // Example adjustment for mobile
+    document.documentElement.style.fontSize = "15px"; // smaller base size
   } else {
     document.body.classList.add("desktop-view");
     document.body.classList.remove("mobile-view");
     console.log("Desktop View Active");
-    document.documentElement.style.fontSize = "16px";
+    // Example adjustment for desktop
+    document.documentElement.style.fontSize = "16px"; // normal size
   }
 }
 
+// Run on load and resize
 window.addEventListener("load", applyDeviceClass);
 window.addEventListener("resize", applyDeviceClass);
+
