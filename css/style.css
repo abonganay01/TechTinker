@@ -626,14 +626,25 @@ footer {
    CONTACT PAGE - TEAM SECTION
 ================================ */
 
-/* Wrapper to keep everything centered */
-.team-wrapper {
-  max-width: 1200px; /* Adjust as needed */
+/* Team Grid */
+.contact-container {
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
-  display: flex;
-  justify-content: center;
+  padding: clamp(16px, 4vw, 40px);
+  text-align: center;
 }
+
+.contact-container h2 {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  margin-bottom: 0.75rem;
+}
+
+.contact-container p {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  margin-bottom: 1.5rem;
+  color: var(--text);
+}
+
 
 .team {
   display: grid;
@@ -642,7 +653,10 @@ footer {
   margin-top: clamp(16px, 3vw, 40px);
   justify-content: center;
   justify-items: center;
-  
+  padding: 0 1rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .team .member {
@@ -657,12 +671,20 @@ footer {
   box-shadow: var(--shadow);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   text-align: center;
-  
 }
 
 .team .member:hover {
   transform: translateY(-4px) scale(1.03);
-  box-shadow: 0 12px 28px rgba(0,0,0,0.4);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+}
+
+.team .member img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 1rem;
+  border-radius: 10%;
 }
 
 .team .member h3 {
@@ -689,35 +711,9 @@ footer {
   text-decoration: underline;
 }
 
-.team .member img {
-  width: 200px;
-  height: 200px;
-  object-fit: cover;
-  display: block;
-  margin: 0 auto;
-  border-radius: 10%;
-  
 
-}
 
-.team footer{
-  footer {
-  position:sticky;
-  height: 50px;
-  background: var(--surface-1);
-  color: var(--text);
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  border-top: 1px solid var(--border);
-  font-size: 0.98rem;
-  letter-spacing: 0.4px;
-  box-sizing: border-box;
-}
 
-}
 /* ================================
    ABOUT US PAGE
 ================================ */
