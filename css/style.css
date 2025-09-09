@@ -335,6 +335,7 @@ header a:hover, .nav-menu a:hover {
     gap: 2rem;
     width: 90%;
     max-width: 1200px;
+    padding-bottom: 20px;
 }
 
 /* Each company block */
@@ -699,6 +700,24 @@ footer {
 
 }
 
+.team footer{
+  footer {
+  position:sticky;
+  height: 50px;
+  background: var(--surface-1);
+  color: var(--text);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border-top: 1px solid var(--border);
+  font-size: 0.98rem;
+  letter-spacing: 0.4px;
+  box-sizing: border-box;
+}
+
+}
 /* ================================
    ABOUT US PAGE
 ================================ */
