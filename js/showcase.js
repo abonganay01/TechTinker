@@ -1,60 +1,57 @@
-// js/showcase.js
-import { db, storage } from './firebase-config.js';
-import {
-  collection, addDoc, query, orderBy, serverTimestamp, onSnapshot
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import {
-  ref as storageRef, uploadBytesResumable, getDownloadURL
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
-
-const projectsRef = collection(db, 'projects');
-const projectGrid = document.querySelector('.project-grid');
+// User project submissions
 const form = document.querySelector('.submit-section form');
+const fileInput = document.getElementById('project-file');
+const urlInput = document.getElementById('project-url');
 
-const q = query(projectsRef, orderBy('createdAt', 'desc'));
-onSnapshot(q, snapshot => {
-  if (!projectGrid) return;
-  const arr = snapshot.docs.map(d => d.data());
-  projectGrid.innerHTML = arr.map(p => `
-    <div class="card">
-      <img src="${p.imageUrl || 'https://via.placeholder.com/400x250?text=No+Image'}" alt="${p.title}">
-      <h4>${p.title}</h4>
-      <p>${p.description}</p>
-      ${p.projectUrl ? `<a href="${p.projectUrl}" target="_blank" class="btn">View Project</a>` : ''}
-    </div>
-  `).join('');
-});
+let userSection = document.querySelector('.user-submissions');
+if (!userSection) {
+  userSection = document.createElement('section');
+  userSection.classList.add('project-category', 'user-submissions');
+  userSection.innerHTML = `
+    <h3>🛠 User Submitted Projects</h3>
+    <div class="project-grid"></div>
+  `;
+  const showcaseMain = document.querySelector('.center-container');
+  showcaseMain.insertBefore(userSection, document.querySelector('.submit-section'));
+}
 
-form?.addEventListener('submit', async (e) => {
+const userGrid = userSection.querySelector('.project-grid');
+
+form.addEventListener('submit', function (e) {
   e.preventDefault();
+  if (!fileInput.files.length && !urlInput.value.trim()) {
+    alert('Please upload a file OR provide a project URL.');
+    return;
+  }
   const title = document.getElementById('project-title').value.trim();
   const description = document.getElementById('project-description').value.trim();
-  const projectUrl = document.getElementById('project-url').value.trim();
-  const fileInput = document.getElementById('project-file');
-  const file = fileInput?.files?.[0];
+  const file = fileInput.files[0];
+  const projectUrl = urlInput.value.trim();
 
-  if (!title || !description) return alert('Title and description required.');
+  const card = document.createElement('div');
+  card.classList.add('card');
 
-  let imageUrl = '';
+  let mediaContent = '';
   if (file) {
-    const stRef = storageRef(storage, `projects/${Date.now()}_${file.name}`);
-    const uploadTask = uploadBytesResumable(stRef, file);
-
-    await new Promise((resolve, reject) => {
-      uploadTask.on('state_changed',
-        () => {},
-        (err) => reject(err),
-        async () => {
-          imageUrl = await getDownloadURL(uploadTask.snapshot.ref);
-          resolve();
-        }
-      );
-    });
+    if (file.type.startsWith('image/')) {
+      mediaContent = `<img src="${URL.createObjectURL(file)}" alt="${title}" style="border-radius:10px;">`;
+    } else {
+      mediaContent = `<a href="${URL.createObjectURL(file)}" download="${file.name}">${file.name}</a>`;
+    }
   }
 
-  await addDoc(projectsRef, {
-    title, description, projectUrl, imageUrl, createdAt: serverTimestamp()
-  });
+  let linkContent = '';
+  if (projectUrl) {
+    linkContent = `<a href="${projectUrl}" target="_blank" class="btn">View Project</a>`;
+  }
 
+  card.innerHTML = `
+    ${mediaContent}
+    <h4>${title}</h4>
+    <p>${description}</p>
+    ${linkContent}
+  `;
+
+  userGrid.appendChild(card);
   form.reset();
 });
