@@ -13,8 +13,12 @@ import {
   getDoc,
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
+// Prevent multiple initializations
+let forumInitialized = false;
+
 export function initForum() {
-  console.log("initForum() called"); // make sure it's only called once
+  if (forumInitialized) return;
+  forumInitialized = true;
 
   const usernameInput = document.getElementById("usernameInput");
   const commentInput = document.getElementById("commentInput");
@@ -32,7 +36,9 @@ export function initForum() {
   function renderComments(comments) {
     if (!commentsList) return;
 
-    commentsList.innerHTML = ""; // clear previous comments
+    // Clear previous comments to prevent duplicates
+    commentsList.innerHTML = "";
+
     if (comments.length === 0) {
       emptyMessage.style.display = "block";
       return;
@@ -40,13 +46,15 @@ export function initForum() {
       emptyMessage.style.display = "none";
     }
 
-    let sorted = [...comments];
+    // Sort comments
+    const sorted = [...comments];
     if (sortSelect?.value === "votes") {
       sorted.sort((a, b) => (b.votes - b.downvotes) - (a.votes - a.downvotes));
     } else {
       sorted.sort((a, b) => (b.timestamp?.toMillis?.() || 0) - (a.timestamp?.toMillis?.() || 0));
     }
 
+    // Render each comment
     sorted.forEach(comment => {
       comment.votes ??= 0;
       comment.downvotes ??= 0;
@@ -69,6 +77,7 @@ export function initForum() {
       const replyContainer = document.createElement("div");
       replyContainer.className = "reply-section";
 
+      // Render replies
       comment.replies.forEach((reply, rIndex) => {
         reply.votes ??= 0;
         reply.downvotes ??= 0;
@@ -161,6 +170,7 @@ export function initForum() {
   // Inline reply box
   // -------------------------
   function toggleReplyBox(parent, commentId, rIndex) {
+    // Remove existing boxes
     document.querySelectorAll(".inline-reply").forEach(box => box.remove());
 
     const box = document.createElement("div");
