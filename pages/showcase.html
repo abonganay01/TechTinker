@@ -8,12 +8,8 @@
   <!-- Main CSS -->
   <link rel="stylesheet" href="../css/style.css"> 
 
-  <!-- Main site logic -->
-  <script type="module" src="../js/main.js" defer></script>
-
-  <!-- Firebase Config + Showcase Script -->
-  <script type="module" src="../js/firebase-config.js"></script>
-  <script type="module" src="../js/showcase.js" defer></script>
+  <script type="module" type src="../js/main.js" defer></script>
+ 
 
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
@@ -23,10 +19,11 @@
   <div id="header-placeholder"></div>
 
   <main class="showcase-main">
+    
+
     <!-- Wrapper for Centering Content -->
     <div class="center-container">
       <h2>✨ Project Showcase</h2>
-      
       <!-- Arduino Projects -->
       <section class="project-category">
         <h3>🔌 Arduino Projects</h3>
@@ -85,14 +82,11 @@
             <textarea id="project-description" name="project-description" rows="4" placeholder="Write a short description..." required></textarea>
           </div>
 
-          <div class="form-group">
-            <label for="project-file">Upload Image or File</label>
-            <input type="file" id="project-file" name="project-file" accept=".jpg,.jpeg,.png,.pdf,.zip">
-          </div>
+
 
           <!-- Optional URL Field -->
           <div class="form-group">
-            <label for="project-url">Project URL (Optional)</label>
+            <label for="project-url">Project URL</label>
             <input type="url" id="project-url" name="project-url" placeholder="Enter project link (e.g., GitHub, live demo)">
           </div>
 
@@ -101,6 +95,8 @@
           </div>
         </form>
       </section>
+
+
     </div> <!-- End of center-container -->
   </main>
 

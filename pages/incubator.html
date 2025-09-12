@@ -14,7 +14,7 @@
 
   <main class="container">
     <!-- Hero / Intro -->
-    <section class="hero hero--sub">
+    <class="hero hero--sub">
       <h2>Idea Incubator</h2>
       <p class="lead">
         A brainstorming hub where users pitch ideas and look for collaborators.
@@ -23,34 +23,29 @@
         Encourages teamwork and sparks innovation.
       </p>
       <a href="../index.html" class="btn">Back to Home</a>
- 
+  
 
-      <!-- Submit Idea Form -->
-      <section class="incubator-form" aria-label="Submit your idea">
-        <h3>Pitch Your Idea</h3>
-        <form id="ideaForm">
-          <label for="ideaTitle" class="sr-only">Idea Title</label>
-          <input id="ideaTitle" type="text" placeholder="Enter idea title" required class="input" />
+    <!-- Submit Idea Form -->
+    <section class="incubator-form" aria-label="Submit your idea">
+      <h3>Pitch Your Idea</h3>
+      <form id="ideaForm">
+        <label for="ideaTitle" class="sr-only">Idea Title</label>
+        <input id="ideaTitle" type="text" placeholder="Enter idea title" required class="input" />
 
-          <label for="ideaDesc" class="sr-only">Idea Description</label>
-          <textarea id="ideaDesc" placeholder="Describe your idea in detail..." required class="textarea"></textarea>
+        <label for="ideaDesc" class="sr-only">Idea Description</label>
+        <textarea id="ideaDesc" placeholder="Describe your idea in detail..." required class="textarea"></textarea>
 
-          <label for="ideaTags" class="sr-only">Tags</label>
-          <input id="ideaTags" type="text" placeholder="Add tags (e.g., Arduino, IoT, AI)" class="input" />
+        <label for="ideaTags" class="sr-only">Tags</label>
+        <input id="ideaTags" type="text" placeholder="Add tags (e.g., Arduino, IoT, AI)" class="input" />
 
-          <button type="submit" class="btn">Submit Idea</button>
-        </form>
-      </section>
+        <button type="submit" class="btn">Submit Idea</button>
+      </form>
+    </section>
 
-      <!-- Empty Message -->
-      <p class="muted" id="emptyIdeas" style="display: none;">
-        No ideas yet. Be the first to pitch!
-      </p>
-
-      <!-- Ideas List -->
-      <section aria-label="Idea list" class="cards-grid" id="ideaList">
-        <!-- Dynamic idea cards will appear here -->
-      </section>
+    <!-- Ideas List -->
+    <section aria-label="Idea list" class="cards-grid" id="ideaList">
+      <!-- Dynamic idea cards will appear here -->
+      <p class="muted" id="emptyIdeas">No ideas yet. Be the first to pitch!</p>
     </section>
   </main>
 

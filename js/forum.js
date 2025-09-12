@@ -1,188 +1,113 @@
+// =========================
+// FORUM MODULE (Realtime Firestore)
+// =========================
 import { db } from "./firebase-config.js";
 import {
   collection,
   addDoc,
   updateDoc,
   doc,
-  query,
-  orderBy,
-  limit,
-  startAfter,
-  getDocs,
-  increment
+  onSnapshot,
+  serverTimestamp,
+  increment,
+  getDoc,
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 export function initForum() {
+  console.log("initForum() called"); // make sure it's only called once
+
   const usernameInput = document.getElementById("usernameInput");
   const commentInput = document.getElementById("commentInput");
   const postCommentBtn = document.getElementById("postCommentBtn");
   const commentsList = document.getElementById("commentsList");
+  const emptyMessage = document.getElementById("emptyCommentsMsg");
   const sortSelect = document.getElementById("sortSelect");
 
-  const commentsRef = collection(db, "comments");
+  const commentsRef = collection(db, "forumComments");
+  let cachedComments = [];
 
-  // Pagination state for top-level comments
-  let lastVisible = null;
-  let loading = false;
-  const pageSize = 10;
+  // -------------------------
+  // Render comments
+  // -------------------------
+  function renderComments(comments) {
+    if (!commentsList) return;
 
-  async function loadComments(reset = false) {
-    if (loading) return;
-    loading = true;
+    commentsList.innerHTML = ""; // clear previous comments
+    if (comments.length === 0) {
+      emptyMessage.style.display = "block";
+      return;
+    } else {
+      emptyMessage.style.display = "none";
+    }
 
-    if (reset) commentsList.innerHTML = "";
-
-    let q;
+    let sorted = [...comments];
     if (sortSelect?.value === "votes") {
-      q = query(commentsRef, orderBy("votes", "desc"), limit(pageSize));
+      sorted.sort((a, b) => (b.votes - b.downvotes) - (a.votes - a.downvotes));
     } else {
-      q = query(commentsRef, orderBy("timestamp", "desc"), limit(pageSize));
+      sorted.sort((a, b) => (b.timestamp?.toMillis?.() || 0) - (a.timestamp?.toMillis?.() || 0));
     }
 
-    if (lastVisible && !reset) {
-      q = query(
-        commentsRef,
-        orderBy(sortSelect?.value === "votes" ? "votes" : "timestamp", "desc"),
-        startAfter(lastVisible),
-        limit(pageSize)
-      );
-    }
+    sorted.forEach(comment => {
+      comment.votes ??= 0;
+      comment.downvotes ??= 0;
+      comment.replies ??= [];
 
-    const snapshot = await getDocs(q);
+      const div = document.createElement("div");
+      div.className = "comment";
+      div.innerHTML = `
+        <p><strong>${comment.username ?? "Anonymous"}</strong></p>
+        <p>${comment.text ?? ""}</p>
+        <div class="vote-section">
+          <span class="vote-btn" data-type="comment" data-id="${comment.id}" data-action="upvote">⬆</span>
+          <span class="vote-count">${comment.votes}</span>
+          <span class="vote-btn" data-type="comment" data-id="${comment.id}" data-action="downvote">⬇</span>
+          <span class="vote-count">${comment.downvotes}</span>
+          <span class="reply-btn" data-id="${comment.id}">Reply</span>
+        </div>
+      `;
 
-    if (snapshot.empty) {
-      loading = false;
-      return;
-    }
+      const replyContainer = document.createElement("div");
+      replyContainer.className = "reply-section";
 
-    lastVisible = snapshot.docs[snapshot.docs.length - 1];
+      comment.replies.forEach((reply, rIndex) => {
+        reply.votes ??= 0;
+        reply.downvotes ??= 0;
 
-    const all = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    all.filter(c => !c.parentId).forEach(c => renderNode(c));
-
-    loading = false;
-  }
-
-  // Render one comment (with reply controls)
-  function renderNode(comment, depth = 0) {
-    const div = document.createElement("div");
-    div.classList.add("comment");
-    div.style.marginLeft = depth * 20 + "px";
-
-    div.innerHTML = `
-      <p><strong>${comment.username ?? "Anonymous"}</strong></p>
-      <p>${comment.text ?? ""}</p>
-      <div class="vote-section">
-        <span class="vote-btn" data-id="${comment.id}" data-action="upvote">⬆</span>
-        <span class="vote-count">${comment.votes ?? 0}</span>
-        <span class="vote-btn" data-id="${comment.id}" data-action="downvote">⬇</span>
-        <span class="vote-count">${comment.downvotes ?? 0}</span>
-        <span class="reply-btn" data-id="${comment.id}">Reply</span>
-      </div>
-      <div class="replies" id="replies-${comment.id}" style="display:none"></div>
-      <button class="toggle-replies-btn" data-id="${comment.id}">Show replies</button>
-    `;
-
-    commentsList.appendChild(div);
-  }
-
-  // Replies state management
-  const repliesState = {}; // { commentId: { lastVisible, container, loading, visible } }
-  const repliesPageSize = 5;
-
-  async function loadReplies(parentId) {
-    if (!repliesState[parentId]) {
-      repliesState[parentId] = {
-        lastVisible: null,
-        loading: false,
-        container: document.getElementById(`replies-${parentId}`),
-        visible: false
-      };
-    }
-    const state = repliesState[parentId];
-
-    if (state.loading) return;
-    state.loading = true;
-
-    let q = query(
-      commentsRef,
-      orderBy("timestamp", "asc"),
-      limit(repliesPageSize)
-    );
-
-    if (state.lastVisible) {
-      q = query(
-        commentsRef,
-        orderBy("timestamp", "asc"),
-        startAfter(state.lastVisible),
-        limit(repliesPageSize)
-      );
-    }
-
-    const snapshot = await getDocs(q);
-
-    if (snapshot.empty) {
-      state.loading = false;
-      return;
-    }
-
-    state.lastVisible = snapshot.docs[snapshot.docs.length - 1];
-
-    const replies = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    replies
-      .filter(r => r.parentId === parentId)
-      .forEach(r => {
         const replyDiv = document.createElement("div");
-        replyDiv.classList.add("comment");
-        replyDiv.style.marginLeft = "20px";
+        replyDiv.className = "comment reply";
         replyDiv.innerHTML = `
-          <p><strong>${r.username ?? "Anonymous"}</strong></p>
-          <p>${r.text ?? ""}</p>
+          <p><strong>${reply.username ?? "Anonymous"}</strong> 
+             <span style="font-size:0.9em;color:#555;">@${reply.replyTo ?? comment.username ?? "Anonymous"}</span>
+          </p>
+          <p>${reply.text ?? ""}</p>
           <div class="vote-section">
-            <span class="vote-btn" data-id="${r.id}" data-action="upvote">⬆</span>
-            <span class="vote-count">${r.votes ?? 0}</span>
-            <span class="vote-btn" data-id="${r.id}" data-action="downvote">⬇</span>
-            <span class="vote-count">${r.downvotes ?? 0}</span>
-            <span class="reply-btn" data-id="${r.id}">Reply</span>
+            <span class="vote-btn" data-type="reply" data-id="${comment.id}" data-rindex="${rIndex}" data-action="upvote">⬆</span>
+            <span class="vote-count">${reply.votes}</span>
+            <span class="vote-btn" data-type="reply" data-id="${comment.id}" data-rindex="${rIndex}" data-action="downvote">⬇</span>
+            <span class="vote-count">${reply.downvotes}</span>
+            <span class="reply-btn-reply" data-id="${comment.id}" data-rindex="${rIndex}">Reply</span>
           </div>
-          <div class="replies" id="replies-${r.id}" style="display:none"></div>
-          <button class="toggle-replies-btn" data-id="${r.id}">Show replies</button>
         `;
-        state.container.appendChild(replyDiv);
+        replyDiv.style.marginLeft = "20px";
+        replyContainer.appendChild(replyDiv);
       });
 
-    state.loading = false;
+      div.appendChild(replyContainer);
+      commentsList.appendChild(div);
+    });
   }
 
-  // Toggle replies visibility
-  function toggleReplies(parentId, btn) {
-    const state = repliesState[parentId];
-    if (!state) {
-      // first time load
-      loadReplies(parentId).then(() => {
-        repliesState[parentId].visible = true;
-        state.container.style.display = "block";
-        btn.textContent = "Hide replies";
-      });
-      return;
-    }
+  // -------------------------
+  // Firestore realtime listener
+  // -------------------------
+  onSnapshot(commentsRef, snapshot => {
+    cachedComments = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
+    renderComments(cachedComments);
+  });
 
-    if (state.visible) {
-      state.container.style.display = "none";
-      btn.textContent = "Show replies";
-      state.visible = false;
-    } else {
-      state.container.style.display = "block";
-      btn.textContent = "Hide replies";
-      if (!state.lastVisible) {
-        // no replies loaded yet
-        loadReplies(parentId);
-      }
-      state.visible = true;
-    }
-  }
-
-  // Post top-level comment
+  // -------------------------
+  // Add new comment
+  // -------------------------
   postCommentBtn?.addEventListener("click", async () => {
     const username = usernameInput.value.trim() || "Anonymous";
     const text = commentInput.value.trim();
@@ -193,84 +118,83 @@ export function initForum() {
       text,
       votes: 0,
       downvotes: 0,
-      timestamp: Date.now(),
-      parentId: null
+      replies: [],
+      timestamp: serverTimestamp(),
     });
 
-    usernameInput.value = commentInput.value = "";
-    lastVisible = null; // reset pagination
-    await loadComments(true);
+    usernameInput.value = "";
+    commentInput.value = "";
   });
 
-  // Handle votes, replies, reply box, toggle replies
-  commentsList?.addEventListener("click", async (e) => {
-    const id = e.target.dataset.id;
+  // -------------------------
+  // Handle votes & replies
+  // -------------------------
+  commentsList?.addEventListener("click", async e => {
+    const commentId = e.target.dataset.id;
+    const rIndex = e.target.dataset.rindex;
+
+    if (e.target.classList.contains("reply-btn"))
+      toggleReplyBox(e.target.closest(".comment"), commentId, null);
+
+    if (e.target.classList.contains("reply-btn-reply"))
+      toggleReplyBox(e.target.closest(".comment"), commentId, rIndex);
 
     if (e.target.classList.contains("vote-btn")) {
+      const type = e.target.dataset.type;
       const action = e.target.dataset.action;
-      const targetDoc = doc(db, "comments", id);
-      await updateDoc(targetDoc, {
-        [action === "upvote" ? "votes" : "downvotes"]: increment(1)
-      });
-    }
 
-    if (e.target.classList.contains("reply-btn")) {
-      toggleInlineReply(e.target.closest(".comment"), id);
-    }
+      const ref = doc(db, "forumComments", commentId);
 
-    if (e.target.classList.contains("toggle-replies-btn")) {
-      toggleReplies(id, e.target);
+      if (type === "comment") {
+        await updateDoc(ref, { [action === "upvote" ? "votes" : "downvotes"]: increment(1) });
+      } else {
+        const snap = await getDoc(ref);
+        if (!snap.exists()) return;
+        const replies = snap.data().replies || [];
+        replies[rIndex][action === "upvote" ? "votes" : "downvotes"]++;
+        await updateDoc(ref, { replies });
+      }
     }
   });
 
+  // -------------------------
   // Inline reply box
-  function toggleInlineReply(parentDiv, parentId) {
-    const existingBox = parentDiv.querySelector(".inline-reply");
-    if (existingBox) { existingBox.remove(); return; }
+  // -------------------------
+  function toggleReplyBox(parent, commentId, rIndex) {
+    document.querySelectorAll(".inline-reply").forEach(box => box.remove());
 
-    const replyBox = document.createElement("div");
-    replyBox.classList.add("inline-reply");
-    replyBox.style.marginTop = "8px";
-    replyBox.innerHTML = `
+    const box = document.createElement("div");
+    box.className = "inline-reply";
+    box.style.marginTop = "8px";
+    box.style.marginLeft = rIndex !== null ? "40px" : "20px";
+    box.innerHTML = `
       <input type="text" placeholder="Your name" class="reply-username">
       <textarea rows="2" placeholder="Write a reply..." class="reply-text"></textarea>
-      <button class="reply-submit">Reply</button>
+      <button class="reply-submit btn">Reply</button>
     `;
-    parentDiv.appendChild(replyBox);
+    parent.appendChild(box);
 
-    replyBox.querySelector(".reply-submit").addEventListener("click", async () => {
-      const username = replyBox.querySelector(".reply-username").value.trim() || "Anonymous";
-      const text = replyBox.querySelector(".reply-text").value.trim();
+    box.querySelector(".reply-submit").addEventListener("click", async () => {
+      const username = box.querySelector(".reply-username").value.trim() || "Anonymous";
+      const text = box.querySelector(".reply-text").value.trim();
       if (!text) return;
 
-      await addDoc(commentsRef, {
-        username,
-        text,
-        votes: 0,
-        downvotes: 0,
-        timestamp: Date.now(),
-        parentId
-      });
+      const ref = doc(db, "forumComments", commentId);
+      const snap = await getDoc(ref);
+      if (!snap.exists()) return;
 
-      replyBox.remove();
-      // reset reply state so fresh reload happens
-      repliesState[parentId] = null;
-      loadReplies(parentId);
+      const replies = snap.data().replies || [];
+      const replyTo = rIndex !== null ? replies[rIndex]?.username ?? "Anonymous" : snap.data().username ?? "Anonymous";
+
+      replies.push({ username, text, replyTo, votes: 0, downvotes: 0 });
+      await updateDoc(ref, { replies });
+
+      box.remove();
     });
   }
 
-  // Infinite scroll for top-level comments
-  window.addEventListener("scroll", () => {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
-      loadComments();
-    }
-  });
-
-  sortSelect?.addEventListener("change", async () => {
-    lastVisible = null;
-    await loadComments(true);
-  });
-
-  // Initial load
-  loadComments(true);
+  // -------------------------
+  // Sort comments
+  // -------------------------
+  sortSelect?.addEventListener("change", () => renderComments(cachedComments));
 }

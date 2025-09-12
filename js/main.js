@@ -37,7 +37,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('ideaForm')) import("./incubator.js").then(m => m.initIncubator());
 
     // Showcase
-    if (document.querySelector('.submit-section form')) import("./showcase.js");
+    // Lazy-load Showcase only if form exists
+    if (document.querySelector('.submit-section form')) {
+        import('./showcase.js').then(module => {
+            module.initShowcase(); // call the exported function
+        }).catch(err => console.error("Error loading showcase module:", err));
+    }
+
 
     // Quizzes
     setupQuizzes();
