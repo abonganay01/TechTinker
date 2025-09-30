@@ -100,93 +100,45 @@ img, iframe { max-width: 100%; max-height: 100%; }
    5. HEADER & NAVIGATION
 ================================ */
 /* Header that sits on top but doesn't cover content due to main margin-top */
-/* ================================
-   5. HEADER & NAVIGATION
-================================ */
-/* =========================
-   HEADER
-   ========================= */
 header {
   position: sticky;
   top: 0;
   left: 0;
   width: 100%;
-  height: 70px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  height: 70px; /* define a fixed height */
+  display: flex; align-items: center; justify-content: space-between;
   padding: 10px 30px;
   border-bottom: 1px solid var(--border);
   background: color-mix(in oklab, var(--bg), transparent 20%);
   backdrop-filter: blur(6px);
   z-index: 1000;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
+.head-left { display: flex; align-items: center; gap: 12px; }
+.head-left img { height: 45px; }
 
-/* =========================
-   HEADER LEFT (LOGO)
-   ========================= */
-.head-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.head-left img {
-  height: 45px;
-  display: block;
-}
-
-/* =========================
-   NAVIGATION
-   ========================= */
-nav.navbar {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-}
-
-header ul,
-.nav-menu {
-  list-style: none;
-  display: flex;
-  gap: 22px;
-  margin: 0;
-  padding: 0;
-}
-
-header ul li,
-.nav-menu li {
-  position: relative;
-}
-
-header a,
-.nav-menu a {
+nav.navbar { display: flex; justify-content: center; }
+header ul, .nav-menu { list-style: none; display: flex; gap: 22px; align-items: left; margin: 0; padding: 0; }
+header ul li, .nav-menu li { position: relative; }
+header a, .nav-menu a {
   text-decoration: none;
   color: var(--text-dim);
   font-weight: 800;
   font-size: 15px;
   padding: 8px 14px;
   border-radius: var(--radius-md);
-  transition: color 0.2s ease, background 0.2s ease, text-shadow 0.2s ease;
+  transition: color .2s, background .2s, text-shadow .2s;
 }
-
-header a:hover,
-.nav-menu a:hover {
+header a:hover, .nav-menu a:hover {
   color: #fff;
   background: color-mix(in oklab, var(--surface-2), transparent 55%);
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
+  text-shadow: 0 0 15px rgba(255,255,255,.25);
 }
 
-/* =========================
-   DROPDOWN MENU
-   ========================= */
+/* Dropdown menu */
 .dropdown-content {
   display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
+  position: absolute; top: 100%; left: 0;
   min-width: 200px;
   background: var(--surface-1);
   border: 1px solid var(--border);
@@ -195,154 +147,29 @@ header a:hover,
   box-shadow: var(--shadow);
   z-index: 999;
 }
+.dropdown-content li a { display: block; padding: 10px 12px; color: var(--text); border-radius: 10px; }
+.dropdown-content li a:hover { background: color-mix(in oklab, var(--surface-2), transparent 35%); color: #fff; }
+.dropdown:hover .dropdown-content { display: block; }
 
-.dropdown-content li a {
-  display: block;
-  padding: 10px 12px;
-  color: var(--text);
-  border-radius: 6px;
-}
-
-.dropdown-content li a:hover {
-  background: color-mix(in oklab, var(--surface-2), transparent 35%);
-  color: #fff;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-/* =========================
-   HEADER RIGHT (AUTH AREA)
-   ========================= */
-.head-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-/* New Account Link */
-#newAccountLink {
-  font-weight: 700;
-  font-size: 14px;
-  color: var(--brand, #007BFF);
-  cursor: pointer;
-  transition: opacity 0.25s ease;
-}
-
-#newAccountLink:hover {
-  opacity: 0.8;
-}
-
-/* Sign-In Button with Gradient Border */
+/* right side CTA (shared) */
+.head-right { display: flex; align-items: center; }
 .button-box {
-  position: relative;
-  width: 110px;
-  height: 44px;
+  position: relative; width: 110px; height: 44px; margin-left: 18px;
   border-radius: var(--radius-md);
-  background: var(--grad-accent);
-  background-size: 200%;
+  background: var(--grad-accent); background-size: 200%;
   animation: animationGradient 2.5s linear infinite;
-  clip-path: polygon(
-    0 0,
-    82% 0,
-    100% 34%,
-    100% 80%,
-    100% 99%,
-    0 100%,
-    0% 80%,
-    0% 20%
-  );
+  clip-path: polygon(0 0, 82% 0, 100% 34%, 100% 80%, 100% 99%, 0 100%, 0 80%, 0% 20%);
 }
-
 .head-right button {
-  position: absolute;
-  inset: 3px;
-  border: none;
-  border-radius: var(--radius-md);
-  background: var(--bg);
-  color: var(--text);
-  clip-path: inherit;
-  cursor: pointer;
-  transition: color 0.25s ease, background 0.25s ease;
-}
-
-.head-right button:hover {
-  color: var(--brand);
-}
-
-/* =========================
-   ANIMATIONS
-   ========================= */
-@keyframes animationGradient {
-  to {
-    background-position: 200%;
-  }
-}
-
-/* ================================
-   LOGGED-IN STATE
-================================ */
-header.logged-in {
-  background: color-mix(in oklab, var(--surface-1), transparent 10%);
-  border-bottom: 2px solid var(--brand, #007BFF);
-}
-
-/* Head-right changes for logged-in state */
-header.logged-in .head-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: color-mix(in oklab, var(--surface-2), transparent 20%);
-  padding: 4px 10px;
-  border-radius: var(--radius-md);
-}
-
-/* Username display */
-header.logged-in #userName {
-  font-weight: bold;
-  font-size: 14px;
-  color: var(--brand, #007BFF);
-}
-
-/* Auth status indicator */
-header.logged-in .auth-status {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--brand, #007BFF);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-/* Sign-out button style for logged-in */
-header.logged-in #signoutButton {
-  position: relative;
-  width: 110px;
-  height: 44px;
-  border-radius: var(--radius-md);
-  background: var(--grad-accent);
-  background-size: 200%;
-  animation: animationGradient 2.5s linear infinite;
+  position: absolute; inset: 3px;
+  border: none; border-radius: var(--radius-md);
+  background: var(--bg); color: var(--text);
   clip-path: polygon(0 0, 82% 0, 100% 34%, 100% 80%, 100% 99%, 0 100%, 0% 80%, 0% 20%);
+  cursor: pointer; transition: .25s;
 }
-header.logged-in #signoutButton:hover {
-  background: #c53030;
-}
+.head-right button:hover { color: var(--brand); }
 
-/* Hide sign-in elements */
-header.logged-in #loggedOutView {
-  display: none;
-}
-
-/* Show logged-in view */
-header.logged-in #userInfo {
-  display: flex !important;
-  align-items: center;
-  gap: 8px;
-}
-
-
+@keyframes animationGradient { to { background-position: 200%; } }
 
 
 
@@ -556,289 +383,30 @@ header.logged-in #userInfo {
 /* ================================
    7. SIGN-IN MODAL (Floating)
 ================================ */
-
-/* Modal Overlay */
-/* Modal Overlay */
-.signin-modal {
-    position: fixed;
-    top: 50Vh;
-    left: 50%;
-
-    width: min(480px, 92vw);
-    background: var(--surface-1, #fff);
-    color: var(--text, #111);
-    box-shadow: var(--shadow, 0 4px 16px rgba(0,0,0,0.25));
-    border-radius: var(--radius-xl, 12px);
-    z-index: 1100;
-
-    display: none;
-    opacity: 0;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+.signin-page-box {
+  position: fixed; top: 30%; left: 50%; transform: translateX(-50%);
+  width: min(480px, 92vw); height: 60vh; background: var(--surface-1); color: var(--text);
+  box-shadow: var(--shadow); border-radius: var(--radius-xl); z-index: 1100;
+  display: none; opacity: 0; filter: blur(10px);
 }
 
-/* Show Modal */
-.signin-modal.open {
-    display: flex;
-    opacity: 1;
-    pointer-events: auto;
-    animation: fadeInCenter 0.5s ease forwards;
+.signin-page { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 20px; position: relative; }
+.signin-page h1 { font-size: 40px; font-weight: 800; margin: 0 0 6px; }
+.signin-page input {
+  padding: 7.5px 30px; background: #e7e7ea; color: #111; width: 70%; height: 38px; border: none; outline: none;
+  clip-path: polygon(0 0, 93% 0, 100% 43%, 100% 80%, 100% 99%, 0 100%, 0% 80%, 0% 20%);
+  border-radius: 6px; margin-bottom: 16px;
 }
+.signin-page button { width: 60%; height: 44px; font-size: 18px; font-weight: 800; background: var(--brand); border: none; border-radius: 8px; cursor: pointer; color: #fff; }
+.signin-page p { display: flex; align-items: center; justify-content: center; width: 60%; height: 42px; font-size: 16px; font-weight: 700; background: #5e5b68; border-radius: 8px; color: #fff; cursor: pointer; }
+.signin-page div { position: absolute; top: 10px; right: 10px; font-size: 24px; cursor: pointer; transition: .25s; }
+.signin-page div:hover { opacity: .7; }
 
-/* Hide Modal */
-.signin-modal.hidden {
-    display: none;
-}
-
-/* Modal Animations */
-@keyframes fadeInCenter {
-    0% {
-        opacity: 0;
-        transform: translate(-50%, -45%) scale(0.95);
-    }
-    100% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
-    }
-}
-
-@keyframes fadeOutCenter {
-    0% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: translate(-50%, -45%) scale(0.95);
-    }
-}
-
-.closeSignin {
-    animation: fadeOutCenter 0.4s ease forwards;
-}
-
-/* Modal Content Box */
-.signin-content {
-    width: 100%;
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-    position: relative;
-    border-radius: 12px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-    background-color: var(--surface-1, #ffffff);
-}
-
-/* Modal Header */
-.signin-content h2 {
-    font-size: 1.9rem;
-    font-weight: 800;
-    margin-bottom: 12px;
-    text-align: center;
-    color: var(--primary-color, #4f46e5);
-}
-
-/* Inputs */
-.signin-content input {
-    width: 80%;
-    padding: 12px 15px;
-    background: var(--input-bg, #f0f0f3);
-    color: var(--text-color, #111111);
-    border: 1px solid var(--input-border, #d1d5db);
-    border-radius: 8px;
-    margin-bottom: 16px;
-    font-size: 0.95rem;
-    outline: none;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.signin-content input:focus {
-    border-color: var(--primary-color, #4f46e5);
-    box-shadow: 0 0 0 3px var(--secondary-color, rgba(79, 70, 229, 0.3));
-}
-
-/* Buttons */
-.signin-content button {
-    width: 70%;
-    height: 44px;
-    font-size: 1rem;
-    font-weight: 700;
-    background: var(--primary-color, #4f46e5);
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    color: white;
-    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease, opacity 0.25s ease;
-    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
-}
-
-.signin-content button:hover {
-    background-color: var(--primary-hover, #4338ca);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(79, 70, 229, 0.4);
-    opacity: 0.9;
-}
-
-/* Close Button */
-.signin-content .close {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 2rem;
-    font-weight: 300;
-    cursor: pointer;
-    line-height: 1;
-    transition: color 0.2s ease, opacity 0.25s ease;
-}
-
-.signin-content .close:hover,
-.signin-content .close:focus {
-    color: var(--primary-color, #4f46e5);
-    opacity: 0.7;
-}
-
-/* Google Sign-In */
-.google-signin {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 12px;
-}
-
-.google-signin button {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 12px 20px;
-    background-color: var(--google-bg, #ffffff);
-    color: var(--text-color, #111111);
-    border: 1px solid var(--input-border, #d1d5db);
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 600;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
-}
-
-.google-signin button:hover {
-    background-color: var(--google-hover, #f3f4f6);
-    border-color: var(--primary-color, #4f46e5);
-}
-
-.google-signin .bx {
-    font-size: 1.5rem;
-    color: var(--google-icon, #db4437);
-}
-
-/* Bottom Links */
-.signin-content p {
-    text-align: center;
-    color: var(--text-muted, #9ca3af);
-}
-
-.signin-content p a {
-    color: var(--link-color, #4f46e5);
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.2s ease;
-}
-
-.signin-content p a:hover {
-    text-decoration: underline;
-    color: var(--primary-color, #4f46e5);
-}
-
-/* ================================
-   LOGGED-OUT VIEW & USER INFO
-================================ */
-#loggedOutView {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-#newAccountLink {
-    color: var(--primary-color, #4f46e5);
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.2s ease;
-}
-
-#newAccountLink:hover {
-    color: var(--primary-hover, #4338ca);
-}
-
-#userInfo {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-#userName {
-    font-weight: 600;
-    color: var(--text-color, #111111);
-}
-
-#signoutButton {
-    background-color: var(--danger-color, #ef4444);
-    color: white;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-}
-
-#signoutButton:hover {
-    background-color: var(--danger-hover, #dc2626);
-    transform: translateY(-1px);
-}
-
-/* ================================
-   RESPONSIVE ADJUSTMENTS
-================================ */
-@media (max-width: 900px) {
-    .nav-menu {
-        gap: 15px;
-    }
-}
-
-@media (max-width: 768px) {
-    header {
-        padding: 0 20px;
-    }
-
-    .nav-menu {
-        display: none;
-    }
-
-    .signin-content {
-        padding: 25px;
-    }
-
-    .head-right {
-        gap: 10px;
-    }
-
-    #loggedOutView {
-        gap: 10px;
-    }
-
-    #signinButton {
-        padding: 8px 12px;
-    }
-
-    #newAccountLink {
-        font-size: 0.875rem;
-    }
-}
-
-
-
-
+/* Modal animations */
+.openSignin { display: block; animation: openSigninAnimation 1.2s forwards; }
+@keyframes openSigninAnimation { from { opacity: 0; filter: blur(10px); top: 60%; } to { opacity: 1; filter: blur(0); top: 30%; } }
+.closeSignin { animation: closeSigninAnimation 0.5s forwards; }
+@keyframes closeSigninAnimation { from { opacity: 1; filter: blur(0); top: 30%; } to { opacity: 0; filter: blur(10px); top: 60%; } }
 
 /* ================================
    8. SHARED PAGE LAYOUT (Main & Footer)
@@ -983,7 +551,6 @@ footer {
 .comment p { margin-bottom: 8px; font-size: 15px; color: var(--text-dim); }
 
 /* Voting & Reply */
-/* Voting & Reply */
 .vote-section {
   display: flex;
   align-items: center;
@@ -1000,7 +567,7 @@ footer {
   background: #0f2740;
   border: 1px solid color-mix(in oklab, var(--brand-5), transparent 65%);
   border-radius: 8px;
-  transition: transform .2s, filter .2s, background-color .2s, color .2s;
+  transition: transform .2s, filter .2s;
 }
 
 .vote-btn:hover {
@@ -1008,23 +575,7 @@ footer {
   filter: brightness(1.1);
 }
 
-.vote-count {
-  font-weight: 800;
-  color: #fff;
-  margin-right: 8px;
-}
-
-/* Highlighted voting states */
-.vote-btn.upvoted {
-  background-color: #007bff; /* Bright blue */
-  color: white;
-}
-
-.vote-btn.downvoted {
-  background-color: #dc3545; /* Bright red */
-  color: white;
-}
-
+.vote-count { font-weight: 800; color: #fff; margin-right: 8px; }
 
 .reply-btn, .reply-btn-reply {
   color: var(--brand-5);

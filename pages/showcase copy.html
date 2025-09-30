@@ -7,7 +7,6 @@
 
   <!-- Main CSS -->
   <link rel="stylesheet" href="../css/style.css"> 
-  <script src="https://cdn.emailjs.com/sdk/3.11.0/email.min.js"></script>
 
   <script type="module" type src="../js/main.js" defer></script>
  
@@ -71,25 +70,31 @@
       <!-- Submission Section -->
       <section class="submit-section">
         <h3>📤 Share Your Project</h3>
-        <p>
-          Want to showcase your work? Submit your project details below. 
-          <strong>All submissions will be reviewed before appearing in the showcase.</strong>
-        </p>
+        <p>Want to showcase your work? Submit your project details below. <strong>All submissions will be reviewed before appearing in the showcase.</strong></p>
+        <form>
+          <div class="form-group">
+            <label for="project-title">Project Title</label>
+            <input type="text" id="project-title" name="project-title" placeholder="Enter your project title" required>
+          </div>
 
-        <!-- Placeholder for login restriction, manual Gmail, or Google Form -->
-        <iframe 
-          src="https://docs.google.com/forms/d/e/1FAIpQLSdCjBBtIbpWKJLo47guhAmjiyp5NuovqTfmwOw6y3i0oL0CQg/viewform?embedded=true" 
-          width="640" height="800" frameborder="0" marginheight="0" marginwidth="0"
-          style="display: none;">
-          Loading…
-        </iframe>
+          <div class="form-group">
+            <label for="project-description">Project Description</label>
+            <textarea id="project-description" name="project-description" rows="4" placeholder="Write a short description..." required></textarea>
+          </div>
+
+
+
+          <!-- Optional URL Field -->
+          <div class="form-group">
+            <label for="project-url">Project URL</label>
+            <input type="url" id="project-url" name="project-url" placeholder="Enter project link (e.g., GitHub, live demo)">
+          </div>
+
+          <div class="form-submit">
+            <button type="submit" class="btn">Submit Project</button>
+          </div>
+        </form>
       </section>
-
-      <!-- Attach showcase.js -->
-      <script type="module" src="../js/showcase.js"></script>
-
-
-
 
 
     </div> <!-- End of center-container -->

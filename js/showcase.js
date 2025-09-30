@@ -1,94 +1,84 @@
 // =========================
-// SHOWCASE.JS WITH FIREBASE REAL-TIME UPDATES (URL ONLY)
+// SHOWCASE.JS (Restrict Google Form & Handle Gmail Input)
 // =========================
-import { db } from './firebase-config.js';
-import { collection, addDoc, serverTimestamp, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+import { initAuth } from "./auth.js";
 
 export function initShowcase() {
-    // Elements
-    const form = document.querySelector('.submit-section form');
-    if (!form) return;
+  const formSection = document.querySelector(".submit-section");
+  const formIframe = formSection?.querySelector("iframe");
+  const notice = document.createElement("div");
+  const manualEmailBox = document.createElement("div");
 
-    const urlInput = document.getElementById('project-url');
-    const titleInput = document.getElementById('project-title');
-    const descInput = document.getElementById('project-description');
+  // Login required message
+  notice.classList.add("login-required");
+  notice.innerHTML = `
+    <p class="text-red-500 font-semibold">
+      🚫 You must be logged in to submit a project.
+    </p>
+    <button id="goLogin" class="btn mt-2">Login</button>
+  `;
+  notice.style.display = "none";
 
-    if (!urlInput || !titleInput || !descInput) return;
+  // Manual Gmail entry for email/password users
+  manualEmailBox.classList.add("manual-gmail", "mt-4");
+  manualEmailBox.innerHTML = `
+    <label for="manualGmail" class="block font-semibold mb-1">Enter your Gmail:</label>
+    <input id="manualGmail" type="email" placeholder="you@gmail.com"
+      class="border rounded px-2 py-1 w-full mb-2" />
+    <button id="openFormBtn" class="btn">Open Project Submission Form</button>
+  `;
+  manualEmailBox.style.display = "none";
 
-    // Create "User Submissions" section if it doesn't exist
-    let userSection = document.querySelector('.user-submissions');
-    if (!userSection) {
-        userSection = document.createElement('section');
-        userSection.classList.add('project-category', 'user-submissions');
-        userSection.innerHTML = `
-            <h3>🛠 User Submitted Projects</h3>
-            <div class="project-grid"></div>
-        `;
-        const showcaseMain = document.querySelector('.center-container');
-        const submitSection = document.querySelector('.submit-section');
-        if (showcaseMain && submitSection) {
-            showcaseMain.insertBefore(userSection, submitSection);
-        }
+  if (formSection && formIframe) {
+    formSection.insertBefore(notice, formIframe);
+    formSection.insertBefore(manualEmailBox, formIframe);
+  }
+
+  // Track login state
+  initAuth((user) => {
+    if (!formSection || !formIframe) return;
+
+    if (user && user.loggedIn) {
+      notice.style.display = "none";
+
+      if (user.isGoogle) {
+        // Google login → show form directly
+        formIframe.style.display = "block";
+        manualEmailBox.style.display = "none";
+      } else {
+        // Email/password login → require Gmail first
+        formIframe.style.display = "none";
+        manualEmailBox.style.display = "block";
+      }
+    } else {
+      // Not logged in → hide everything
+      formIframe.style.display = "none";
+      manualEmailBox.style.display = "none";
+      notice.style.display = "block";
     }
+  });
 
-    const userGrid = userSection.querySelector('.project-grid');
+  // Handle Gmail submission for email/password users
+  manualEmailBox.addEventListener("click", (e) => {
+    if (e.target.id === "openFormBtn") {
+      const email = document.getElementById("manualGmail").value.trim();
+      if (!email || !email.endsWith("@gmail.com")) {
+        alert("Please enter a valid Gmail address.");
+        return;
+      }
 
-    // Helper: Create a project card
-    function createProjectCard({ title, description, url }) {
-        const card = document.createElement('div');
-        card.classList.add('card');
+      // Replace YOUR_FORM_URL with your actual Google Form prefill link
+      const formUrl = `https://docs.google.com/forms/d/e/1FAIpQLSdCjBBtIbpWKJLo47guhAmjiyp5NuovqTfmwOw6y3i0oL0CQg/viewform?usp=dialog${encodeURIComponent(email)}`;
 
-        let linkContent = '';
-        if (url) {
-            linkContent = `<a href="${url}" target="_blank" class="btn">View Project</a>`;
-        }
-
-        card.innerHTML = `
-            <h4>${title}</h4>
-            <p>${description}</p>
-            ${linkContent}
-        `;
-
-        userGrid.appendChild(card);
+      window.open(formUrl, "_blank");
     }
+  });
 
-    // REAL-TIME listener for Firestore "userProjects"
-    const q = query(collection(db, "userProjects"), orderBy("timestamp", "desc"));
-    onSnapshot(q, (snapshot) => {
-        userGrid.innerHTML = ""; // Clear grid before updating
-        snapshot.forEach(doc => {
-            const data = doc.data();
-            createProjectCard({
-                title: data.title,
-                description: data.description,
-                url: data.url
-            });
-        });
-    });
-
-    // Handle form submission
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const title = titleInput.value.trim();
-        const description = descInput.value.trim();
-        const url = urlInput.value.trim();
-
-        if (!title || !url) {
-            alert('Please provide a title and a project URL.');
-            return;
-        }
-
-        // Save project data to Firestore
-        await addDoc(collection(db, "userProjects"), {
-            title,
-            description,
-            url,
-            timestamp: serverTimestamp()
-        });
-
-        // Reset form
-        form.reset();
-        alert("Project submitted successfully!");
-    });
+  // Optional: clicking login button opens modal
+  document.addEventListener("click", (e) => {
+    if (e.target.id === "goLogin") {
+      const signinBtn = document.getElementById("signinButton");
+      signinBtn?.click();
+    }
+  });
 }

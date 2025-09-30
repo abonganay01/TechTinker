@@ -1,23 +1,19 @@
 import { db } from "./firebase-config.js";
-
+import { signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut as fbSignOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 // =========================
 // ON DOM READY
 // =========================
 document.addEventListener('DOMContentLoaded', () => {
+    let lastScrollTop = 0;
     const header = document.querySelector('header');
-    const basePath = detectBasePath();
 
+    const basePath = detectBasePath();
     fixPaths();
 
     // Header
     loadComponent(basePath + 'htmldesign/header.html', 'header-placeholder', () => {
         makeHeaderClickable(basePath);
-        initSigninModal(); // only handles modal UI (open/close)
-
-        // ✅ Load Firebase Auth logic after header is inserted
-        import("./auth.js").catch(err =>
-            console.error("Error loading auth module:", err)
-        );
+        initSigninModal();
     });
 
     // Hero + Footer
@@ -35,19 +31,24 @@ document.addEventListener('DOMContentLoaded', () => {
     if (header) setupHeaderScroll(header);
 
     // Forum
-    if (document.getElementById('commentsList'))
-        import("./forum.js").then(m => m.initForum());
+    if (document.getElementById('commentsList')) import("./forum.js").then(m => m.initForum());
 
     // Incubator
-    if (document.getElementById('ideaForm'))
-        import("./incubator.js").then(m => m.initIncubator());
+    if (document.getElementById('ideaForm')) import("./incubator.js").then(m => m.initIncubator());
 
     // Showcase
+    // Lazy-load Showcase only if form exists
     if (document.querySelector('.submit-section form')) {
-        import('./showcase.js')
-            .then(module => module.initShowcase())
-            .catch(err => console.error("Error loading showcase module:", err));
+        import('./showcase.js').then(module => {
+            module.initShowcase(); // call the exported function
+        }).catch(err => console.error("Error loading showcase module:", err));
     }
+    
+    const signoutBtn = document.getElementById("signoutButton");
+    if (signoutBtn) {
+        signoutBtn.addEventListener("click", signOut);
+    }
+
 
     // Quizzes
     setupQuizzes();
@@ -101,10 +102,14 @@ function highlightActiveLink(basePath) {
     });
 }
 
+// =========================
+// SIGN-IN MODAL
+// =========================
 function initSigninModal() {
     const signinButton = document.getElementById("signinButton");
     const signinPage = document.getElementById("signinPage");
     const closeIcon = document.getElementById("closeIcon");
+    const signinForm = signinPage?.querySelector("form");
 
     if (signinButton && signinPage && closeIcon) {
         // Open modal
@@ -119,41 +124,74 @@ function initSigninModal() {
             signinPage.classList.add("closeSignin");
         });
     }
+
+    // Email/Password Sign-In (basic demo)
+    if (signinForm) {
+        signinForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const inputs = signinForm.querySelectorAll("input");
+            const usernameOrEmail = inputs[0].value.trim();
+            const password = inputs[1].value.trim();
+
+            if (!usernameOrEmail || !password) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            alert(`Signed in as ${usernameOrEmail}`);
+            signinPage.classList.remove("openSignin");
+            signinPage.classList.add("closeSignin");
+        });
+    }
 }
 
-// =========================
-// FIX PATHS
-// =========================
-// =========================
-// FIX PATHS
-// =========================
-function fixPaths() {
-    const basePath = detectBasePath();
+// Sign out function
 
-    // Fix logo
-    const logo = document.getElementById('logo');
-    if (logo) logo.style.backgroundImage = `url(${basePath}images/logo.png)`;
+function handleGoogleSignIn() {
+  const provider = new firebase.auth.GoogleAuthProvider();
 
-    // Rewrite all nav-links with data-href
-    document.querySelectorAll('.nav-link').forEach(link => {
-        const target = link.dataset.href;
-        if (!target) return;
+  auth.signInWithPopup(provider)
+    .then((result) => {
+      const user = result.user;
 
-        // Always override href with normalized basePath + target
-        link.href = basePath + target;
+      // Save/update user in Firestore
+      db.collection("users").doc(user.uid).set({
+        name: user.displayName,
+        email: user.email,
+        photo: user.photoURL,
+        lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
 
-        // Ensure correct navigation even if browser cached old href
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = link.href;
-        });
+    })
+    .catch((error) => {
+      console.error("Error signing in:", error);
     });
 }
 
 
-// =========================
-// PARALLAX
-// =========================
+function signOut() {
+  auth.signOut().then(() => {
+    console.log("User signed out");
+  });
+}
+document.getElementById("signoutButton").addEventListener("click", signOut);
+
+
+
+
+
+function fixPaths() {
+    const relativePath = detectBasePath();
+    const logo = document.getElementById('logo');
+    if (logo) logo.src = relativePath + 'images/logo.png';
+    document.querySelectorAll('.nav-link').forEach(link => {
+        const href = link.dataset.href;
+        if (!href) return;
+        link.href = detectBasePath() + href;
+        link.addEventListener('click', () => window.location.href = link.href);
+    });
+}
+
 function setupParallax() {
     let parallaxX = 0, parallaxY = 0;
     document.addEventListener("mousemove", (e) => {
@@ -170,9 +208,6 @@ function setupParallax() {
     requestAnimationFrame(updateParallax);
 }
 
-// =========================
-// HEADER SCROLL
-// =========================
 function setupHeaderScroll(header) {
     let lastScrollTop = 0, ticking = false;
     window.addEventListener('scroll', () => {
@@ -189,9 +224,6 @@ function setupHeaderScroll(header) {
     });
 }
 
-// =========================
-// QUIZZES
-// =========================
 function setupQuizzes() {
     window.checkAnswers = function() {
         let score = 0;
@@ -223,9 +255,7 @@ function setupQuizzes() {
     };
 }
 
-// =========================
-// DEVICE CLASS
-// =========================
+// Device class
 function applyDeviceClass() {
     const isMobile = window.innerWidth <= 768;
     if (isMobile) {
@@ -240,3 +270,30 @@ function applyDeviceClass() {
 }
 window.addEventListener("load", applyDeviceClass);
 window.addEventListener("resize", applyDeviceClass);
+
+// =========================
+// GOOGLE SIGN-IN CALLBACK
+// =========================
+window.handleGoogleSignIn = function(response) {
+    const data = parseJwt(response.credential);
+    console.log("Google User:", data);
+    alert(`Signed in with Google: ${data.name} (${data.email})`);
+
+    const signinPage = document.getElementById("signinPage");
+    if (signinPage) {
+        signinPage.classList.remove("openSignin");
+        signinPage.classList.add("closeSignin");
+    }
+};
+
+// Helper: decode JWT
+function parseJwt(token) {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+        atob(base64).split("")
+            .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+            .join("")
+    );
+    return JSON.parse(jsonPayload);
+}

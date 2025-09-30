@@ -1,0 +1,68 @@
+<header>
+  <div class="head-left">
+    <img id="logo" src="/images/logo.png" alt="logo">
+    <h1>TechTinker</h1>
+  </div>
+
+  <nav class="navbar">
+    <ul class="nav-menu">
+      <li><a href="/index.html" class="nav-link" data-href="index.html">Home</a></li>
+      <li class="dropdown">
+        <a href="#" class="dropbtn">Projects ▾</a>
+        <ul class="dropdown-content">
+          <li><a href="/pages/showcase.html" class="nav-link" data-href="pages/showcase.html">Showcase</a></li>
+          <li><a href="/pages/tutorials.html" class="nav-link" data-href="pages/tutorials.html">Tutorials</a></li>
+          <li><a href="/pages/incubator.html" class="nav-link" data-href="pages/incubator.html">Incubator</a></li>
+          <li><a href="/pages/forum.html" class="nav-link" data-href="pages/forum.html">Forum</a></li>
+        </ul>
+      </li>
+      <li><a href="/pages/about.html" class="nav-link" data-href="pages/about.html">About Us</a></li>
+      <li><a href="/pages/contact.html" class="nav-link" data-href="pages/contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="head-right" id="authArea">
+    <!-- Logged-out view -->
+    <div id="loggedOutView" class="auth-view">
+      <span class="auth-status">🔴 Not signed in</span>
+      <a href="#" id="newAccountLink">NEW ACCOUNT</a>
+      <div class="button-box" id="signinBox">
+        <button id="signinButton">SIGN IN</button>
+      </div>
+    </div>
+
+    <!-- Logged-in view -->
+    <div id="userInfo" class="auth-view hidden">
+      <span class="auth-status">🟢 Signed in as</span>
+      <span id="userName" class="username"></span>
+    </div>
+
+    <!-- Sign-out button -->
+    <div id="signoutContainer" class="hidden">
+      <button id="signoutButton">SIGN OUT</button>
+    </div>
+  </div>
+
+  <!-- Sign-in modal -->
+  <div id="signinPage" class="signin-modal closeSignin">
+    <div class="signin-content">
+      <span id="closeIcon" class="close">&times;</span>
+      <h2>Sign In</h2>
+      <form id="emailLoginForm">
+        <input type="email" id="loginEmail" placeholder="Email" required>
+        <input type="password" id="loginPassword" placeholder="Password" required>
+        <button type="submit">Sign In</button>
+      </form>
+      <p style="margin: 8px 0; font-weight: 600;">OR</p>
+      <div class="google-signin">
+        <button type="button" id="googleSignInBtn">
+          <i class="bx bxl-google"></i> Continue with Google
+        </button>
+      </div>
+      <p style="margin-top: 12px; font-size: 14px;">
+        Don’t have an account?
+        <a href="#" id="registerLink">Create one</a>
+      </p>
+    </div>
+  </div>
+</header>
