@@ -50,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Quizzes
-    setupQuizzes();
 });
 
 // =========================
@@ -190,38 +189,82 @@ function setupHeaderScroll(header) {
 }
 
 // =========================
-// QUIZZES
+// QUIZZES (GLOBAL HANDLER)
 // =========================
-function setupQuizzes() {
-    window.checkAnswers = function() {
-        let score = 0;
-        const q1 = document.querySelector('input[name="q1"]:checked');
-        const q2 = document.querySelector('input[name="q2"]:checked');
-        const result = document.getElementById("result");
-        if (!q1 || !q2) {
-            result.textContent = "Please answer all questions.";
-            result.style.color = "orange";
-        } else {
-            if (q1.value === "a") score++;
-            if (q2.value === "b") score++;
-            result.textContent = `You scored ${score}/2.`;
-            result.style.color = score === 2 ? "green" : "red";
-        }
-    };
+document.addEventListener("DOMContentLoaded", () => {
+  const path = window.location.pathname;
 
-    window.checkQuiz = function() {
-        let score = 0;
-        const q1 = document.querySelector('input[name="q1"]:checked');
-        const q2 = document.querySelector('input[name="q2"]:checked');
-        const q3 = document.querySelector('input[name="q3"]:checked');
-        const quizResult = document.getElementById("quiz-result");
-        if (!quizResult) return;
-        if (q1 && q1.value === "3.3V") score++;
-        if (q2 && q2.value === "SPI") score++;
-        if (q3 && q3.value === "Pin 10") score++;
-        quizResult.textContent = `You scored ${score}/3`;
-    };
-}
+  const quizConfigs = {
+    "ohms.html": {
+      formId: "quizForm",
+      resultId: "result",
+      answers: { q1: "a", q2: "b" }
+    },
+    "arduino.html": {
+      formId: "quizForm",
+      resultId: "quizResult",
+      answers: { q1: "a", q2: "b", q3: "b" }
+    },
+    "soldering.html": {
+      formId: "quizForm",
+      resultId: "result",
+      answers: { q1: "b", q2: "b" }
+    },
+    "rfid.html": {
+      formId: "quiz-form",
+      resultId: "quiz-result",
+      answers: { q1: "3.3V", q2: "SPI", q3: "Pin 10" }
+    }
+  };
+
+  const file = path.split("/").pop();
+  const config = quizConfigs[file];
+  if (!config) return; // Not a quiz page
+
+  function checkQuiz() {
+    const quizForm = document.getElementById(config.formId);
+    const result = document.getElementById(config.resultId);
+    const answers = config.answers;
+
+    let score = 0;
+    let feedback = "";
+
+    // Reset styles
+    quizForm.querySelectorAll("label").forEach(label => {
+      label.style.color = "";
+    });
+
+    for (let key in answers) {
+      const correct = answers[key];
+      const selected = quizForm.querySelector(`input[name="${key}"]:checked`);
+      const correctInput = quizForm.querySelector(`input[name="${key}"][value="${correct}"]`);
+      const correctLabel = correctInput ? correctInput.parentElement : null;
+
+      if (selected) {
+        if (selected.value === correct) {
+          score++;
+          feedback += `✔ Question ${key.slice(1)} is correct!<br>`;
+          selected.parentElement.style.color = "green";
+        } else {
+          feedback += `✘ Question ${key.slice(1)} is incorrect. Correct answer: <strong>${correct}</strong><br>`;
+          selected.parentElement.style.color = "red";
+          if (correctLabel) correctLabel.style.color = "green";
+        }
+      } else {
+        feedback += `⚠ Question ${key.slice(1)} not answered.<br>`;
+        if (correctLabel) correctLabel.style.color = "green";
+      }
+    }
+
+    result.innerHTML = `You got <strong>${score}/${Object.keys(answers).length}</strong> correct.<br><br>${feedback}`;
+  }
+
+  const submitBtn = document.querySelector(`#${config.formId} button`);
+  if (submitBtn) {
+    submitBtn.addEventListener("click", checkQuiz);
+  }
+});
+
 
 // =========================
 // DEVICE CLASS

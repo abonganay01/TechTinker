@@ -110,25 +110,26 @@ void loop() {
             </ul>
         </section>
 
-        <section>
+            <section>
             <h2>Quick Quiz</h2>
             <form id="quiz-form">
                 <p>1. What voltage does the RC522 use?</p>
-                <input type="radio" name="q1" value="3.3V"> 3.3V<br>
-                <input type="radio" name="q1" value="5V"> 5V<br>
+                <label><input type="radio" name="q1" value="3.3V"> 3.3V</label><br>
+                <label><input type="radio" name="q1" value="5V"> 5V</label><br>
 
                 <p>2. Which communication protocol does RC522 use?</p>
-                <input type="radio" name="q2" value="I2C"> I2C<br>
-                <input type="radio" name="q2" value="SPI"> SPI<br>
+                <label><input type="radio" name="q2" value="I2C"> I2C</label><br>
+                <label><input type="radio" name="q2" value="SPI"> SPI</label><br>
 
                 <p>3. Which Arduino pin is commonly used for SDA?</p>
-                <input type="radio" name="q3" value="Pin 10"> Pin 10<br>
-                <input type="radio" name="q3" value="Pin 8"> Pin 8<br><br>
+                <label><input type="radio" name="q3" value="Pin 10"> Pin 10</label><br>
+                <label><input type="radio" name="q3" value="Pin 8"> Pin 8</label><br><br>
 
-                <button type="button" onclick="checkQuiz()">Submit</button>
+                <button type="button">Submit</button>
             </form>
             <p id="quiz-result"></p>
-        </section>
+            </section>
+
     </main>
 
     <!-- JS -->
