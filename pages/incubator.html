@@ -12,7 +12,8 @@
   <div id="hero-placeholder"></div>
   <div id="header-placeholder"></div>
 
-  <main class="container">
+  <!-- Added unique class 'idea-incubator' to scope CSS -->
+  <main class="container idea-incubator">
     <!-- Hero / Intro -->
     <class="hero hero--sub">
       <h2>Idea Incubator</h2>
@@ -22,8 +23,13 @@
       <p class="subtext">
         Encourages teamwork and sparks innovation.
       </p>
-      <a href="../index.html" class="btn">Back to Home</a>
-  
+    </class>
+
+    <!-- Ideas List -->
+    <section aria-label="Idea list" class="cards-grid" id="ideaList" data-logged-in="false">
+      <!-- Dynamic idea cards will appear here -->
+      <p class="muted" id="emptyIdeas">No ideas yet. Be the first to pitch!</p>
+    </section>
 
     <!-- Submit Idea Form -->
     <section class="incubator-form" aria-label="Submit your idea">
@@ -42,11 +48,7 @@
       </form>
     </section>
 
-    <!-- Ideas List -->
-    <section aria-label="Idea list" class="cards-grid" id="ideaList">
-      <!-- Dynamic idea cards will appear here -->
-      <p class="muted" id="emptyIdeas">No ideas yet. Be the first to pitch!</p>
-    </section>
+    <a href="../index.html" class="btn">Back to Home</a>
   </main>
 
   <div id="footer-placeholder"></div>

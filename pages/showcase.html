@@ -68,7 +68,6 @@
         <a href="../index.html" class="btn">⬅ Back to Home</a>
       </div>
 
-      <!-- Submission Section -->
       <section class="submit-section">
         <h3>📤 Share Your Project</h3>
         <p>
@@ -76,17 +75,23 @@
           <strong>All submissions will be reviewed before appearing in the showcase.</strong>
         </p>
 
-        <!-- Placeholder for login restriction, manual Gmail, or Google Form -->
-        <iframe 
-          src="https://docs.google.com/forms/d/e/1FAIpQLSdCjBBtIbpWKJLo47guhAmjiyp5NuovqTfmwOw6y3i0oL0CQg/viewform?embedded=true" 
-          width="640" height="800" frameborder="0" marginheight="0" marginwidth="0"
-          style="display: none;">
-          Loading…
-        </iframe>
+        <a 
+          id="submitButton"
+          href="https://docs.google.com/forms/d/e/1FAIpQLSdCjBBtIbpWKJLo47guhAmjiyp5NuovqTfmwOw6y3i0oL0CQg/viewform" 
+          target="_blank"
+          class="submit-link"
+          style="display:inline-block; padding:12px 20px; background:#4CAF50; color:white; border-radius:5px; text-decoration:none; font-weight:bold; pointer-events:none; opacity:0.6;"
+        >
+          Go to Submission Form
+        </a>
+
+        <p id="submitMessage" style="color:red; font-size:0.9em; display:none;">You must be logged in to submit.</p>
       </section>
+
 
       <!-- Attach showcase.js -->
       <script type="module" src="../js/showcase.js"></script>
+
 
 
 

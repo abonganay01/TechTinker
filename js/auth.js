@@ -240,3 +240,33 @@ export function initAuth(callback) {
     callback(currentAuthState); // fire once immediately
   }
 }
+
+// =============================
+// SUBMIT BUTTON ACCESS CONTROL
+// =============================
+const submitButton = document.getElementById("submitButton");
+const submitMessage = document.getElementById("submitMessage");
+
+function updateSubmitButton(authState) {
+  if (submitButton) {
+    if (authState.loggedIn) {
+      submitButton.style.pointerEvents = "auto";
+      submitButton.style.opacity = "1";
+      submitMessage.style.display = "none";
+    } else {
+      submitButton.style.pointerEvents = "none";
+      submitButton.style.opacity = "0.6";
+      submitMessage.style.display = "block";
+    }
+  }
+}
+
+// Connect to auth state changes
+initAuth(updateSubmitButton);
+
+submitButton.addEventListener("click", (e) => {
+  if (!currentAuthState.loggedIn) {
+    e.preventDefault();
+    toggleModal("signinPage", true);
+  }
+});

@@ -811,9 +811,6 @@ header.logged-in #userInfo {
         padding: 0 20px;
     }
 
-    .nav-menu {
-        display: none;
-    }
 
     .signin-content {
         padding: 25px;
@@ -1386,11 +1383,276 @@ footer {
 .incubator-form .input, .incubator-form .textarea { width: 100%; margin-bottom: 1rem; padding: 0.75rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; }
 .incubator-form .textarea { height: 100px; resize: vertical; }
 
-#ideaList .card { background: linear-gradient(
+/* ===========================
+   Idea Incubator Styling
+=========================== */
+
+.incubator-container {
+  display: flex;
+  gap: 20px;
+}
+
+.ideas-column {
+  flex: 1;
+  max-width: 400px;
+  overflow-y: auto;
+}
+
+.details-column {
+  flex: 2;
+  border-left: 1px solid #ddd;
+  padding-left: 20px;
+}
+
+
+.idea-incubator {
+  animation: fadeIn 0.4s ease;
+}
+
+/* Animation keyframes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Card grid layout */
+.idea-incubator .cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Always two cards horizontally */
+  gap: 1.5rem;
+  margin-top: 2rem;
+  animation: fadeIn 0.5s ease-in;
+}
+
+/* Base card (no animation on update) */
+.idea-incubator .card {
+  background: linear-gradient(
     120deg,
-    color-mix(in oklab, var(--surface-1), #ffffff 2%) 80%,
-    color-mix(in oklab, var(--surface-2), #7f8cff 8%) 100%
-  ); border-radius: 10px; padding: 1rem; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+    color-mix(in oklab, var(--surface-1, #fff), #ffffff 2%) 80%,
+    color-mix(in oklab, var(--surface-2, #f0f4ff), #7f8cff 8%) 100%
+  );
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  opacity: 1; /* Always visible */
+}
+
+/* Animate only once, when the card is created */
+.idea-incubator .card.init-animate {
+  opacity: 0;
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+
+/* Stagger animation delay for each card */
+.idea-incubator .card:nth-child(1) { animation-delay: 0.05s; }
+.idea-incubator .card:nth-child(2) { animation-delay: 0.1s; }
+.idea-incubator .card:nth-child(3) { animation-delay: 0.15s; }
+.idea-incubator .card:nth-child(4) { animation-delay: 0.2s; }
+.idea-incubator .card:nth-child(5) { animation-delay: 0.25s; }
+.idea-incubator .card:nth-child(n) { animation-delay: calc(0.05s * var(--n)); }
+
+/* Card content */
+.idea-incubator .card__body {
+  margin-bottom: 1rem;
+}
+
+.idea-incubator .card__title {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.idea-incubator .card__text {
+  font-size: 1rem;
+  color: #333;
+}
+
+.idea-incubator .card__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.idea-incubator .tag {
+  background-color: #e0e4ff;
+  color: #333;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.idea-incubator .tag:hover {
+  transform: scale(1.05);
+  background-color: #d0d4ff;
+}
+
+/* Collaborators section */
+.idea-incubator .card .card__collaborators {
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+/* Join as Collaborator button */
+.idea-incubator .card .btn.join-btn {
+  display: inline-block;
+  background-color: #4CAF50;
+  color: white !important;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.idea-incubator .card .btn.join-btn:hover:not(:disabled) {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
+
+.idea-incubator .card .btn.join-btn:disabled {
+  background-color: #aaa !important;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Incubator form styling */
+.idea-incubator .incubator-form {
+  margin: 2rem 0;
+  background: linear-gradient(
+    120deg,
+    color-mix(in oklab, var(--surface-1, #fff), #ffffff 2%) 80%,
+    color-mix(in oklab, var(--surface-2, #f0f4ff), #7f8cff 8%) 100%
+  );
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+
+  animation: fadeIn 0.4s ease;
+}
+
+.idea-incubator .incubator-form h3 {
+  margin-bottom: 1rem;
+}
+
+.idea-incubator .incubator-form .input,
+.idea-incubator .incubator-form .textarea {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.idea-incubator .incubator-form .textarea {
+  height: 100px;
+  resize: vertical;
+}
+
+/* Buttons */
+.idea-incubator .btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.idea-incubator .btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.02);
+}
+
+.idea-incubator .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Empty ideas message */
+.idea-incubator .muted {
+  font-size: 1rem;
+  color: #777;
+  text-align: center;
+  margin-top: 2rem;
+  animation: fadeIn 0.4s ease;
+}
+
+.my-idea {
+  border: 2px solid #4CAF50; /* green border */
+  background-color: #f0fff4; /* light green background */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.my-idea-badge {
+  display: inline-block;
+  background-color: #4CAF50; /* green */
+  color: white;
+  font-size: 0.8rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 8px;
+}
+
+.back-btn {
+  display: inline-block;
+  margin-bottom: 16px;
+  background-color: #f0f0f0;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  background-color: #ddd;
+}
+
+
+/* Responsive: one card per row on small screens */
+@media (max-width: 800px) {
+  .idea-incubator .cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@keyframes highlightChange {
+  0% {
+    background-color: rgba(255, 255, 0, 0.4);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.card.update-highlight {
+  animation: highlightChange 0.5s ease;
+}
+
+
 
 /* ohms.css small rules */
 .article h2, .video h2, .quiz h2 { color: #0066cc; }
@@ -1739,3 +2001,4 @@ iframe { display: block; margin: 20px auto; border-radius: 8px; }
         font-size: 0.9rem;
     }
 }
+
