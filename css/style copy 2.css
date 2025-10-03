@@ -893,59 +893,52 @@ footer {
 .btn-outline:hover { background: color-mix(in oklab, var(--surface-2), transparent 55%); }
 
 /* ================================
-   10. FORUM & COMMENTS (Merged Dark Theme)
+   10. FORUM & COMMENTS
 ================================ */
 .forum-container {
   max-width: 900px;       /* Limit the width for better readability */
-  width: 90%;             /* Responsive width */
-  margin: 0 auto;         /* Center horizontally */
-  padding: 20px;
+  width: 90%;            /* Responsive width */
+  margin: 0 auto;        /* Center horizontally */
+  padding: 20px;         /* Add spacing */
   display: flex;
   flex-direction: column;
   gap: 20px;
-  background-color: #171429; /* Dark background preserved */
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.25);
 }
 
 .forum-container h2 {
   font-size: 1.6rem;
   font-weight: 800;
-  color: #fff;            /* Keep white text */
+  color: #fff;
   margin: 0 0 18px;
   text-align: center;
-  border-bottom: 2px solid var(--border);
-  padding-bottom: 12px;
 }
 
-/* --- New Comment Section --- */
+/* New Comment Section */
 .new-comment {
+  margin-bottom: 20px;
   padding: 18px;
-  background: #1f1c2e; 
+  background: color-mix(in oklab, var(--surface-2), transparent 15%);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
 }
 
 .new-comment input,
 .new-comment textarea {
   width: 100%;
   padding: 12px;
+  margin-bottom: 12px;
   font-size: 15px;
-  border: 1px solid #3a3750;
+  border: 1px solid color-mix(in oklab, var(--border), #ffffff 5%);
   border-radius: 8px;
-  background: #201d35;
+  background: #1f1c2e;
   color: #f0f0f3;
   transition: border-color .2s, box-shadow .2s;
-  resize: vertical;
 }
 
 .new-comment input:focus,
 .new-comment textarea:focus {
   border-color: var(--brand-5);
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--brand-5), transparent 70%);
   outline: none;
 }
 
@@ -964,7 +957,6 @@ footer {
   color: #fff;
   font-size: 16px;
   font-weight: 800;
-  transition: transform 0.2s, filter 0.2s;
 }
 
 .new-comment button:hover {
@@ -972,69 +964,39 @@ footer {
   filter: brightness(1.05);
 }
 
-/* --- Comments --- */
-#commentsList {
-  display: flex;
-  flex-direction: column;
-  gap: 15px; 
-}
-
+/* Comment Styling */
 .comment {
-  background: #171429; /* Dark theme preserved */
-  padding: 16px;
   border: 1px solid var(--border);
+  padding: 16px;
+  margin-bottom: 16px;
   border-radius: 12px;
+  background: #171429;
   box-shadow: 0 3px 8px rgba(0,0,0,.2);
   transition: transform .2s;
 }
 
 .comment:hover { transform: translateY(-2px); }
 .comment strong { font-size: 1rem; color: var(--brand-5); }
-.comment p { margin: 5px 0; font-size: 15px; color: var(--text-dim); }
+.comment p { margin-bottom: 8px; font-size: 15px; color: var(--text-dim); }
 
-/* --- Reply Section --- */
-.reply-section {
-  margin-top: 14px;
-  padding-left: 18px;
-  border-left: 3px solid color-mix(in oklab, var(--border), #ffffff 10%);
-}
-
-.comment.reply {
-  margin-top: 10px;
-  background-color: #1a1730;
-  border: 1px solid #3a3750;
-  font-size: 0.95em;
-}
-
-.comment.reply strong {
-  color: #ddd; 
-}
-
-.comment.reply p span {
-  color: #999;
-  font-size: 0.85em;
-  font-style: italic;
-}
-
-/* --- Vote Section --- */
+/* Voting & Reply */
+/* Voting & Reply */
 .vote-section {
   display: flex;
   align-items: center;
-  margin-top: 8px;
-  font-size: 14px;
   gap: 8px;
-  flex-wrap: wrap;
-  color: #ccc;
+  font-size: 14px;
+  margin-top: 8px;
 }
 
 .vote-btn {
   cursor: pointer;
-  padding: 6px 10px;
-  border-radius: 8px;
-  background: #0f2740;
   color: var(--brand-5);
   font-weight: 800;
+  padding: 6px 10px;
+  background: #0f2740;
   border: 1px solid color-mix(in oklab, var(--brand-5), transparent 65%);
+  border-radius: 8px;
   transition: transform .2s, filter .2s, background-color .2s, color .2s;
 }
 
@@ -1046,50 +1008,44 @@ footer {
 .vote-count {
   font-weight: 800;
   color: #fff;
-  min-width: 15px;
-  text-align: center;
+  margin-right: 8px;
 }
 
-/* Voting states */
+/* Highlighted voting states */
 .vote-btn.upvoted {
-  background-color: #007bff;
+  background-color: #007bff; /* Bright blue */
   color: white;
-  border-color: #007bff;
 }
 
 .vote-btn.downvoted {
-  background-color: #dc3545;
+  background-color: #dc3545; /* Bright red */
   color: white;
-  border-color: #dc3545;
 }
 
-/* --- Reply Buttons --- */
-.reply-btn,
-.reply-btn-reply {
+
+.reply-btn, .reply-btn-reply {
   color: var(--brand-5);
   cursor: pointer;
   font-size: 14px;
   margin-left: 12px;
   font-weight: 600;
-  padding: 2px 8px;
-  border-radius: 4px;
 }
 
-.reply-btn:hover,
-.reply-btn-reply:hover {
-  text-decoration: underline;
-  background-color: #222040;
+.reply-btn:hover, .reply-btn-reply:hover { text-decoration: underline; }
+
+.reply-section {
+  margin-top: 14px;
+  padding-left: 18px;
+  border-left: 3px solid color-mix(in oklab, var(--border), #ffffff 10%);
 }
 
-/* --- Inline Reply Box --- */
+/* Inline Reply */
 .inline-reply {
   margin-top: 10px;
   padding: 12px;
   border: 1px solid var(--border);
   border-radius: 10px;
   background: #1a1730;
-  display: flex;
-  flex-direction: column;
 }
 
 .inline-reply input,
@@ -1102,13 +1058,14 @@ footer {
   border-radius: 8px;
   background: #201d35;
   color: #f0f0f3;
+  resize: none;
 }
 
 .inline-reply textarea { height: 70px; }
 
 .inline-reply button {
-  align-self: flex-end;
-  padding: 10px 14px;
+  width: 100%;
+  padding: 10px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -1116,32 +1073,14 @@ footer {
   color: #fff;
   font-size: 14px;
   font-weight: 700;
-  transition: filter .2s;
 }
 
 .inline-reply button:hover { filter: brightness(1.05); }
 
-/* --- Animations --- */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
-/* --- Responsive Adjustments --- */
-@media (max-width: 600px) {
-  .forum-container {
-    padding: 15px;
-    margin: 0 5px;
-  }
-  .vote-section {
-    gap: 5px;
-    flex-wrap: wrap;
-  }
-  .reply-section {
-    padding-left: 10px;
-  }
-}
-
 
 
 /* ================================
@@ -1446,96 +1385,75 @@ footer {
 
 /* ===========================
    Idea Incubator Styling
-   (Merged: Reference Layout + Your Colors & Styles + All Animations)
 =========================== */
 
 /* Main incubator container */
 .incubator-container {
-  display: flex;                /* from reference (flex layout) */
-  gap: 24px;                    /* spacing between columns */
+  display: grid;
+  
   width: 100%;
   min-height: 70vh;
-  transition: all 0.4s ease-in-out;
+  transition: grid-template-columns 0.3s ease;
 }
 
 /* Left = cards */
 .ideas-column {
-  width: 100%;                  /* takes full width initially */
-  flex-shrink: 0;               /* don’t shrink when details show */
   display: flex;
   flex-direction: column;
-  transition: width 0.4s ease-in-out;
+  transition: width 0.3s ease;
 }
 
 /* Right = details (hidden by default) */
 .details-column {
   display: none;
-  flex-grow: 1;
   padding-left: 20px;
   border-left: 1px solid var(--border, #ddd);
-  background: linear-gradient(
-    120deg,
-    color-mix(in oklab, var(--surface-1), #ffffff 2%) 80%,
-    color-mix(in oklab, var(--surface-2), #7f8cff 8%) 100%
-  );
-  border-radius: 12px;
-  padding: 24px 20px;
-  margin-bottom: 22px;
-  border: 1px solid var(--border);
-  box-shadow: 0 4px 16px rgba(0,0,0,.25);
-  transition: transform .15s ease, box-shadow .15s ease;
+  background: var(--surface, #fff);
 }
 
 /* When detail view is open */
-.incubator-container.details-view {
-  cursor: pointer; /* hint outside click */
-}
-.incubator-container.details-view .ideas-column {
-  width: 40%;        /* shrink ideas column */
-  max-width: 450px;
-  cursor: default;
-}
-.incubator-container.details-view .cards-grid {
-  grid-template-columns: 1fr;   /* collapse to one column */
-  gap: 16px;
-}
-.incubator-container.details-view .details-column {
-  display: block;    /* show details */
-  cursor: default;
+.incubator-container.show-details {
+  grid-template-columns: 1fr 1fr; /* left = list, right = detail */
 }
 
-/* Cards grid (scoped to incubator only) */
-.idea-incubator .cards-grid {
+.incubator-container.show-details .cards-grid {
+  grid-template-columns: 1fr; /* collapse to one column */
+}
+
+.incubator-container.show-details .details-column {
+  display: block;
+}
+
+/* Cards grid (always two columns default) */
+.cards-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  margin-top: 2rem;
-  animation: fadeIn 0.5s ease-in;
+  gap: 0; /* no spaces between cards */
 }
 
 .idea-incubator {
   animation: fadeIn 0.4s ease;
 }
 
-/* ===========================
-   Animations
-=========================== */
+
+
+/* Animation keyframes */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-@keyframes highlightChange {
-  0%   { background-color: rgba(255, 255, 0, 0.4); }
-  100% { background-color: transparent; }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* ===========================
-   Card Styling
-=========================== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Card grid layout */
+.idea-incubator .cards-grid {
+  margin-top: 2rem;
+  animation: fadeIn 0.5s ease-in;
+}
+
 .idea-incubator .card {
   background: linear-gradient(
     120deg,
@@ -1550,15 +1468,11 @@ footer {
   justify-content: space-between;
   cursor: pointer;
   opacity: 1;
-  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-  overflow: hidden;
+  transition: background 0.2s ease;
 }
 
 .idea-incubator .card:hover {
-  border-color: #74E8D3;
-  color: #74E8D3;
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  background: var(--hover, #f5f5f5);
 }
 
 /* Animate only once, when created */
@@ -1584,7 +1498,7 @@ footer {
 }
 .idea-incubator .card__text {
   font-size: 1rem;
-  color: #bec2fa;
+  color: #333;
 }
 .idea-incubator .card__footer {
   display: flex;
@@ -1635,26 +1549,19 @@ footer {
   opacity: 0.7;
 }
 
+
 /* Highlight the clicked/active card */
-.idea-incubator .card.active {
-  border-left: 5px solid #007bff; /* from reference */
-  background-color: #f8f9fa;
+.card.active {
   order: -1; /* moves it to the top of the grid */
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.5rem; /* space under it before other cards */
   box-shadow: 0 6px 16px rgba(0,0,0,0.15);
   transform: scale(1.02);
   transition: all 0.3s ease;
-  z-index: 10;
+  z-index: 10; /* keep above others visually */
 }
 
-/* Update highlight animation */
-.card.update-highlight {
-  animation: highlightChange 0.5s ease;
-}
 
-/* ===========================
-   Forms, Buttons, Badges
-=========================== */
+/* Incubator form styling */
 .idea-incubator .incubator-form {
   margin: 2rem 0;
   background: linear-gradient(
@@ -1682,7 +1589,7 @@ footer {
   resize: vertical;
 }
 
-/* Generic buttons */
+/* Buttons */
 .idea-incubator .btn {
   display: inline-block;
   padding: 0.5rem 1rem;
@@ -1713,12 +1620,12 @@ footer {
 }
 
 /* My idea highlighting */
-.idea-incubator .card.my-idea {
+.my-idea {
   border: 2px solid #4CAF50;
   background-color: #f0fff4;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-.idea-incubator .card .my-idea-badge {
+.my-idea-badge {
   display: inline-block;
   background-color: #4CAF50;
   color: white;
@@ -1728,8 +1635,7 @@ footer {
   margin-left: 8px;
 }
 
-/* Back button */
-.idea-incubator .back-btn {
+.back-btn {
   display: inline-block;
   margin-bottom: 16px;
   background-color: #f0f0f0;
@@ -1738,23 +1644,22 @@ footer {
   border-radius: 4px;
   cursor: pointer;
 }
-.idea-incubator .back-btn:hover { background-color: #ddd; }
+.back-btn:hover { background-color: #ddd; }
 
-/* ===========================
-   Responsive
-=========================== */
+/* Responsive: stack cards on small screens */
 @media (max-width: 800px) {
   .idea-incubator .cards-grid {
     grid-template-columns: 1fr;
   }
-  .incubator-container.details-view {
-    flex-direction: column; /* stack for mobile */
-  }
-  .incubator-container.details-view .ideas-column,
-  .incubator-container.details-view .details-column {
-    width: 100%;
-    max-width: none;
-  }
+}
+
+/* Highlight animation */
+@keyframes highlightChange {
+  0% { background-color: rgba(255, 255, 0, 0.4); }
+  100% { background-color: transparent; }
+}
+.card.update-highlight {
+  animation: highlightChange 0.5s ease;
 }
 
 
@@ -1766,431 +1671,6 @@ iframe { display: block; margin: 20px auto; border-radius: 8px; }
 .quiz button { margin-top: 10px; background: #0066cc; color: white; padding: 10px 15px; border: none; cursor: pointer; border-radius: 5px; }
 .quiz button:hover { background: #004a99; }
 #result { margin-top: 15px; font-weight: bold; }
-
-/* ===========================
-    Idea Incubator Styling
-    (Merged: Reference Layout + Your Colors & Styles + All Animations + Spacing)
-=========================== */
-
-/* --- General Variables & Setup (Assuming CSS Vars are available) --- */
-/* GLOBAL BOX SIZING: Crucial for responsive design */
-* {
-  box-sizing: border-box;
-}
-
-/* Main incubator container */
-.incubator-container {
-  display: flex;
-  gap: 24px;
-  width: 100%;
-  min-height: 70vh;
-  transition: all 0.4s ease-in-out;
-}
-
-/* Left = cards */
-.ideas-column {
-  width: 100%;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  transition: width 0.4s ease-in-out;
-}
-
-/* Right = details (hidden by default) */
-.details-column {
-  display: none;
-  flex-grow: 1;
-  padding-left: 20px;
-  border-left: 1px solid var(--border, #ddd);
-  background: linear-gradient(
-    120deg,
-    color-mix(in oklab, var(--surface-1, #fff), #ffffff 2%) 80%,
-    color-mix(in oklab, var(--surface-2, #f0f4ff), #7f8cff 8%) 100%
-  );
-  border-radius: 12px;
-  padding: 24px 20px;
-  margin-bottom: 22px;
-  border: 1px solid var(--border, #ddd);
-  box-shadow: 0 4px 16px rgba(0,0,0,.25);
-  transition: transform .15s ease, box-shadow .15s ease;
-}
-
-/* --- Added Spacing for Detail Column Content --- */
-.details-column h1,
-.details-column h2 {
-  margin-top: 1.5em; /* Extra space above new sections */
-  margin-bottom: 0.8em;
-}
-.details-column h3,
-.details-column p,
-.details-column ul,
-.details-column ol {
-  margin-bottom: 1em; /* Vertical space below block elements */
-}
-.details-column hr {
-  margin: 20px 0; /* Space out horizontal rules */
-  border-color: var(--border, #ddd);
-}
-
-
-/* When detail view is open */
-.incubator-container.details-view {
-  cursor: pointer; /* hint outside click */
-}
-.incubator-container.details-view .ideas-column {
-  width: 40%; 	/* shrink ideas column */
-  max-width: 450px;
-  cursor: default;
-}
-.incubator-container.details-view .cards-grid {
-  grid-template-columns: 1fr; 	/* collapse to one column */
-  gap: 16px;
-}
-.incubator-container.details-view .details-column {
-  display: block; 	/* show details */
-  cursor: default;
-}
-
-/* Cards grid (scoped to incubator only) */
-.idea-incubator .cards-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  margin-top: 2rem;
-  animation: fadeIn 0.5s ease-in;
-}
-
-.idea-incubator {
-  animation: fadeIn 0.4s ease;
-}
-
-/* ===========================
-    Animations
-=========================== */
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to 	{ opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to 	{ opacity: 1; }
-}
-@keyframes highlightChange {
-  0% 	{ background-color: rgba(255, 255, 0, 0.4); }
-  100% { background-color: transparent; }
-}
-
-/* ===========================
-    Card Styling
-=========================== */
-.idea-incubator .card {
-  background: linear-gradient(
-    120deg,
-    color-mix(in oklab, var(--surface-1, #fff), #ffffff 2%) 80%,
-    color-mix(in oklab, var(--surface-2, #f0f4ff), #7f8cff 8%) 100%
-  );
-  border-radius: 12px;
-  padding: 1rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  cursor: pointer;
-  opacity: 1;
-  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-  overflow: hidden;
-  border: 1px solid transparent; /* Added for consistent transition on hover */
-}
-
-.idea-incubator .card:hover {
-  border-color: #74E8D3;
-  color: inherit; /* Prevent color change from overriding other styles */
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-}
-
-/* Animate only once, when created */
-.idea-incubator .card.init-animate {
-  opacity: 0;
-  animation: fadeInUp 0.4s ease forwards;
-}
-
-/* Stagger animation */
-.idea-incubator .card:nth-child(1) { animation-delay: 0.05s; }
-.idea-incubator .card:nth-child(2) { animation-delay: 0.1s; }
-.idea-incubator .card:nth-child(3) { animation-delay: 0.15s; }
-.idea-incubator .card:nth-child(4) { animation-delay: 0.2s; }
-.idea-incubator .card:nth-child(5) { animation-delay: 0.25s; }
-
-/* Card content */
-.idea-incubator .card__body { margin-bottom: 1rem; }
-.idea-incubator .card__title {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-  color: #333; /* Ensure readability */
-}
-.idea-incubator .card__text {
-  font-size: 1rem;
-  color: #6c757d; /* Adjusted for better contrast/readability */
-}
-.idea-incubator .card__footer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.75rem; /* Added space between text and tags/buttons */
-}
-.idea-incubator .tag {
-  background-color: #e0e4ff;
-  color: #333;
-  padding: 0.3rem 0.6rem;
-  border-radius: 6px;
-  font-size: 0.85rem;
-  transition: transform 0.2s ease, background-color 0.3s ease;
-  white-space: nowrap; /* Prevent tags from breaking too early */
-}
-.idea-incubator .tag:hover {
-  transform: scale(1.05);
-  background-color: #d0d4ff;
-}
-
-/* Collaborators section */
-.idea-incubator .card .card__collaborators {
-  font-size: 0.9rem;
-  color: #555;
-  margin-top: 0.5rem;
-  transition: color 0.3s ease;
-}
-
-/* Join button */
-.idea-incubator .card .btn.join-btn {
-  display: inline-block;
-  background-color: #4CAF50;
-  color: white !important;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-top: 0.5rem;
-  font-size: 0.9rem;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-.idea-incubator .card .btn.join-btn:hover:not(:disabled) {
-  background-color: #45a049;
-  transform: scale(1.05);
-}
-.idea-incubator .card .btn.join-btn:disabled {
-  background-color: #aaa !important;
-  cursor: not-allowed;
-  opacity: 0.7;
-}
-
-/* Highlight the clicked/active card */
-.idea-incubator .card.active {
-  border-left: 5px solid #007bff; /* from reference */
-  background-color: #f8f9fa;
-  order: -1; /* moves it to the top of the grid */
-  margin-bottom: 1.5rem;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-  transform: scale(1.02);
-  transition: all 0.3s ease;
-  z-index: 10;
-}
-
-/* Update highlight animation */
-.card.update-highlight {
-  animation: highlightChange 0.5s ease;
-}
-
-/* ===========================
-    Forms, Buttons, Badges
-=========================== */
-.idea-incubator .incubator-form {
-  margin: 2rem 0 3rem 0; /* Adjusted: added more space below the form */
-  background: linear-gradient(
-    120deg,
-    color-mix(in oklab, var(--surface-1, #fff), #ffffff 2%) 80%,
-    color-mix(in oklab, var(--surface-2, #f0f4ff), #7f8cff 8%) 100%
-  );
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  animation: fadeIn 0.4s ease;
-}
-.idea-incubator .incubator-form h3 { margin-bottom: 1rem; }
-.idea-incubator .incubator-form .input,
-.idea-incubator .incubator-form .textarea {
-  width: 100%;
-  margin-bottom: 1rem;
-  padding: 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1rem;
-  box-sizing: border-box; /* Important for width: 100% with padding */
-}
-.idea-incubator .incubator-form .textarea {
-  height: 100px;
-  resize: vertical;
-}
-
-/* --- Added Button Group Spacing --- */
-.idea-incubator .incubator-form .btn-group {
-  display: flex;
-  gap: 10px; /* Space between multiple buttons */
-  margin-top: 1rem; /* Space above the buttons */
-}
-/* Generic buttons */
-.idea-incubator .btn {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  background-color: #007BFF;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  text-decoration: none; /* Ensure links styled as buttons don't have underlines */
-}
-.idea-incubator .btn:hover:not(:disabled) {
-  background-color: #0056b3;
-  transform: scale(1.02);
-}
-.idea-incubator .btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-/* Empty ideas message */
-.idea-incubator .muted {
-  font-size: 1rem;
-  color: #777;
-  text-align: center;
-  margin-top: 2rem;
-  animation: fadeIn 0.4s ease;
-}
-
-/* My idea highlighting */
-.idea-incubator .card.my-idea {
-  border: 2px solid #4CAF50;
-  background-color: #f0fff4;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-.idea-incubator .card .my-idea-badge {
-  display: inline-block;
-  background-color: #4CAF50;
-  color: white;
-  font-size: 0.8rem;
-  padding: 2px 6px;
-  border-radius: 4px;
-  margin-left: 8px;
-}
-
-/* Back button */
-.idea-incubator .back-btn {
-  display: inline-block;
-  margin-bottom: 16px;
-  background-color: #f0f0f0;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-.idea-incubator .back-btn:hover { background-color: #ddd; }
-
-/* ===========================
-    Responsive
-    Enhanced for Mobile, Tablet, and Desktop
-=========================== */
-
-/* Tablet Optimization (Max 1024px) */
-@media (max-width: 1024px) {
-  .incubator-container {
-    gap: 16px; /* Slightly reduce gap between columns */
-  }
-  .idea-incubator .cards-grid {
-    grid-template-columns: 1fr; /* Force single column on tablet for better card readability */
-    gap: 16px; /* Slightly reduce grid gap */
-  }
-}
-
-/* Primary Mobile Breakpoint (Max 800px) - Dedicated Detail View */
-@media (max-width: 800px) {
-  /* Cards collapse to single column, even when details are not shown */
-  .idea-incubator .cards-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  /* When details view is open, switch to mobile Master-Detail view */
-  .incubator-container.details-view {
-    flex-direction: column;
-    gap: 0; /* Remove gap when only one column is visible */
-  }
-
-  /* Hide the master list (ideas-column) completely when details are shown on mobile */
-  .incubator-container.details-view .ideas-column {
-    display: none;
-  }
-
-  /* Details column takes full width and has a distinct color/style */
-  .incubator-container.details-view .details-column {
-    display: block;
-    width: 100%;
-    max-width: none;
-    /* Remove desktop styling artifacts */
-    border-left: none;
-    margin-bottom: 0;
-    /* Added responsive padding adjustment */
-    padding-bottom: 40px; /* Extra room for scrolling */
-  }
-
-  /* --- Responsive Spacing Adjustments for Details on Small Screens --- */
-  .details-column h1,
-  .details-column h2,
-  .details-column h3,
-  .details-column p,
-  .details-column ul,
-  .details-column ol {
-    margin-bottom: 0.8em; /* Tighten up vertical margins slightly */
-  }
-}
-
-/* Small Mobile Tweak (Max 480px) - Tighter Spacing */
-@media (max-width: 480px) {
-  .incubator-container {
-    gap: 12px;
-  }
-
-  .idea-incubator .cards-grid {
-    gap: 10px;
-    margin-top: 1rem;
-  }
-
-  /* Tighter padding across elements */
-  .idea-incubator .card {
-    padding: 0.75rem;
-  }
-  .details-column {
-    padding: 16px;
-  }
-  .idea-incubator .incubator-form {
-    padding: 1rem;
-    margin: 1rem 0 2rem 0; /* Tighter vertical margin */
-  }
-
-  .idea-incubator .card__title {
-    font-size: 1.1rem;
-  }
-  .idea-incubator .card__text {
-    font-size: 0.9rem;
-  }
-  .idea-incubator .tag {
-    font-size: 0.75rem;
-    padding: 0.2rem 0.4rem;
-  }
-}
 
 
 /* Universal Full-Viewport Background */
@@ -2531,5 +2011,4 @@ iframe { display: block; margin: 20px auto; border-radius: 8px; }
         font-size: 0.9rem;
     }
 }
-
 

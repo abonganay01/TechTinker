@@ -12,21 +12,6 @@ import {
   updateProfile
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
-// NOTE: Firestore rules are currently permissive (allow read/write for ideas, forumComments, userProjects).
-// This file provides a small local-anon helper so the UI can indicate/posts anonymously when not signed in.
-
-// --- NEW: stable local anonymous ID for unsigned users ---
-const ANON_ID_KEY = "tt_anon_id";
-function getOrCreateAnonId() {
-  let id = localStorage.getItem(ANON_ID_KEY);
-  if (!id) {
-    id = "anon-" + Math.random().toString(36).slice(2, 10);
-    localStorage.setItem(ANON_ID_KEY, id);
-  }
-  return id;
-}
-const localAnonId = getOrCreateAnonId();
-
 // =============================
 // DOM ELEMENTS
 // =============================
@@ -65,16 +50,6 @@ function showMessage(msg, isError = false) {
   }, 3000);
 }
 
-// ✅ Close all modals before opening another
-function closeAllModals() {
-  [signinModal, createAccountModal].forEach((m) => {
-    if (m) {
-      m.classList.remove("open", "openSignin");
-      m.classList.add("hidden");
-    }
-  });
-}
-
 function toggleModal(modalId, forceOpen, instantClose = false) {
   const modal = document.getElementById(modalId);
   if (!modal) return;
@@ -82,9 +57,6 @@ function toggleModal(modalId, forceOpen, instantClose = false) {
   const isOpen = modal.classList.contains("open") || modal.classList.contains("openSignin");
 
   if (forceOpen === true || (forceOpen === undefined && !isOpen)) {
-    // ✅ close others first
-    closeAllModals();
-
     modal.classList.add("open", "openSignin");
     modal.classList.remove("hidden", "closeSignin");
   } else if (forceOpen === false || (forceOpen === undefined && isOpen)) {
@@ -102,7 +74,6 @@ function toggleModal(modalId, forceOpen, instantClose = false) {
     }
   }
 }
-
 
 // =============================
 // LOADING SPINNER HELPERS
@@ -216,7 +187,7 @@ signoutButton?.addEventListener("click", () => {
 // AUTH STATE LISTENER
 // =============================
 // Track user state globally so showcase.js can use it
-let currentAuthState = { loggedIn: false, anonId: localAnonId };
+let currentAuthState = { loggedIn: false };
 
 onAuthStateChanged(auth, (user) => {
   const header = document.querySelector("header");
@@ -243,8 +214,7 @@ onAuthStateChanged(auth, (user) => {
     currentAuthState = {
       loggedIn: true,
       email: user.email,
-      isGoogle,
-      anonId: localAnonId
+      isGoogle
     };
 
   } else {
@@ -253,8 +223,7 @@ onAuthStateChanged(auth, (user) => {
     if (userInfo) userInfo.classList.add("hidden");
     if (signoutContainer) signoutContainer.classList.add("hidden");
 
-    // When rules allow unauthenticated writes, provide a stable anon id so other modules can use it.
-    currentAuthState = { loggedIn: false, anonId: localAnonId };
+    currentAuthState = { loggedIn: false };
   }
 
   // Notify listeners (like showcase.js)
@@ -279,23 +248,15 @@ const submitButton = document.getElementById("submitButton");
 const submitMessage = document.getElementById("submitMessage");
 
 function updateSubmitButton(authState) {
-  if (!submitButton) return;
-
-  // With permissive rules we allow anonymous submissions; reflect that in UI.
-  if (authState.loggedIn) {
-    submitButton.style.pointerEvents = "auto";
-    submitButton.style.opacity = "1";
-    if (submitMessage) {
+  if (submitButton) {
+    if (authState.loggedIn) {
+      submitButton.style.pointerEvents = "auto";
+      submitButton.style.opacity = "1";
       submitMessage.style.display = "none";
-      submitMessage.textContent = "";
-    }
-  } else {
-    // Enable the button but show a notice that actions will be anonymous.
-    submitButton.style.pointerEvents = "auto";
-    submitButton.style.opacity = "1";
-    if (submitMessage) {
+    } else {
+      submitButton.style.pointerEvents = "none";
+      submitButton.style.opacity = "0.6";
       submitMessage.style.display = "block";
-      submitMessage.textContent = "Not signed in — actions will be anonymous (permissive Firestore rules).";
     }
   }
 }
@@ -303,32 +264,9 @@ function updateSubmitButton(authState) {
 // Connect to auth state changes
 initAuth(updateSubmitButton);
 
-// Allow anonymous submit: don't force sign-in modal on click when unsigned.
-// If user is unsigned and wants to sign-in instead, they can open the sign-in modal manually.
-submitButton?.addEventListener("click", (e) => {
+submitButton.addEventListener("click", (e) => {
   if (!currentAuthState.loggedIn) {
-    showMessage("Posting anonymously. To post under your account, sign in first.");
-    // allow normal form action / client-side handler to proceed
-  } else {
-    // logged in — normal flow
+    e.preventDefault();
+    toggleModal("signinPage", true);
   }
 });
-
-
-// =============================
-// SHOW / HIDE PASSWORD TOGGLE
-// =============================
-function setupPasswordToggle(passwordInputId, toggleCheckboxId) {
-  const passwordInput = document.getElementById(passwordInputId);
-  const toggleCheckbox = document.getElementById(toggleCheckboxId);
-
-  if (passwordInput && toggleCheckbox) {
-    toggleCheckbox.addEventListener("change", () => {
-      passwordInput.type = toggleCheckbox.checked ? "text" : "password";
-    });
-  }
-}
-
-// Apply to both login + create account forms
-setupPasswordToggle("loginPassword", "showLoginPassword");
-setupPasswordToggle("newUserPassword", "showNewUserPassword");

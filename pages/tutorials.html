@@ -8,159 +8,162 @@
   <!-- main.js handles universal navbar -->
   <script type="module" src="../js/main.js" defer></script>
   <link rel="preload" as="video" href="images/hero-video.mp4" type="video/mp4">
+  <!-- Load Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#3b82f6',
+                        'secondary': '#1d4ed8',
+                        'accent': '#10b981',
+                    }
+                }
+            }
+        }
+    </script>
+
 <body>
   <div id="hero-placeholder"></div>
   <div id="header-placeholder"></div>
 
-  <main class="container">
+<main class="container">
 
-    <class="hero hero--sub">
-      <h2>Tutorials</h2>
-      <p class="lead">
-        Bite-sized lessons covering basic to advanced engineering concepts
-      </p>
-      <a href="../index.html" class="btn">Back to Home</a>
-    </section>
-    
+    <!-- Hero Section -->
+    <class="hero hero--sub p-8 sm:p-12 rounded-2xl shadow-xl mb-12">
+        <h2 class="text-4xl sm:text-5xl font-extrabold tracking-tight mb-2">Tutorials</h2>
+        <p class="lead text-xl font-light opacity-90 mb-6">
+            Bite-sized lessons covering basic to advanced engineering concepts
+        </p>
+        <a href="../index.html" class="btn inline-flex items-center justify-center px-6 py-3 border border-white text-base font-medium rounded-lg text-white hover:bg-white hover:text-secondary transition duration-150 ease-in-out">
+            Back to Home
+        </a>
+      </class>
+
     <!-- Search & Filters -->
-    <section class="filters" aria-label="Tutorial filters">
-      <form id="tutorialFilters" class="filters__form" onsubmit="return false;">
-        <label for="search" class="sr-only">Search tutorials</label>
-        <input id="search" type="search" placeholder="Search tutorials…" class="input" />
+    <section class="filters mb-12" aria-label="Tutorial filters">
+        <form id="tutorialFilters" class="filters__form flex flex-col md:flex-row gap-4" onsubmit="return false;">
+            
+            <!-- Search Input -->
+            <div class="relative flex-1">
+                <label for="search" class="sr-only">Search tutorials</label>
+                <input id="search" type="search" placeholder="Search tutorials…" 
+                       class="input w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:border-primary focus:ring-primary focus:ring-1 transition duration-150" />
+                <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </div>
 
-        <label for="level" class="sr-only">Difficulty</label>
-        <select id="level" class="select">
-          <option value="">All levels</option>
-          <option value="beginner">Beginner</option>
-          <option value="intermediate">Intermediate</option>
-          <option value="advanced">Advanced</option>
-        </select>
+            <!-- Difficulty Select -->
+            <div class="relative">
+                <label for="level" class="sr-only">Difficulty</label>
+                <select id="level" class="select appearance-none w-full py-3 pl-3 pr-10 border border-gray-300 rounded-xl shadow-sm focus:border-primary focus:ring-primary focus:ring-1 bg-white transition duration-150">
+                    <option value="">All levels</option>
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                </select>
+                <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </div>
 
-        <label for="topic" class="sr-only">Topic</label>
-        <select id="topic" class="select">
-          <option value="">All topics</option>
-          <option value="circuits">Circuit Design</option>
-          <option value="soldering">Soldering</option>
-          <option value="arduino">Arduino / uC</option>
-          <option value="rfid">RFID</option>
-          <option value="sensors">Sensors</option>
-        </select>
+            <!-- Topic Select -->
+            <div class="relative">
+                <label for="topic" class="sr-only">Topic</label>
+                <select id="topic" class="select appearance-none w-full py-3 pl-3 pr-10 border border-gray-300 rounded-xl shadow-sm focus:border-primary focus:ring-primary focus:ring-1 bg-white transition duration-150">
+                    <option value="">All topics</option>
+                    <option value="circuits">Circuit Design</option>
+                    <option value="soldering">Soldering</option>
+                    <option value="arduino">Arduino / uC</option>
+                    <option value="rfid">RFID</option>
+                    <option value="sensors">Sensors</option>
+                </select>
+                <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </div>
 
-        <button id="clearFilters" class="btn btn--ghost" type="button">Clear</button>
-      </form>
+            <!-- Clear Button -->
+            <button id="clearFilters" class="" type="button">
+                Clear
+            </button>
+        </form>
     </section>
 
     <!-- Tutorials Grid -->
-    <section aria-label="Tutorial list" class="cards-grid" id="tutorialList">
-      
-      <!-- Tutorial 1: Ohm's Law -->
-      <article class="card" data-level="beginner" data-topic="circuits">
-        <div class="card__body">
-          <h3 class="card__title">
-            <a href="./tutorials/ohms.html">Ohm's Law in 5 Minutes</a>
-          </h3>
-          <p class="card__text">Understand V=IR with quick, interactive examples and practice questions.</p>
-        </div>
-        <div class="card__footer">
-          <span class="tag">Beginner</span>
-          <span class="tag">Circuits</span>
-        </div>
-      </article>
+    <section aria-label="Tutorial list" class="cards" id="tutorialList">
+        
+        <!-- Tutorial 1: Ohm's Law -->
+        <article class="card" data-level="beginner" data-topic="circuits">
+            <div class="card__body p-6">
+                <h3 class="card__title text-xl font-semibold text-gray-800 mb-2">
+                    <a href="./tutorials/ohms.html">Ohm's Law in 5 Minutes</a>
+                </h3>
+                <p class="card__text text-gray-500">Understand V=IR with quick, interactive examples and practice questions.</p>
+            </div>
+            <div class="card__footer border-t border-gray-100 p-6 flex justify-start space-x-2">
+                <span class="tag text-xs font-medium px-3 py-1 rounded-full bg-green-100 text-green-700">Beginner</span>
+                <span class="tag text-xs font-medium px-3 py-1 rounded-full bg-blue-100 text-blue-700">Circuits</span>
+            </div>
+        </article>
 
-      <!-- Tutorial 2: Soldering -->
-      <article class="card" data-level="beginner" data-topic="soldering">
-        <div class="card__body">
-          <h3 class="card__title">
-            <a href="./tutorials/soldering.html">Soldering 101: Clean Joints</a>
-          </h3>
-          <p class="card__text">Tools, temps, and technique to get shiny, reliable joints every time.</p>
-        </div>
-        <div class="card__footer">
-          <span class="tag">Beginner</span>
-          <span class="tag">Soldering</span>
-        </div>
-      </article>
+        <!-- Tutorial 2: Soldering -->
+        <article class="card" data-level="beginner" data-topic="soldering">
+            <div class="card__body p-6">
+                <h3 class="card__title text-xl font-semibold text-gray-800 mb-2">
+                    <a href="./tutorials/soldering.html">Soldering 101: Clean Joints</a>
+                </h3>
+                <p class="card__text text-gray-500">Tools, temps, and technique to get shiny, reliable joints every time.</p>
+            </div>
+            <div class="card__footer border-t border-gray-100 p-6 flex justify-start space-x-2">
+                <span class="tag text-xs font-medium px-3 py-1 rounded-full bg-green-100 text-green-700">Beginner</span>
+                <span class="tag text-xs font-medium px-3 py-1 rounded-full bg-red-100 text-red-700">Soldering</span>
+            </div>
+        </article>
 
-      <!-- Tutorial 3: Arduino Debouncing -->
-      <article class="card" data-level="intermediate" data-topic="arduino">
-        <div class="card__body">
-          <h3 class="card__title">
-            <a href="./tutorials/arduino.html">Arduino: Debounce Like a Pro</a>
-          </h3>
-          <p class="card__text">Explore hardware and software debouncing with step-by-step demos.</p>
-        </div>
-        <div class="card__footer">
-          <span class="tag">Intermediate</span>
-          <span class="tag">Arduino</span>
-        </div>
-      </article>
+        <!-- Tutorial 3: Arduino Debouncing -->
+        <article class="card" data-level="intermediate" data-topic="arduino">
+            <div class="card__body p-6">
+                <h3 class="card__title text-xl font-semibold text-gray-800 mb-2">
+                    <a href="./tutorials/arduino.html">Arduino: Debounce Like a Pro</a>
+                </h3>
+                <p class="card__text text-gray-500">Explore hardware and software debouncing with step-by-step demos.</p>
+            </div>
+            <div class="card__footer border-t border-gray-100 p-6 flex justify-start space-x-2">
+                <span class="tag text-xs font-medium px-3 py-1 rounded-full bg-yellow-100 text-yellow-700">Intermediate</span>
+                <span class="tag text-xs font-medium px-3 py-1 rounded-full bg-purple-100 text-purple-700">Arduino</span>
+            </div>
+        </article>
 
-      <!-- Tutorial 4: RFID Basics -->
-      <article class="card" data-level="intermediate" data-topic="rfid">
-        <div class="card__body">
-          <h3 class="card__title">
-            <a href="./tutorials/rfid.html">RFID Basics with RC522</a>
-          </h3>
-          <p class="card__text">Wire the RC522, read UIDs, and handle multiple tags reliably.</p>
-        </div>
-        <div class="card__footer">
-          <span class="tag">Intermediate</span>
-          <span class="tag">RFID</span>
-        </div>
-      </article>
+        <!-- Tutorial 4: RFID Basics -->
+        <article class="card" data-level="intermediate" data-topic="rfid">
+            <div class="card__body p-6">
+                <h3 class="card__title text-xl font-semibold text-gray-800 mb-2">
+                    <a href="./tutorials/rfid.html">RFID Basics with RC522</a>
+                </h3>
+                <p class="card__text text-gray-500">Wire the RC522, read UIDs, and handle multiple tags reliably.</p>
+            </div>
+            <div class="card__footer border-t border-gray-100 p-6 flex justify-start space-x-2">
+                <span class="tag text-xs font-medium px-3 py-1 rounded-full bg-yellow-100 text-yellow-700">Intermediate</span>
+                <span class="tag text-xs font-medium px-3 py-1 rounded-full bg-indigo-100 text-indigo-700">RFID</span>
+            </div>
+        </article>
     </section>
 
     <!-- Empty State -->
-    <p id="emptyState" class="muted" hidden>
-      No tutorials match your filters. Try clearing filters or searching a different term.
+    <p id="emptyState" class="muted text-center text-xl text-gray-500 mt-16 p-8 bg-white rounded-xl shadow-inner hidden">
+        No tutorials match your filters. Try clearing filters or searching a different term.
     </p>
-  </main>
 
-  
+</main>
 
-  <script>
-    // Lightweight client-side filters
-    (function () {
-      const q = (sel) => document.querySelector(sel);
-      const qa = (sel) => Array.from(document.querySelectorAll(sel));
 
-      const search = q('#search');
-      const level = q('#level');
-      const topic = q('#topic');
-      const clearBtn = q('#clearFilters');
-      const empty = q('#emptyState');
-
-      function matches(card) {
-        const term = (search.value || '').trim().toLowerCase();
-        const byTerm = !term || card.textContent.toLowerCase().includes(term);
-        const byLevel = !level.value || card.dataset.level === level.value;
-        const byTopic = !topic.value || card.dataset.topic === topic.value;
-        return byTerm && byLevel && byTopic;
-      }
-
-      function applyFilters() {
-        let shown = 0;
-        qa('#tutorialList .card').forEach((card) => {
-          const ok = matches(card);
-          card.style.display = ok ? '' : 'none';
-          if (ok) shown++;
-        });
-        empty.hidden = shown !== 0;
-      }
-
-      [search, level, topic].forEach((el) => el.addEventListener('input', applyFilters));
-      clearBtn.addEventListener('click', () => {
-        search.value = '';
-        level.value = '';
-        topic.value = '';
-        applyFilters();
-        search.focus();
-      });
-
-      applyFilters();
-    })();
-  </script>
   <div id="footer-placeholder"></div>
 </body>
 </html>

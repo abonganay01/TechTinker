@@ -1,7 +1,5 @@
 // =========================
-// FORUM MODULE (Firestore + Auth Integration)
-// Restriction: Only logged-in users can interact.
-// Non-logged-in users can only view comments.
+// FORUM MODULE (Realtime Firestore + Auth integration)
 // =========================
 import { db, auth } from "./firebase-config.js";
 import {
@@ -17,14 +15,28 @@ import {
   deleteDoc,
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-import { deleteField } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
 // Prevent multiple initializations
 let forumInitialized = false;
+
+// --- NEW: local anonymous identity for unauthenticated users ---
+const ANON_ID_KEY = "tt_anon_id";
+const ANON_NAME_KEY = "tt_anon_name";
+function getOrCreateAnonId() {
+  let id = localStorage.getItem(ANON_ID_KEY);
+  if (!id) {
+    id = "anon-" + Math.random().toString(36).slice(2, 10);
+    localStorage.setItem(ANON_ID_KEY, id);
+  }
+  return id;
+}
+const localAnonId = getOrCreateAnonId();
 
 export function initForum() {
   if (forumInitialized) return;
   forumInitialized = true;
 
+  const usernameInput = document.getElementById("usernameInput");
   const commentInput = document.getElementById("commentInput");
   const postCommentBtn = document.getElementById("postCommentBtn");
   const commentsList = document.getElementById("commentsList");
@@ -33,12 +45,13 @@ export function initForum() {
   const authStatusText = document.getElementById("authStatusText");
   const systemMessageEl = document.getElementById("systemMessage");
 
+  // Shared Firestore path
   const commentsRef = collection(db, "forumComments");
   let cachedComments = [];
   let currentUser = null;
 
   // -------------------------
-  // System Message helper
+  // System Message (non-blocking UI feedback)
   // -------------------------
   function displayMessage(text, type = "info") {
     if (!systemMessageEl) return;
@@ -52,19 +65,37 @@ export function initForum() {
   // Auth state
   // -------------------------
   onAuthStateChanged(auth, (user) => {
-    currentUser = user;
+    if (user) {
+      currentUser = user;
+    } else {
+      // Synthesize a lightweight local anonymous "user" so UI logic can use uid
+      const storedName = localStorage.getItem(ANON_NAME_KEY) || null;
+      currentUser = {
+        uid: localAnonId,
+        displayName: storedName,
+        email: null,
+        isLocalAnon: true,
+      };
+    }
 
-    if (currentUser) {
+    if (currentUser && !currentUser.isLocalAnon) {
       console.log("✅ Logged in:", currentUser.email || currentUser.uid);
       if (postCommentBtn) postCommentBtn.disabled = false;
       if (commentInput) commentInput.disabled = false;
+      if (usernameInput) usernameInput.style.display = "none";
       if (authStatusText)
         authStatusText.textContent = `Logged in as: ${currentUser.email || "User"}`;
     } else {
-      console.log("ℹ️ No user logged in — view only mode.");
-      if (postCommentBtn) postCommentBtn.disabled = true;
-      if (commentInput) commentInput.disabled = true;
-      if (authStatusText) authStatusText.textContent = "Sign in to participate.";
+      console.log("ℹ️ Using local anonymous identity:", currentUser.uid);
+      // Allow local anonymous posting/interactions (rules allow it)
+      if (postCommentBtn) postCommentBtn.disabled = false;
+      if (commentInput) commentInput.disabled = false;
+      if (usernameInput) {
+        usernameInput.style.display = "block";
+        usernameInput.value = currentUser.displayName || "";
+        usernameInput.placeholder = "Enter a display name (optional)";
+      }
+      if (authStatusText) authStatusText.textContent = "Posting as local anonymous user.";
     }
 
     renderComments(cachedComments);
@@ -86,10 +117,15 @@ export function initForum() {
 
     const sorted = [...comments];
     if (sortSelect?.value === "votes") {
-      sorted.sort((a, b) => (b.votes - b.downvotes) - (a.votes - a.downvotes));
+      sorted.sort(
+        (a, b) =>
+          (b.votes - b.downvotes) - (a.votes - a.downvotes)
+      );
     } else {
       sorted.sort(
-        (a, b) => (b.timestamp?.toMillis?.() || 0) - (a.timestamp?.toMillis?.() || 0)
+        (a, b) =>
+          (b.timestamp?.toMillis?.() || 0) -
+          (a.timestamp?.toMillis?.() || 0)
       );
     }
 
@@ -103,7 +139,6 @@ export function initForum() {
       const div = document.createElement("div");
       div.className = "comment";
 
-      // Interaction UI only for logged-in users
       const voteUI = currentUser
         ? `
           <span class="vote-btn ${comment.voters[currentUser.uid] === "upvote" ? "upvoted" : ""}" 
@@ -192,17 +227,27 @@ export function initForum() {
   // Add new comment
   // -------------------------
   postCommentBtn?.addEventListener("click", async () => {
-    if (!currentUser) {
-      displayMessage("You must be signed in to post a comment.", "error");
-      return;
-    }
-
+    // Under permissive rules we allow posting even when not signed in.
     const text = commentInput.value.trim();
     if (!text) return;
 
+    // Determine username and author id (may be local anon)
+    const isAnonLocal = currentUser && currentUser.isLocalAnon;
+    const username =
+      (usernameInput?.value.trim()) ||
+      currentUser?.displayName ||
+      (currentUser?.email ? currentUser.email : "Anonymous");
+
+    // Save chosen local username for future posts
+    if (isAnonLocal && usernameInput?.value.trim()) {
+      localStorage.setItem(ANON_NAME_KEY, username);
+    }
+
+    const authorId = currentUser ? currentUser.uid : localAnonId;
+
     await addDoc(commentsRef, {
-      authorId: currentUser.uid,
-      username: currentUser.displayName || currentUser.email || "User",
+      authorId,
+      username,
       text,
       votes: 0,
       downvotes: 0,
@@ -218,14 +263,17 @@ export function initForum() {
   // Handle votes, replies, deletes
   // -------------------------
   commentsList?.addEventListener("click", async (e) => {
+    // Now currentUser is always present (real or local anon), but sanity-check:
     if (!currentUser) {
-      displayMessage("Sign in to interact with comments.", "error");
+      displayMessage("Unable to identify user for this action.", "error");
       return;
     }
 
     const target = e.target;
     const commentId = target.dataset.id;
-    const rIndex = target.dataset.rindex ? parseInt(target.dataset.rindex) : null;
+    const rIndex = target.dataset.rindex
+      ? parseInt(target.dataset.rindex)
+      : null;
     const ref = doc(db, "forumComments", commentId);
 
     // --- Delete ---
@@ -286,21 +334,10 @@ export function initForum() {
             newVote = target.dataset.action;
           }
 
-          
-
-          // inside vote handler for comments
-          if (newVote === null) {
-            await updateDoc(ref, {
-              ...update,
-              [`voters.${uid}`]: deleteField(),
-            });
-          } else {
-            await updateDoc(ref, {
-              ...update,
-              [`voters.${uid}`]: newVote,
-            });
-          }
-
+          await updateDoc(ref, {
+            ...update,
+            [`voters.${uid}`]: newVote,
+          });
         } else {
           const replies = data.replies || [];
           if (rIndex === null || !replies[rIndex]) return;
@@ -333,11 +370,10 @@ export function initForum() {
     }
   });
 
-   // -------------------------
+  // -------------------------
   // Inline reply box
   // -------------------------
   function toggleReplyBox(parent, commentId, rIndex) {
-    // Remove any existing inline reply boxes
     document.querySelectorAll(".inline-reply").forEach((box) => box.remove());
 
     const box = document.createElement("div");
@@ -350,19 +386,7 @@ export function initForum() {
     `;
     parent.appendChild(box);
 
-    // --- Outside click handler ---
-    function handleOutsideClick(e) {
-      if (!box.contains(e.target)) {
-        box.remove();
-        document.removeEventListener("click", handleOutsideClick);
-      }
-    }
-    // Delay attaching to avoid immediate close on same click
-    setTimeout(() => document.addEventListener("click", handleOutsideClick), 0);
-
-    // --- Submit handler ---
-    box.querySelector(".reply-submit").addEventListener("click", async (ev) => {
-      ev.stopPropagation(); // prevent triggering outside close
+    box.querySelector(".reply-submit").addEventListener("click", async () => {
       if (!currentUser) {
         displayMessage("You must be logged in to reply.", "error");
         return;
@@ -381,7 +405,14 @@ export function initForum() {
           : data.username ?? "Anonymous";
 
       const username =
-        currentUser.displayName || currentUser.email || "User";
+        currentUser.displayName ||
+        currentUser.email ||
+        (usernameInput?.value.trim() || "Anonymous");
+
+      // If local anon user set a username in the reply box, store it
+      if (currentUser.isLocalAnon && usernameInput?.value.trim()) {
+        localStorage.setItem(ANON_NAME_KEY, usernameInput.value.trim());
+      }
 
       const newReply = {
         authorId: currentUser.uid,
@@ -398,7 +429,6 @@ export function initForum() {
       });
 
       box.remove();
-      document.removeEventListener("click", handleOutsideClick);
     });
   }
 

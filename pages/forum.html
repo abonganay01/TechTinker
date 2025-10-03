@@ -15,28 +15,35 @@
   <div id="hero-placeholder"></div>
   <div id="header-placeholder"></div>
 
-  <main class="forum-container">
-    <h2>Discussion Forum</h2>
-    
-    <a href="../index.html" class="btn">Back to Home</a>
+    <main class="forum-container">
+        <h2>Discussion Forum</h2>
+        
+        <a href="../index.html" class="btn">Back to Home</a>
 
-    <!-- New Comment Box -->
-    <div class="comment-box new-comment" aria-label="Post a new comment">
-      <input type="text" id="usernameInput" placeholder="Enter your name" />
-      <textarea id="commentInput" rows="3" placeholder="Write a comment..."></textarea>
-      <button id="postCommentBtn" class="btn">Post Comment</button>
-      <select id="sortSelect">
-        <option value="newest">Sort by Newest</option>
-        <option value="votes">Sort by Votes</option>
-      </select>
-    </div>
+        <!-- System Message Area -->
+        <div id="systemMessage" class="msg-info"></div>
 
-    <!-- Empty message -->
-    <p class="muted" id="emptyCommentsMsg">No comments yet. Be the first to post!</p>
+        <!-- New Comment Box -->
+        <div class="comment-box new-comment" aria-label="Post a new comment">
+            <p id="authStatusText">Checking authentication...</p>
+            
+            <textarea id="commentInput" rows="3" placeholder="Write a comment..." disabled></textarea>
+            
+            <div>
+                <button id="postCommentBtn" class="btn" disabled>Post Comment</button>
+                <select id="sortSelect">
+                    <option value="newest">Sort by Newest</option>
+                    <option value="votes">Sort by Votes</option>
+                </select>
+            </div>
+        </div>
 
-    <!-- Comments list -->
-    <div id="commentsList"></div>
-  </main>
+        <!-- Empty message -->
+        <p class="muted" id="emptyCommentsMsg" style="display: none;">No comments yet. Be the first to post!</p>
+
+        <!-- Comments list -->
+        <div id="commentsList"></div>
+    </main>
 
   <div id="footer-placeholder"></div>
 

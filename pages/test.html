@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Integrated Interactive Card Layout</title>
+  
+  <style>
+    /* --- General Body & Container Styling --- */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f0f2f5;
+      color: #333;
+      margin: 0;
+      padding: 2rem;
+      transition: background-color 0.4s ease;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .lead {
+      margin-bottom: 2rem;
+      color: #555;
+      text-align: center;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1a253c;
+    }
+
+    /* --- Core Layout Logic --- */
+
+    /* Main container for columns */
+    .incubator-container {
+      display: flex; /* Use flexbox for layout */
+      gap: 24px; /* Space between columns when details are visible */
+      transition: all 0.4s ease-in-out;
+    }
+
+    /* Left column holding the cards grid */
+    .ideas-column {
+      width: 100%; /* Initially, it takes the full width */
+      flex-shrink: 0; /* Prevents the column from shrinking when flexbox is active */
+      transition: width 0.4s ease-in-out;
+    }
+
+    /* Right column for details, hidden by default */
+    .details-column {
+      display: none; /* Hidden by default */
+      flex-grow: 1; /* It will grow to take available space */
+    }
+
+    /* The Grid for the cards */
+    .cards-grid {
+      display: grid;
+      /* By default, it's a 2-column grid */
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0; /* No space between cards as requested */
+      transition: grid-template-columns 0.4s ease-in-out;
+    }
+
+
+    /* --- "Details View" Active State --- */
+    /* This class is added via JavaScript when a card is clicked */
+
+    .incubator-container.details-view {
+      cursor: pointer; /* Change cursor for the entire container to hint at outside click */
+    }
+
+    .incubator-container.details-view .ideas-column {
+      /* Shrink the ideas column to the left */
+      width: 40%;
+      max-width: 450px; /* Optional: set a max-width */
+      cursor: default; /* Reset cursor for the column */
+    }
+
+    .incubator-container.details-view .cards-grid {
+      /* Change the grid to a single column */
+      grid-template-columns: 1fr;
+      gap: 16px; /* Add some gap when in single-column view */
+    }
+
+    .incubator-container.details-view .details-column {
+      /* Make the details column visible */
+      display: block;
+      cursor: default; /* Reset cursor for the column */
+    }
+
+
+    /* --- Card Styling --- */
+
+    .card {
+      background-color: #ffffff;
+      border: 1px solid #e0e0e0;
+      padding: 20px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-left 0.2s ease;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Style for the currently selected card */
+    .card.active {
+      border-left: 5px solid #007bff;
+      background-color: #f8f9fa;
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: #1a253c;
+    }
+
+    .tags {
+      margin-top: 1rem;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tags span {
+      background-color: #e9ecef;
+      color: #495057;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+    }
+
+    /* Styling for the large details card */
+    .details-card {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      height: 100%;
+    }
+
+    .details-card h2 {
+      margin-top: 0;
+      color: #007bff;
+    }
+
+    .details-card p {
+      line-height: 1.6;
+    }
+  </style>
+
+</head>
+<body>
+
+  <main class="container">
+    <h1>Idea Incubator</h1>
+    <p class="lead">Click on a card to see the details. Click outside the card area to return to the grid view.</p>
+
+    <section class="incubator-container" id="incubatorContainer">
+
+      <div class="ideas-column">
+        <section aria-label="Idea list" class="cards-grid" id="ideaList">
+          </section>
+      </div>
+
+      <div class="details-column" id="ideaDetail">
+        </div>
+    </section>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // --- DOM Elements ---
+      const incubatorContainer = document.getElementById('incubatorContainer');
+      const ideaList = document.getElementById('ideaList');
+      const ideaDetail = document.getElementById('ideaDetail');
+
+      // --- Sample Data ---
+      const ideas = [
+        {
+          id: 1,
+          title: 'IoT Weather Station',
+          teaser: 'A smart weather station using Arduino and various sensors to broadcast real-time data.',
+          description: 'This project aims to build a cost-effective, open-source weather station. It will use a NodeMCU ESP8266 board to collect data on temperature, humidity, and barometric pressure. The data will then be sent to a cloud platform like ThingSpeak for visualization and analysis.',
+          tags: ['Arduino', 'IoT', 'Sensors', 'ESP8266']
+        },
+        {
+          id: 2,
+          title: 'AI Personal Plant Care',
+          teaser: 'An AI-powered system that monitors your plants and tells you when to water them.',
+          description: 'Using a Raspberry Pi and a camera module, this system captures images of a plant and uses a machine learning model to detect signs of wilting or distress. It provides notifications to the user with care recommendations, ensuring your plants stay healthy.',
+          tags: ['AI', 'Machine Learning', 'Python', 'Raspberry Pi']
+        },
+        {
+          id: 3,
+          title: 'Gamified Fitness App',
+          teaser: 'Turn your workout routine into a fun role-playing game where you level up.',
+          description: 'This mobile app tracks your exercises (running, weightlifting, etc.) and converts them into experience points (XP) for an in-game avatar. Completing workout plans unlocks achievements and new virtual gear. The goal is to make fitness more engaging and motivating.',
+          tags: ['Mobile App', 'Gamification', 'Fitness', 'React Native']
+        },
+        {
+          id: 4,
+          title: 'Smart Recipe Generator',
+          teaser: 'An application that suggests recipes based on the ingredients you have at home.',
+          description: 'Users can input a list of available ingredients, and the app will query a recipe database to find matching dishes. It includes filters for dietary restrictions (e.g., vegan, gluten-free) and cooking time. A great tool to reduce food waste and inspire new meal ideas.',
+          tags: ['Web App', 'API', 'JavaScript', 'Food']
+        }
+      ];
+
+      // --- Functions ---
+
+      /**
+       * Renders all idea cards into the grid.
+       */
+      function renderCards() {
+        ideaList.innerHTML = ''; // Clear existing cards
+        ideas.forEach(idea => {
+          const card = document.createElement('article');
+          card.className = 'card';
+          card.dataset.id = idea.id; // Add a data attribute to easily identify the card
+
+          card.innerHTML = `
+            <h3>${idea.title}</h3>
+            <p>${idea.teaser}</p>
+            <div class="tags">
+              ${idea.tags.map(tag => `<span>${tag}</span>`).join('')}
+            </div>
+          `;
+          ideaList.appendChild(card);
+        });
+      }
+
+      /**
+       * Renders the detailed view for a specific idea.
+       * @param {number} ideaId - The ID of the idea to display.
+       */
+      function showDetails(ideaId) {
+        const idea = ideas.find(i => i.id == ideaId);
+        if (!idea) return;
+
+        ideaDetail.innerHTML = `
+          <div class="details-card">
+            <h2>${idea.title}</h2>
+            <p>${idea.description}</p>
+            <div class="tags">
+              ${idea.tags.map(tag => `<span>${tag}</span>`).join('')}
+            </div>
+          </div>
+        `;
+
+        // Add the 'details-view' class to the main container to trigger the CSS changes
+        incubatorContainer.classList.add('details-view');
+      }
+
+      /**
+       * Hides the detail view and returns to the grid layout.
+       */
+      function hideDetails() {
+        incubatorContainer.classList.remove('details-view');
+        ideaDetail.innerHTML = ''; // Clear the details
+        // Remove active state from all cards
+        document.querySelectorAll('.card.active').forEach(card => {
+          card.classList.remove('active');
+        });
+      }
+
+      // --- Event Listeners ---
+
+      // Listen for clicks within the idea list (event delegation)
+      incubatorContainer.addEventListener('click', (event) => {
+        const clickedCard = event.target.closest('.card');
+
+        // Logic for clicking a card
+        if (clickedCard) {
+          const ideaId = clickedCard.dataset.id;
+          
+          // If this card is already active, do nothing
+          if (clickedCard.classList.contains('active')) {
+            return;
+          }
+
+          // Remove 'active' class from any previously active card
+          const currentActive = ideaList.querySelector('.card.active');
+          if (currentActive) {
+            currentActive.classList.remove('active');
+          }
+
+          // Add 'active' class to the clicked card
+          clickedCard.classList.add('active');
+
+          // Show the details for the clicked card
+          showDetails(ideaId);
+        }
+        // Logic for clicking "outside"
+        else {
+          // If the container is in details view and the click was not on a card
+          if (incubatorContainer.classList.contains('details-view')) {
+            hideDetails();
+          }
+        }
+      });
+
+      // --- Initial Load ---
+      renderCards();
+    });
+  </script>
+
+</body>
+</html>

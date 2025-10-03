@@ -283,3 +283,44 @@ function applyDeviceClass() {
 }
 window.addEventListener("load", applyDeviceClass);
 window.addEventListener("resize", applyDeviceClass);
+
+// Lightweight client-side filters
+    (function () {
+      const q = (sel) => document.querySelector(sel);
+      const qa = (sel) => Array.from(document.querySelectorAll(sel));
+
+      const search = q('#search');
+      const level = q('#level');
+      const topic = q('#topic');
+      const clearBtn = q('#clearFilters');
+      const empty = q('#emptyState');
+
+      function matches(card) {
+        const term = (search.value || '').trim().toLowerCase();
+        const byTerm = !term || card.textContent.toLowerCase().includes(term);
+        const byLevel = !level.value || card.dataset.level === level.value;
+        const byTopic = !topic.value || card.dataset.topic === topic.value;
+        return byTerm && byLevel && byTopic;
+      }
+
+      function applyFilters() {
+        let shown = 0;
+        qa('#tutorialList .card').forEach((card) => {
+          const ok = matches(card);
+          card.style.display = ok ? '' : 'none';
+          if (ok) shown++;
+        });
+        empty.hidden = shown !== 0;
+      }
+
+      [search, level, topic].forEach((el) => el.addEventListener('input', applyFilters));
+      clearBtn.addEventListener('click', () => {
+        search.value = '';
+        level.value = '';
+        topic.value = '';
+        applyFilters();
+        search.focus();
+      });
+
+      applyFilters();
+    })();
