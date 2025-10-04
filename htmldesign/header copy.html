@@ -1,6 +1,19 @@
+<!-- Load Boxicons for the Google icon -->
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- Load Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<!-- Load custom styles -->
+<link rel="stylesheet" href="../htmldesign/style.css">
+<!-- Load Tailwind CSS for utility classes -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Main scripts -->
+<script src="js/main.js" defer></script>
+<script type="module" src="js/auth.js"></script>
+
 <header>
   <div class="head-left">
-    <img id="logo" src="/images/logo.png" alt="logo">
+    <!-- Logo placeholder -->
+    <div id="logo" style="height:35px; width:35px; background-color: var(--primary-color); border-radius: 6px;"></div> 
     <h1>TechTinker</h1>
   </div>
 
@@ -22,47 +35,138 @@
   </nav>
 
   <div class="head-right" id="authArea">
-    <!-- Logged-out view -->
-    <div id="loggedOutView" class="auth-view">
-      <span class="auth-status">🔴 Not signed in</span>
+    <div id="loggedOutView">
       <a href="#" id="newAccountLink">NEW ACCOUNT</a>
       <div class="button-box" id="signinBox">
         <button id="signinButton">SIGN IN</button>
       </div>
     </div>
 
-    <!-- Logged-in view -->
-    <div id="userInfo" class="auth-view hidden">
-      <span class="auth-status">🟢 Signed in as</span>
-      <span id="userName" class="username"></span>
-    </div>
-
-    <!-- Sign-out button -->
-    <div id="signoutContainer" class="hidden">
+    <!-- Hidden until user logs in -->
+    <div id="userInfo" class="hidden">
+      <span id="userName">User Name</span>
       <button id="signoutButton">SIGN OUT</button>
     </div>
   </div>
 
-  <!-- Sign-in modal -->
-  <div id="signinPage" class="signin-modal closeSignin">
+  <!-- SIGN-IN MODAL -->
+  <div id="signinPage" class="signin-modal">
     <div class="signin-content">
-      <span id="closeIcon" class="close">&times;</span>
-      <h2>Sign In</h2>
-      <form id="emailLoginForm">
-        <input type="email" id="loginEmail" placeholder="Email" required>
-        <input type="password" id="loginPassword" placeholder="Password" required>
-        <button type="submit">Sign In</button>
-      </form>
-      <p style="margin: 8px 0; font-weight: 600;">OR</p>
-      <div class="google-signin">
-        <button type="button" id="googleSignInBtn">
-          <i class="bx bxl-google"></i> Continue with Google
-        </button>
+      <span id="closeIcon" class="close" data-target="signinPage">&times;</span>
+
+      <!-- Header -->
+      <div class="login-header">
+        <div class="logo-placeholder">
+          <i class="fas fa-ghost"></i>
+        </div>
+        <h1>TechTinker</h1>
+        <p>Login to your account</p>
       </div>
-      <p style="margin-top: 12px; font-size: 14px;">
-        Don’t have an account?
-        <a href="#" id="registerLink">Create one</a>
+
+      <!-- Login Form -->
+      <form id="emailLoginForm" class="login-form">
+        <div class="input-group">
+          <i class="fas fa-envelope icon"></i>
+          <input type="email" id="loginEmail" placeholder="Enter your Email" required>
+        </div>
+
+        <div class="input-group password-group">
+          <i class="fas fa-lock icon"></i>
+          <input type="password" id="loginPassword" placeholder="Password" required>
+          <i class="fas fa-eye-slash toggle-password" id="toggleLoginPassword"></i>
+        </div>
+
+        <div class="actions-row">
+
+          <a href="#" class="forgot-password">Forgot Password?</a>
+        </div>
+
+        <button type="submit" class="login-btn">Login</button>
+      </form>
+
+      <!-- Create account link -->
+      <div class="create-account-link">
+        Not a member? 
+        <a href="#" id="registerLink" data-show="createAccountModal" data-hide="signinPage">Create New Account</a>
+      </div>
+
+      <!-- Separator -->
+      <div class="separator">Or continue with</div>
+
+      <!-- Google Sign-In -->
+      <button type="button" class="googleSignInBtn google-login-btn">
+        <i class="fab fa-google"></i> Continue with Google
+      </button>
+
+      <!-- Loading Spinner -->
+      <div class="authLoading hidden absolute inset-0 bg-white/70 flex items-center justify-center rounded-lg">
+        <div class="animate-spin rounded-full h-10 w-10 border-t-4 border-blue-500 border-solid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CREATE ACCOUNT MODAL -->
+  <div id="createAccountModal" class="signin-modal hidden">
+    <div class="signin-content">
+      <span id="closeCreateAccount" class="close" data-target="createAccountModal">&times;</span>
+
+      <!-- Header -->
+      <div class="login-header">
+        <div class="logo-placeholder">
+          <i class="fas fa-ghost"></i>
+        </div>
+        <h1>TechTinker</h1>
+        <p>Create your account</p>
+      </div>
+
+      <!-- Create Account Form -->
+      <form id="createAccountForm" class="login-form">
+        <div class="input-group">
+          <i class="fas fa-user icon"></i>
+          <input type="text" id="newUserName" placeholder="Full Name" required>
+        </div>
+
+        <div class="input-group">
+          <i class="fas fa-envelope icon"></i>
+          <input type="email" id="newUserEmail" placeholder="Email" required>
+        </div>
+
+        <div class="input-group password-group">
+          <i class="fas fa-lock icon"></i>
+          <input type="password" id="newUserPassword" placeholder="Password" required>
+          <i class="fas fa-eye-slash toggle-password" id="toggleNewUserPassword"></i>
+        </div>
+
+        <div class="actions-row">
+          <label class="checkbox-container">
+            <input type="checkbox" id="showNewUserPassword">
+            <span class="checkmark"></span>
+            Show Password
+          </label>
+        </div>
+
+        <button type="submit" class="login-btn">Create Account</button>
+      </form>
+
+      <p class="create-account-link" style="margin-top: 12px; font-size: 14px;">
+        Already have an account?
+        <a href="#" id="backToSignIn" data-show="signinPage" data-hide="createAccountModal">Sign In</a>
       </p>
+
+      <!-- Separator -->
+      <div class="separator">Or continue with</div>
+
+      <!-- Google Sign-In -->
+      <button type="button" class="googleSignInBtn google-login-btn">
+        <i class="fab fa-google"></i> Continue with Google
+      </button>
+
+
+
+      <!-- Loading Spinner -->
+      <div class="authLoading hidden absolute inset-0 bg-white/70 flex items-center justify-center rounded-lg">
+        <div class="animate-spin rounded-full h-10 w-10 border-t-4 border-blue-500 border-solid"></div>
+      </div>
     </div>
   </div>
 </header>

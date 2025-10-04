@@ -1,16 +1,21 @@
 <!-- Load Boxicons for the Google icon -->
 <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- Load Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<!-- Load custom styles -->
+<link rel="stylesheet" href="../htmldesign/style.css">
 <!-- Load Tailwind CSS for utility classes -->
 <script src="https://cdn.tailwindcss.com"></script>
+<!-- Main scripts -->
 <script src="js/main.js" defer></script>
 <script type="module" src="js/auth.js"></script>
 
 <header>
-    <div class="head-left">
-        <!-- Replaced image with a styled div for a placeholder -->
-        <div id="logo" style="height:35px; width:35px; background-color: var(--primary-color); border-radius: 6px;"></div> 
-        <h1>TechTinker</h1>
-    </div>
+  <div class="head-left">
+    <!-- Logo placeholder -->
+    <div id="logo" style="height:35px; width:35px; background-color: var(--primary-color); border-radius: 6px;"></div> 
+    <h1>TechTinker</h1>
+  </div>
 
   <nav class="navbar">
     <ul class="nav-menu">
@@ -29,82 +34,154 @@
     </ul>
   </nav>
 
-    <div class="head-right" id="authArea">
-        <div id="loggedOutView">
-            <a href="#" id="newAccountLink">NEW ACCOUNT</a>
-            <div class="button-box" id="signinBox">
-                <button id="signinButton">SIGN IN</button>
-            </div>
-        </div>
-
-        <!-- This is initially hidden and toggled via JS -->
-        <div id="userInfo" class="hidden">
-            <span id="userName">User Name</span>
-            <button id="signoutButton">SIGN OUT</button>
-        </div>
+  <div class="head-right" id="authArea">
+    <div id="loggedOutView">
+      <a href="#" id="newAccountLink">NEW ACCOUNT</a>
+      <div class="button-box" id="signinBox">
+        <button id="signinButton">SIGN IN</button>
+      </div>
     </div>
 
+    <!-- Hidden until user logs in -->
+    <div id="userInfo" class="hidden">
+      <span id="userName">User Name</span>
+      <button id="signoutButton">SIGN OUT</button>
+    </div>
+  </div>
+
+  <!-- MESSAGE BOX (Replaces alert() and confirm()) -->
+    <div id="messageBox" class="fixed inset-0 bg-black bg-opacity-50 z-[1100] hidden items-center justify-center">
+        <div class="bg-white p-6 rounded-xl shadow-2xl max-w-sm w-full">
+            <h3 id="messageTitle" class="text-xl font-bold mb-3 text-gray-800"></h3>
+            <p id="messageText" class="text-gray-600 mb-6"></p>
+            <div class="flex justify-end">
+                <button id="messageCloseBtn" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">OK</button>
+            </div>
+        </div>
+    </div>
+    
     <!-- SIGN-IN MODAL -->
     <div id="signinPage" class="signin-modal">
         <div class="signin-content">
             <span id="closeIcon" class="close" data-target="signinPage">&times;</span>
-            <h2>Sign In</h2>
-            
-            <form id="emailLoginForm">
-                <input type="email" id="loginEmail" placeholder="Email" required>
-                <input type="password" id="loginPassword" placeholder="Password" required />
-                <label>
-                <input type="checkbox" id="showLoginPassword" /> Show Password
-                </label>
-                
-                <button type="submit">Sign In</button>
-            </form>
 
-            <p style="margin: 8px 0; font-weight: 600;">OR</p>
-
-            <div class="google-signin">
-                <button type="button" id="googleSignInBtn">
-                    <i class="bx bxl-google"></i> Continue with Google
-                </button>
+            <!-- Header -->
+            <div class="login-header">
+                <div class="logo-placeholder">
+                    <i class="fas fa-ghost"></i>
+                </div>
+                <h1>TechTinker</h1>
+                <p>Login to your account</p>
             </div>
 
-            <p style="margin-top: 12px; font-size: 14px;">
-                Don’t have an account?
-                <a href="#" id="registerLink" data-show="createAccountModal" data-hide="signinPage">Create one</a>
-            </p>
+            <!-- Login Form -->
+            <form id="emailLoginForm" class="login-form" novalidate>
+                
+                <div class="input-group">
+                    <i class="fas fa-envelope icon"></i>
+                    <input type="email" id="loginEmail" placeholder="Enter your Email" required>
+                </div>
+                <p id="loginEmailError" class="error-message"></p>
+
+                <div class="input-group password-group">
+                    <i class="fas fa-lock icon"></i>
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                    <i class="fas fa-eye-slash toggle-password" data-target-id="loginPassword"></i>
+                </div>
+                <p id="loginPasswordError" class="error-message"></p>
+
+
+                <div class="actions-row">
+                    <!-- Note: Real Firebase app would handle 'Forgot Password' flow -->
+                    <a href="#" class="forgot-password">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+
+            <!-- Create account link -->
+            <div class="create-account-link">
+                Not a member? 
+                <a href="#" id="registerLink" data-show="createAccountModal" data-hide="signinPage">Create New Account</a>
+            </div>
+
+            <!-- Separator -->
+            <div class="separator">Or continue with</div>
+
+            <!-- Google Sign-In -->
+            <button type="button" class="googleSignInBtn google-login-btn">
+                <i class="fab fa-google"></i> Continue with Google
+            </button>
 
             <!-- Loading Spinner -->
-            <div class="authLoading hidden absolute inset-0 bg-white/70 flex items-center justify-center rounded-lg">
+            <div id="loginLoading" class="authLoading absolute inset-0 bg-white/70 flex items-center justify-center rounded-lg hidden">
                 <div class="animate-spin rounded-full h-10 w-10 border-t-4 border-blue-500 border-solid"></div>
             </div>
         </div>
     </div>
 
     <!-- CREATE ACCOUNT MODAL -->
-    <div id="createAccountModal" class="signin-modal hidden">
+    <div id="createAccountModal" class="signin-modal">
         <div class="signin-content">
             <span id="closeCreateAccount" class="close" data-target="createAccountModal">&times;</span>
-            <h2>Create Account</h2>
 
-            <form id="createAccountForm">
-                <input type="text" id="newUserName" placeholder="Full Name" required>
-                <input type="email" id="newUserEmail" placeholder="Email" required>
-                <input type="password" id="newUserPassword" placeholder="Password" required />
-                <label>
-                <input type="checkbox" id="showNewUserPassword" /> Show Password
-                </label>
-                <button type="submit">Create Account</button>
+            <!-- Header -->
+            <div class="login-header">
+                <div class="logo-placeholder">
+                    <i class="fas fa-ghost"></i>
+                </div>
+                <h1>TechTinker</h1>
+                <p>Create your account</p>
+            </div>
+
+            <!-- Create Account Form -->
+            <form id="createAccountForm" class="login-form" novalidate>
+                <div class="input-group">
+                    <i class="fas fa-user icon"></i>
+                    <input type="text" id="newUserName" placeholder="Full Name" required>
+                </div>
+                <p id="newUserNameError" class="error-message"></p>
+
+                <div class="input-group">
+                    <i class="fas fa-envelope icon"></i>
+                    <input type="email" id="newUserEmail" placeholder="Email" required>
+                </div>
+                <p id="newUserEmailError" class="error-message"></p>
+
+                <div class="input-group password-group">
+                    <i class="fas fa-lock icon"></i>
+                    <input type="password" id="newUserPassword" placeholder="Password (Min 8 characters)" required>
+                    <i class="fas fa-eye-slash toggle-password" data-target-id="newUserPassword"></i>
+                </div>
+                <p id="newUserPasswordError" class="error-message"></p>
+
+                <div class="actions-row">
+                    <!-- Checkbox removed to avoid confusion with the eye icon, kept checkbox styling for reference -->
+                </div>
+
+                <button type="submit" class="login-btn">Create Account</button>
             </form>
 
-            <p style="margin-top: 12px; font-size: 14px;">
+            <p class="create-account-link" style="margin-top: 12px; font-size: 14px;">
                 Already have an account?
                 <a href="#" id="backToSignIn" data-show="signinPage" data-hide="createAccountModal">Sign In</a>
             </p>
 
+            <!-- Separator -->
+            <div class="separator">Or continue with</div>
+
+            <!-- Google Sign-In -->
+            <button type="button" class="googleSignInBtn google-login-btn">
+                <i class="fab fa-google"></i> Continue with Google
+            </button>
+            
             <!-- Loading Spinner -->
-            <div class="authLoading hidden absolute inset-0 bg-white/70 flex items-center justify-center rounded-lg">
+            <div id="registerLoading" class="authLoading absolute inset-0 bg-white/70 flex items-center justify-center rounded-lg hidden">
                 <div class="animate-spin rounded-full h-10 w-10 border-t-4 border-blue-500 border-solid"></div>
             </div>
         </div>
     </div>
+
+
+
 </header>
