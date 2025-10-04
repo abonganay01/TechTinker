@@ -796,3 +796,4 @@ createAccountForm?.addEventListener("submit", async (e) => {
     hideLoading("createAccountModal");
   }
 });
+

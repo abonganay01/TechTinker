@@ -680,12 +680,6 @@ header.logged-in #userInfo {
     3. MODAL CONTENT BOX - REMOVED ABSOLUTE POSITIONING
 ============================= */
 .signin-content {
-    /* --- REMOVED CONFLICTING POSITIONING & TRANSFORM FROM HERE --- */
-    /* REMOVED: position: fixed; */
-    /* REMOVED: top: 50%; */
-    /* REMOVED: left: 50%; */
-    /* REMOVED: transform: translate(-50%, -50%); */
-    /* The width should now be relative to its parent .signin-modal */
     width: 100%; /* Changed from min(420px, 90vw) to fill parent */
     padding: 40px 32px;
     display: flex;
@@ -702,18 +696,6 @@ header.logged-in #userInfo {
 }
 
 
-/* =============================
-    OLD MODAL BACKDROP (REMOVED REDUNDANCY)
-============================= */
-/* .modal-backdrop { 
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(3px);
-    z-index: 9998;
-} 
-**This section was redundant and has been removed as all styles were merged into the first .modal-backdrop block.**
-*/
 
 
 /* Header */
@@ -752,6 +734,7 @@ header.logged-in #userInfo {
     display: flex;
     align-items: center;
     width: 100%;
+    padding: 5px;
 }
 
 .signin-content .input-group .icon {
@@ -792,6 +775,13 @@ header.logged-in #userInfo {
     color: var(--primary-color, #4f46e5);
 }
 
+.error-message {
+  color: #e63946;     /* red tone */
+  font-size: 12px;
+  margin-top: 4px;
+  margin-left: 4px;
+}
+
 /* =============================
     SUBMIT BUTTON
 ============================= */
@@ -807,12 +797,15 @@ header.logged-in #userInfo {
     color: white;
     transition: all 0.2s ease;
     box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    margin-top: 5%;
+    
 }
 
 .signin-content button[type="submit"]:hover {
     background-color: var(--primary-hover, #4338ca);
     transform: translateY(-2px);
     opacity: 0.95;
+    
 }
 
 .signin-content button[type="submit"]:active {

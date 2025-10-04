@@ -49,139 +49,230 @@
     </div>
   </div>
 
-  <!-- MESSAGE BOX (Replaces alert() and confirm()) -->
-    <div id="messageBox" class="fixed inset-0 bg-black bg-opacity-50 z-[1100] hidden items-center justify-center">
-        <div class="bg-white p-6 rounded-xl shadow-2xl max-w-sm w-full">
-            <h3 id="messageTitle" class="text-xl font-bold mb-3 text-gray-800"></h3>
-            <p id="messageText" class="text-gray-600 mb-6"></p>
-            <div class="flex justify-end">
-                <button id="messageCloseBtn" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">OK</button>
-            </div>
+  <!-- SIGN-IN MODAL -->
+  <div id="signinPage" class="signin-modal">
+    <div class="signin-content">
+      <span id="closeIcon" class="close" data-target="signinPage">&times;</span>
+
+      <!-- Header -->
+      <div class="login-header">
+        <div class="logo-placeholder">
+          <i class="fas fa-ghost"></i>
         </div>
-    </div>
-    
-    <!-- SIGN-IN MODAL -->
-    <div id="signinPage" class="signin-modal">
-        <div class="signin-content">
-            <span id="closeIcon" class="close" data-target="signinPage">&times;</span>
+        <h1>TechTinker</h1>
+        <p>Login to your account</p>
+      </div>
 
-            <!-- Header -->
-            <div class="login-header">
-                <div class="logo-placeholder">
-                    <i class="fas fa-ghost"></i>
-                </div>
-                <h1>TechTinker</h1>
-                <p>Login to your account</p>
-            </div>
-
-            <!-- Login Form -->
-            <form id="emailLoginForm" class="login-form" novalidate>
-                
-                <div class="input-group">
-                    <i class="fas fa-envelope icon"></i>
-                    <input type="email" id="loginEmail" placeholder="Enter your Email" required>
-                </div>
-                <p id="loginEmailError" class="error-message"></p>
-
-                <div class="input-group password-group">
-                    <i class="fas fa-lock icon"></i>
-                    <input type="password" id="loginPassword" placeholder="Password" required>
-                    <i class="fas fa-eye-slash toggle-password" data-target-id="loginPassword"></i>
-                </div>
-                <p id="loginPasswordError" class="error-message"></p>
-
-
-                <div class="actions-row">
-                    <!-- Note: Real Firebase app would handle 'Forgot Password' flow -->
-                    <a href="#" class="forgot-password">Forgot Password?</a>
-                </div>
-
-                <button type="submit" class="login-btn">Login</button>
-            </form>
-
-            <!-- Create account link -->
-            <div class="create-account-link">
-                Not a member? 
-                <a href="#" id="registerLink" data-show="createAccountModal" data-hide="signinPage">Create New Account</a>
-            </div>
-
-            <!-- Separator -->
-            <div class="separator">Or continue with</div>
-
-            <!-- Google Sign-In -->
-            <button type="button" class="googleSignInBtn google-login-btn">
-                <i class="fab fa-google"></i> Continue with Google
-            </button>
-
-            <!-- Loading Spinner -->
-            <div id="loginLoading" class="authLoading absolute inset-0 bg-white/70 flex items-center justify-center rounded-lg hidden">
-                <div class="animate-spin rounded-full h-10 w-10 border-t-4 border-blue-500 border-solid"></div>
-            </div>
+      <!-- Login Form -->
+      <form id="emailLoginForm" class="login-form">
+        <div class="input-group">
+          <i class="fas fa-envelope icon"></i>
+          <input type="email" id="loginEmail" placeholder="Enter your Email" required>
         </div>
-    </div>
+        <div class="error-message" id="loginEmailError"></div>
 
-    <!-- CREATE ACCOUNT MODAL -->
-    <div id="createAccountModal" class="signin-modal">
-        <div class="signin-content">
-            <span id="closeCreateAccount" class="close" data-target="createAccountModal">&times;</span>
-
-            <!-- Header -->
-            <div class="login-header">
-                <div class="logo-placeholder">
-                    <i class="fas fa-ghost"></i>
-                </div>
-                <h1>TechTinker</h1>
-                <p>Create your account</p>
-            </div>
-
-            <!-- Create Account Form -->
-            <form id="createAccountForm" class="login-form" novalidate>
-                <div class="input-group">
-                    <i class="fas fa-user icon"></i>
-                    <input type="text" id="newUserName" placeholder="Full Name" required>
-                </div>
-                <p id="newUserNameError" class="error-message"></p>
-
-                <div class="input-group">
-                    <i class="fas fa-envelope icon"></i>
-                    <input type="email" id="newUserEmail" placeholder="Email" required>
-                </div>
-                <p id="newUserEmailError" class="error-message"></p>
-
-                <div class="input-group password-group">
-                    <i class="fas fa-lock icon"></i>
-                    <input type="password" id="newUserPassword" placeholder="Password (Min 8 characters)" required>
-                    <i class="fas fa-eye-slash toggle-password" data-target-id="newUserPassword"></i>
-                </div>
-                <p id="newUserPasswordError" class="error-message"></p>
-
-                <div class="actions-row">
-                    <!-- Checkbox removed to avoid confusion with the eye icon, kept checkbox styling for reference -->
-                </div>
-
-                <button type="submit" class="login-btn">Create Account</button>
-            </form>
-
-            <p class="create-account-link" style="margin-top: 12px; font-size: 14px;">
-                Already have an account?
-                <a href="#" id="backToSignIn" data-show="signinPage" data-hide="createAccountModal">Sign In</a>
-            </p>
-
-            <!-- Separator -->
-            <div class="separator">Or continue with</div>
-
-            <!-- Google Sign-In -->
-            <button type="button" class="googleSignInBtn google-login-btn">
-                <i class="fab fa-google"></i> Continue with Google
-            </button>
-            
-            <!-- Loading Spinner -->
-            <div id="registerLoading" class="authLoading absolute inset-0 bg-white/70 flex items-center justify-center rounded-lg hidden">
-                <div class="animate-spin rounded-full h-10 w-10 border-t-4 border-blue-500 border-solid"></div>
-            </div>
+        <div class="input-group password-group">
+          <i class="fas fa-lock icon"></i>
+          <input type="password" id="loginPassword" placeholder="Password" required>
+          <i class="fas fa-eye-slash toggle-password" id="toggleLoginPassword"></i>
         </div>
+        <div class="error-message" id="loginPasswordError"></div>
+
+        <div class="actions-row">
+
+          <a href="#" class="forgot-password">Forgot Password?</a>
+        </div>
+
+        <button type="submit" class="login-btn">Login</button>
+      </form>
+
+      <!-- Create account link -->
+      <div class="create-account-link">
+        Not a member? 
+        <a href="#" id="registerLink" data-show="createAccountModal" data-hide="signinPage">Create New Account</a>
+      </div>
+
+      <!-- Separator -->
+      <div class="separator">Or continue with</div>
+
+      <!-- Google Sign-In -->
+      <button type="button" class="googleSignInBtn google-login-btn">
+        <i class="fab fa-google"></i> Continue with Google
+      </button>
+
+      <!-- Loading Spinner -->
+      <div class="authLoading hidden absolute inset-0 bg-white/70 flex items-center justify-center rounded-lg">
+        <div class="animate-spin rounded-full h-10 w-10 border-t-4 border-blue-500 border-solid"></div>
+      </div>
     </div>
+  </div>
+
+  <!-- CREATE ACCOUNT MODAL -->
+  <div id="createAccountModal" class="signin-modal hidden">
+    <div class="signin-content">
+      <span id="closeCreateAccount" class="close" data-target="createAccountModal">&times;</span>
+
+      <!-- Header -->
+      <div class="login-header">
+        <div class="logo-placeholder">
+          <i class="fas fa-ghost"></i>
+        </div>
+        <h1>TechTinker</h1>
+        <p>Create your account</p>
+      </div>
+
+      <!-- Create Account Form -->
+      <form id="createAccountForm" class="login-form">
+        <div class="input-group">
+          <i class="fas fa-user icon"></i>
+          <input type="text" id="newUserName" placeholder="Full Name" required>
+        </div>
+        <div class="error-message" id="newUserNameError"></div>
+
+
+        <div class="input-group">
+          <i class="fas fa-envelope icon"></i>
+          <input type="email" id="newUserEmail" placeholder="Email" required>
+        </div>
+        <div class="error-message" id="newUserEmailError"></div>
+
+        <div class="input-group password-group">
+          <i class="fas fa-lock icon"></i>
+          <input type="password" id="newUserPassword" placeholder="Password" required>
+          <i class="fas fa-eye-slash toggle-password" id="toggleNewUserPassword"></i>
+        </div>
+        <div class="error-message" id="newUserPasswordError"></div>
+
+
+        <button type="submit" class="login-btn">Create Account</button>
+      </form>
+
+      <p class="create-account-link" style="margin-top: 12px; font-size: 14px;">
+        Already have an account?
+        <a href="#" id="backToSignIn" data-show="signinPage" data-hide="createAccountModal">Sign In</a>
+      </p>
+
+      <!-- Separator -->
+      <div class="separator">Or continue with</div>
+
+      <!-- Google Sign-In -->
+      <button type="button" class="googleSignInBtn google-login-btn">
+        <i class="fab fa-google"></i> Continue with Google
+      </button>
 
 
 
+      <!-- Loading Spinner -->
+      <div class="authLoading hidden absolute inset-0 bg-white/70 flex items-center justify-center rounded-lg">
+        <div class="animate-spin rounded-full h-10 w-10 border-t-4 border-blue-500 border-solid"></div>
+      </div>
+    </div>
+  </div>
 </header>
+
+<script>
+// ===============
+// AUTH FORM VALIDATION
+// ===============
+
+// Utility: show error
+function showError(inputId, errorId, message) {
+  const errorDiv = document.getElementById(errorId);
+  if (errorDiv) {
+    errorDiv.textContent = message;
+  }
+}
+
+// Utility: clear error
+function clearError(errorId) {
+  const errorDiv = document.getElementById(errorId);
+  if (errorDiv) {
+    errorDiv.textContent = "";
+  }
+}
+
+// ==================
+// SIGN-IN FORM VALIDATION
+// ==================
+const loginForm = document.getElementById("emailLoginForm");
+if (loginForm) {
+  loginForm.addEventListener("submit", function (e) {
+    let valid = true;
+
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value.trim();
+
+    // Email check
+    if (!email) {
+      showError("loginEmail", "loginEmailError", "Email is required.");
+      valid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showError("loginEmail", "loginEmailError", "Enter a valid email address.");
+      valid = false;
+    } else {
+      clearError("loginEmailError");
+    }
+
+    // Password check
+    if (!password) {
+      showError("loginPassword", "loginPasswordError", "Password is required.");
+      valid = false;
+    } else {
+      clearError("loginPasswordError");
+    }
+
+    if (!valid) {
+      e.preventDefault(); // stop submission only if invalid
+    }
+  });
+}
+
+// ==================
+// CREATE ACCOUNT FORM VALIDATION
+// ==================
+const registerForm = document.getElementById("createAccountForm");
+if (registerForm) {
+  registerForm.addEventListener("submit", function (e) {
+    let valid = true;
+
+    const name = document.getElementById("newUserName").value.trim();
+    const email = document.getElementById("newUserEmail").value.trim();
+    const password = document.getElementById("newUserPassword").value.trim();
+
+    // Name check
+    if (!name) {
+      showError("newUserName", "newUserNameError", "Full name is required.");
+      valid = false;
+    } else {
+      clearError("newUserNameError");
+    }
+
+    // Email check
+    if (!email) {
+      showError("newUserEmail", "newUserEmailError", "Email is required.");
+      valid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showError("newUserEmail", "newUserEmailError", "Enter a valid email address.");
+      valid = false;
+    } else {
+      clearError("newUserEmailError");
+    }
+
+    // Password check
+    if (!password) {
+      showError("newUserPassword", "newUserPasswordError", "Password is required.");
+      valid = false;
+    } else if (password.length < 6) {
+      showError("newUserPassword", "newUserPasswordError", "Password must be at least 6 characters.");
+      valid = false;
+    } else {
+      clearError("newUserPasswordError");
+    }
+
+    if (!valid) {
+      e.preventDefault();
+    }
+  });
+}
+</script>
+
